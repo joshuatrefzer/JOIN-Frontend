@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+.primary-color {
+    background-color: #2A3647;
+}
+
+.secondary-color {
+    background-color: #29ABE2;
+}
+
+
+.linear-gradient {
+    background: linear-gradient(#2A3647 , #29ABE2);
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+}
