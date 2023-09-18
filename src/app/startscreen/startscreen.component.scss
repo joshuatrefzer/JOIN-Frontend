@@ -55,3 +55,18 @@
         height: 120px;
     }
 }
+
+
+app-login {
+    position: absolute;
+    left: 50%;
+    top: 200%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+}
+
+.show-login {
+    transition: all 1.2s ease-in-out;
+    top: 50%;
+}
