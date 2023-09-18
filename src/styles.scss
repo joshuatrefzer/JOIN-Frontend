@@ -3,8 +3,66 @@
     background-color: #2A3647;
 }
 
+.button {
+    min-width: 80px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 40px;
+    padding: 2px 8px;
+    border: #2A3647 2px solid;
+    @extend .br;
+    @extend .center;
+}
+
+.button-1 {
+    @extend .button;
+    background-color: #2A3647;
+    color: white;
+    &:hover {
+        color:#29ABE2;
+        border: #29ABE2 2px solid;
+    }
+}
+
+.button-2 {
+    @extend .button;
+    color: #2A3647;
+    &:hover {
+        color:#29ABE2;
+        border: #29ABE2 2px solid;
+    }
+}
+
+.row-container {
+    @extend .center;
+    width: 80%;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.popup {
+    min-height: 400px;
+    min-width: 400px;
+    h1 {
+        padding-bottom: 5px;
+        border-bottom: #29ABE2 2px solid;
+    }
+} 
+
+.popup-shadow {
+    box-shadow: 2px 2px 15px #2A3647;
+}
+
 .secondary-color {
     background-color: #29ABE2;
+}
+
+.font-blue {
+    color: #29ABE2;
+}
+
+.br {
+    border-radius: 10px;
 }
 
 

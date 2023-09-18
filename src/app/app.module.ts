@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field'; // Importiere MatFormFieldModule
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon'; 
+import {MatCheckboxModule} from '@angular/material/checkbox';// Importiere MatFormFieldModule
 
 
 
@@ -11,6 +13,7 @@ import { AppComponent } from './app.component';
 import { StartscreenComponent } from './startscreen/startscreen.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 
 
@@ -18,15 +21,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     StartscreenComponent,
-    LoginComponent
+    LoginComponent,
+    SignUpComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    FormsModule
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })
