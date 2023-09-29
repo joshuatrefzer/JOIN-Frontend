@@ -1,6 +1,17 @@
-
 <div class="background linear-gradient center">
     <img [ngClass]="{'hide': hideImage}" class="logo" src="assets/img/join-logo.png" alt="">
 </div>
 
-<app-login [ngClass]="{'show-login':hideImage}" class="center br popup-shadow"></app-login>
+<div *ngIf="authService.showSignUp" [ngClass]="{'show-from-right':hideImage}" class="right-top row-container">
+    <div  class="color-white">Already a JOIN user?</div>
+    <div  (click)="redirectToLogin()" class="button-3">Login</div>
+</div>
+
+<div *ngIf="!authService.showSignUp" [ngClass]="{'show-from-right':hideImage}" class="right-top row-container">
+    <div  class="color-white">Not a JOIN user?</div>
+    <div  (click)="redirectToSignUp()" class="button-3">Sign Up</div>
+</div>
+
+<app-login [ngClass]="{'show-login':authService.showLogin, 'hide-to-bottom': !authService.showLogin || authService.forgotPassword }" class="center br popup-shadow"></app-login>
+<app-sign-up [ngClass]="{'show-signup':authService.showSignUp, 'hide-to-right': !authService.showSignUp || authService.forgotPassword}" class="center br popup-shadow"></app-sign-up>
+<app-pwreset [ngClass]="{'show-pwreset':authService.forgotPassword, 'hide-to-left': !authService.forgotPassword || authService.showLogin || authService.showSignUp}" class="center br popup-shadow"></app-pwreset>

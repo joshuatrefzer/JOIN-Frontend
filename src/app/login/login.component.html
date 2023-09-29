@@ -7,7 +7,7 @@
         <!-- Mail-->
         <mat-form-field appearance="outline">
             <mat-label>E-mail</mat-label>
-            <input class="input-field" type="email" matInput formControlName="email">
+            <input  type="email" matInput formControlName="email">
             <mat-icon matSuffix>mail</mat-icon>
             <mat-error *ngIf="loginForm.controls['email'].errors?.['email']">
                 Please enter a valid <strong>email</strong> address
@@ -28,46 +28,17 @@
             </mat-error>
         </mat-form-field>
 
-
-
-        <!-- First Name  sign up-->
-        <!-- <mat-form-field appearance="outline">
-            <mat-label>Outline form field</mat-label>
-            <input matInput placeholder="first name" [formControl]="firstnameFormControl">
-            <mat-icon matSuffix >account_circle</mat-icon>
-            <mat-error *ngIf="firstnameFormControl.hasError('required')">
-                Username is <strong>required</strong>
-              </mat-error>
-                  <mat-error *ngIf="firstnameFormControl.hasError('minlength')">
-                  Username must be at least 4 characters long
-                </mat-error>
-          </mat-form-field> -->
-
-
-
-
-        <!-- Last Name -->
-        <!-- <mat-form-field class="example-full-width">
-            <mat-label>Last name</mat-label>
-            <input class="input-field" type="text" matInput [formControl]="lastnameFormControl">
-            <mat-error *ngIf="lastnameFormControl.hasError('required')">
-              Username is <strong>required</strong>
-            </mat-error>
-            <mat-error *ngIf="lastnameFormControl.hasError('minlength')">
-                Username must be at least 4 characters long
-              </mat-error>
-          </mat-form-field> -->
         <div class="row-container">
             <div class="checkbox center">
                 <input class="checkbox" type="checkbox" [(ngModel)]="isChecked" name="isChecked">
                 <span>remember me</span>
             </div>
-            <div class="font-blue">forgot password</div>
+            <div (click)="redirectToPWReset()" class="font-blue text-btn">forgot password</div>
         </div>
 
-        <div class="row-container">
+        <div class="row-container button-container">
             <div type="button" action="submit" class="button-1">Login</div>
-            <div class="button-2">Guest Login</div>
+            <div (click)="loginAsGuest()" class="button-2">Guest Login</div>
         </div>
     </form>
 </div>

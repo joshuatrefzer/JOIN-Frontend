@@ -3,6 +3,26 @@
     background-color: #2A3647;
 }
 
+.color-white {
+    color: white;
+}
+
+.h1-component {
+    background-color: aqua;
+    height: 150px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.text-btn {
+    cursor: pointer;
+    &:hover{
+        opacity: 0.8;
+        cursor: pointer;
+    }
+}
+
 .button {
     min-width: 80px;
     cursor: pointer;
@@ -18,8 +38,9 @@
     @extend .button;
     background-color: #2A3647;
     color: white;
+
     &:hover {
-        color:#29ABE2;
+        color: #29ABE2;
         border: #29ABE2 2px solid;
     }
 }
@@ -27,9 +48,21 @@
 .button-2 {
     @extend .button;
     color: #2A3647;
+
     &:hover {
-        color:#29ABE2;
+        color: #29ABE2;
         border: #29ABE2 2px solid;
+    }
+}
+
+.button-3 {
+    @extend .button;
+    color:#29ABE2;
+    border: #29ABE2 2px solid;
+
+    &:hover {
+        color: white;
+        border: white 2px solid;
     }
 }
 
@@ -38,19 +71,29 @@
     width: 80%;
     justify-content: space-between;
     gap: 20px;
+  
 }
 
 .popup {
-    min-height: 400px;
+    min-height: 275px;
     min-width: 400px;
+
     h1 {
+        margin-top: 30px;
+        margin-bottom: 30px;
         padding-bottom: 5px;
+        font-weight: bold;
+        font-size: 30px;
         border-bottom: #29ABE2 2px solid;
     }
-} 
+}
 
 .popup-shadow {
     box-shadow: 2px 2px 15px #2A3647;
+}
+
+.grey-underline {
+    border-bottom: 1px solid lightgray;
 }
 
 .secondary-color {
@@ -67,7 +110,7 @@
 
 
 .linear-gradient {
-    background: linear-gradient(#2A3647 , #29ABE2);
+    background: linear-gradient(#2A3647, #29ABE2);
 }
 
 .center {
@@ -77,8 +120,38 @@
     text-align: center;
 }
 
+
+// startscreen
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  mat-form-field {
+    color: grey;
+    width: 80%;
+    border-radius: 10px;
+  }
+
+  .button-container {
+    margin-bottom: 30px;
+    margin-top: 10px;
+  }
+
 body {
     margin: 0;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

@@ -1,0 +1,32 @@
+$widthSideMenu:20%;
+$heigthHeader: 80px;
+
+.side-menu {
+    height: 100%;
+    width: $widthSideMenu;
+    z-index: 5;
+}
+
+header {
+    z-index: 1;
+    position: absolute;
+    left: $widthSideMenu;
+    top: 0;
+    width: calc(100% - $widthSideMenu);
+    height: $heigthHeader;
+    box-shadow: 1px 1px 3px lightgray;
+}
+
+.body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.router-container {
+    position: absolute;
+    top: $heigthHeader;
+    left: $widthSideMenu;
+    width: calc(100% - $widthSideMenu);
+    height: calc(100vh - $heigthHeader);
+}

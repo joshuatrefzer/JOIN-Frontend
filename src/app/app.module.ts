@@ -14,6 +14,12 @@ import { StartscreenComponent } from './startscreen/startscreen.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { PwresetComponent } from './pwreset/pwreset.component';
+import { TemplateComponent } from './template/template.component';
+import { SummaryComponent } from './summary/summary.component';
+import { AddtaskComponent } from './addtask/addtask.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { LegalsComponent } from './legals/legals.component';
 
 
 
@@ -23,6 +29,12 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     StartscreenComponent,
     LoginComponent,
     SignUpComponent,
+    PwresetComponent,
+    TemplateComponent,
+    SummaryComponent,
+    AddtaskComponent,
+    ContactsComponent,
+    LegalsComponent,
   ],
   imports: [
     BrowserModule,

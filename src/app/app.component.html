@@ -1,1 +1,5 @@
-<app-startscreen></app-startscreen>
+<app-startscreen *ngIf="!authService.userIsLoggedIn"></app-startscreen>
+
+<div class="body">
+    <app-template *ngIf="authService.userIsLoggedIn"></app-template>
+</div>

@@ -57,6 +57,27 @@
 }
 
 
+
+
+app-sign-up {
+    position: absolute;
+    transform: translate(50%, -50%);
+    background-color: white;
+    top: 50%;
+    right: -50%;
+}
+
+.show-signup {
+    transition: all 1.2s ease-in-out;
+    right: 50%;
+}
+
+.hide-to-right {
+    transition: all 1.2s ease-in-out;
+    right: -200%;
+}
+
+
 app-login {
     position: absolute;
     left: 50%;
@@ -68,4 +89,44 @@ app-login {
 .show-login {
     transition: all 1.2s ease-in-out;
     top: 50%;
+}
+
+.hide-to-bottom {
+    transition: all 1.2s ease-in-out;
+    top: 200%;
+}
+
+
+
+app-pwreset {
+    position: absolute;
+    left: -50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+}
+
+.show-pwreset {
+    transition: all 1.2s ease-in-out;
+    left: 50%;
+}
+
+.hide-to-left {
+    transition: all 1.2s ease-in-out;
+    left: -50%;
+}
+
+
+
+
+.right-top {
+    position: absolute;
+    top: 50px;
+    right: -50%;
+    width: auto !important;
+}
+
+.show-from-right {
+    transition: all 1.2s ease-in-out;
+    right: 50px !important;
 }

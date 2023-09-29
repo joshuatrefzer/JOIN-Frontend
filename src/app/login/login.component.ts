@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormsModule, FormGroup} from '@angular/forms';
 import { User, UserService } from '../services/user.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -33,12 +35,24 @@ export class LoginComponent {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private userService: UserService){
+    private userService: UserService,
+    private router: Router,
+    public authService: AuthenticationService){
     }
 
 
     onSubmit() {
       console.log(this.loginForm);
+    }
+
+    redirectToPWReset() {
+      this.authService.forgotPassword = true;
+      this.authService.showLogin = false;
+      this.authService.showSignUp = false;
+    }
+
+    loginAsGuest() {
+      this.authService.userIsLoggedIn = true;
     }
 
     
