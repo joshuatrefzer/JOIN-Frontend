@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Renderer2 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatInputModule } from '@angular/material/input';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ import { SummaryComponent } from './summary/summary.component';
 import { AddtaskComponent } from './addtask/addtask.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { LegalsComponent } from './legals/legals.component';
+import { BoardComponent } from './board/board.component';
 
 
 
@@ -35,6 +36,7 @@ import { LegalsComponent } from './legals/legals.component';
     AddtaskComponent,
     ContactsComponent,
     LegalsComponent,
+    BoardComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { LegalsComponent } from './legals/legals.component';
     MatIconModule,
     MatFormFieldModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+
   ],
 
   providers: [],

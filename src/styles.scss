@@ -7,12 +7,28 @@
     color: white;
 }
 
+.center-absolute {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .h1-component {
-    background-color: aqua;
     height: 150px;
-    width: 100%;
+    width: calc( 100% - 50px);
     display: flex;
     align-items: center;
+    margin-left: 50px;
+    h1 {
+        font-size: 50px;
+        font-weight: bold;
+        margin: 0;
+    }
+}
+
+.h1 {
+    font-size: 50px;
+    font-weight: bold;
 }
 
 .text-btn {
@@ -37,11 +53,16 @@
 .button-1 {
     @extend .button;
     background-color: #2A3647;
-    color: white;
-
+    color: rgb(206, 206, 206);
+    path{
+        fill: rgb(206, 206, 206);
+    }
+    
     &:hover {
-        color: #29ABE2;
-        border: #29ABE2 2px solid;
+        color: white;
+        path {
+            fill: white
+        }
     }
 }
 
@@ -108,6 +129,12 @@
     border-radius: 10px;
 }
 
+.center-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 .linear-gradient {
     background: linear-gradient(#2A3647, #29ABE2);
@@ -155,3 +182,4 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+

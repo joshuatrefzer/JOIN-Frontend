@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TemplateService } from '../services/template.service';
 
 @Component({
   selector: 'app-template',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./template.component.scss']
 })
 export class TemplateComponent {
-
+  constructor(public templateService: TemplateService){
+  }
+  
 }

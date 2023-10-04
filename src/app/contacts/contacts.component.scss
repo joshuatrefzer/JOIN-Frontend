@@ -1,0 +1,97 @@
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.contact-list {
+    width: 30%;
+    height: 100%;
+    border-right: rgba(208, 208, 208, 0.621) 1px solid;
+}
+
+.contact-infos {
+    width: 70%;
+    height: 100%;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0;
+    padding-right: 10px;
+    border-right:#29ABE2 3px solid ;
+}
+
+.undertitle {
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+.add-contact-button {
+    gap: 10px;
+    margin: 10px;
+    height: 50px;
+    width: 90%;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.list {
+    width: 90%;
+    height: calc(100% - 70px);
+}
+
+.letter {
+    font-size: 30px;
+    border-bottom: 1px solid rgb(211, 211, 211);
+    padding-bottom: 10px;
+    color: rgb(200, 200, 200);
+}
+
+.contact-container {
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.user-icon {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(74, 142, 163);
+    padding: 15px;
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid white;
+    box-shadow: 1px 1px 8px;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    margin: 10px 0px;
+    cursor: pointer;
+    &:hover {
+        box-shadow: 1px 1px 8px rgba(193, 193, 193, 0.599);
+    }
+}
+
+.name {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.mail {
+    font-size: 15px;
+    color: #29ABE2;
+}
+
+.selected-contact {
+    background-color:  rgba(74, 142, 163, 0.32);
+    box-shadow: 1px 1px 8px rgba(193, 193, 193, 0.599);
+}

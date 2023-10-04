@@ -8,10 +8,12 @@ import { SummaryComponent } from './summary/summary.component';
 import { AddtaskComponent } from './addtask/addtask.component';
 import { LegalsComponent } from './legals/legals.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { BoardComponent } from './board/board.component';
 
 
 const routes: Routes = [
   { path: 'summary', component: SummaryComponent },
+  { path: 'board', component: BoardComponent },
   { path: 'addtask', component: AddtaskComponent },
   { path: 'contacts', component: ContactsComponent },
   { path: 'legals', component: LegalsComponent },

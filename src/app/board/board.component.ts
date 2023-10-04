@@ -2,19 +2,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 
 @Component({
-  selector: 'app-addtask',
-  templateUrl: './addtask.component.html',
-  styleUrls: ['./addtask.component.scss']
+  selector: 'app-board',
+  templateUrl: './board.component.html',
+  styleUrls: ['./board.component.scss']
 })
-export class AddtaskComponent implements OnInit, OnDestroy {
+export class BoardComponent implements OnInit, OnDestroy {
 
   constructor(public templateService: TemplateService) { }
   ngOnInit(): void {
-    this.templateService.addTask = true;
+    this.templateService.board = true;
   }
 
   ngOnDestroy(): void {
-    this.templateService.addTask = false;
+    this.templateService.board = false;
 
   }
+
 }
