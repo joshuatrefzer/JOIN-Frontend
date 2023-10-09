@@ -1,2 +1,54 @@
 <app-startscreen *ngIf="!authService.userIsLoggedIn"></app-startscreen>
-<app-template *ngIf="authService.userIsLoggedIn"></app-template>
+<app-template [ngClass]="{'filter': popupService.behindPopupContainer}"
+    *ngIf="authService.userIsLoggedIn"></app-template>
+
+<div (click)="popupService.closePopups()" *ngIf="popupService.behindPopupContainer" class="behind-popup-container"></div>
+
+
+
+<!-- ADD CONTACT POPUP -->
+<div *ngIf="popupService.addContact" class="popup popup-contact center-absolute br popup-shadow">
+    <div class="popup-contact-left linear-gradient center">
+        <div style="align-items:start" class="row-container center-column">
+            <img src="assets/img/join-logo.png" alt="">
+            <div class="h2"> <span class="h2 blue-underline">Add</span> contact</div>
+        </div>
+    </div>
+
+    <div class="popup-contact-middle center">
+        <div class="person-icon center">
+            <img src="assets/img/person.png" alt="">
+        </div>
+    </div>
+
+
+    <div class="popup-contact-right center">
+        <app-add-contact></app-add-contact>
+        <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
+    </div>
+</div>
+
+
+
+<!-- EDIT CONTACT POPUP -->
+
+<div *ngIf="popupService.editContact" class="popup popup-contact center-absolute br popup-shadow">
+    <div class="popup-contact-left linear-gradient center">
+        <div style="align-items:start" class="row-container center-column">
+            <img src="assets/img/join-logo.png" alt="">
+            <div class="h2"> <span class="h2 blue-underline">Edit</span> contact</div>
+        </div>
+    </div>
+
+    <div class="popup-contact-middle center">
+        <div class="person-icon center">
+            AS
+        </div>
+    </div>
+
+
+    <div class="popup-contact-right center">
+        <app-edit-contact></app-edit-contact>
+        <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
+    </div>
+</div>

@@ -137,4 +137,5 @@ header {
     left: $widthSideMenu;
     width: calc(100% - $widthSideMenu);
     height: calc(100vh - $heigthHeader);
+    overflow: hidden;
 }

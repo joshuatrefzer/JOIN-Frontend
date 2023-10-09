@@ -23,6 +23,52 @@ h1 {
     border-right:#29ABE2 3px solid ;
 }
 
+.show-contacts-container {
+    height: calc(100vh - 230px);
+    position: relative;
+    left: 100%;
+    align-items: start;
+    justify-content: center;
+}
+
+.button-container {
+    gap: 10px;
+}
+
+.box {
+    align-items: flex-start;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.show-contact {
+    animation: show 200ms ease-in-out;
+    left: 0;
+}
+
+.hide-contact {
+    animation: hide 200ms ease-in-out;
+    left: 100%;
+}
+
+@keyframes show {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+
+@keyframes hide {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
 .undertitle {
     padding-left: 10px;
     font-size: 20px;
@@ -55,9 +101,20 @@ h1 {
     margin: 10px;
 }
 
+.display-flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.container-show-contact {
+    width: 80%;
+    align-items: start;
+}
+
 .user-icon {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 400;
     background-color: rgb(74, 142, 163);
     padding: 15px;
     border-radius: 100%;
@@ -67,6 +124,12 @@ h1 {
     align-items: center;
     border: 3px solid white;
     box-shadow: 1px 1px 8px;
+}
+
+.user-icon-contact {
+    font-size: 40px;
+    height: 80px;
+    width: 80px;
 }
 
 .contact {
@@ -86,12 +149,28 @@ h1 {
     font-weight: 300;
 }
 
+.button-container {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
 .mail {
     font-size: 15px;
     color: #29ABE2;
 }
 
 .selected-contact {
-    background-color:  rgba(74, 142, 163, 0.32);
+    background-color:  rgba(217, 217, 217, 0.163);
     box-shadow: 1px 1px 8px rgba(193, 193, 193, 0.599);
+}
+
+.top-area {
+    height: 250px;
+}
+
+.contact-popup {
+    width: 70%;
+    position: absolute;
+    z-index: 100;
+    filter: blur(-5px) !important;
 }

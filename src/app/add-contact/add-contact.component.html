@@ -1,0 +1,39 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="example-form center">
+
+    <!-- Full Name -->
+    <mat-form-field appearance="outline">
+        <mat-label>Full name</mat-label>
+        <input class="input-field" type="text" matInput formControlName="fullname">
+        <mat-icon matSuffix>account_circle</mat-icon>
+        <mat-error *ngIf="loginForm.controls['fullname'].errors?.['required']">
+            <strong>Full name</strong> is required
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input type="email" matInput formControlName="email">
+        <mat-icon matSuffix>mail</mat-icon>
+        <mat-error *ngIf="loginForm.controls['email'].errors?.['email']">
+            Please enter a valid <strong>email</strong> address
+        </mat-error>
+        <mat-error *ngIf="loginForm.controls['email'].errors?.['required']">
+            Email is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input autocomplete="phone" class="input-field" type="phone" matInput formControlName="phone">
+        <mat-icon matSuffix>phone</mat-icon>
+        <mat-error *ngIf="loginForm.controls['phone'].errors?.['required']">
+            Phone Nr. is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <div class="row-container">
+        <div (click)="popupService.closePopups()" type="button" action="submit" class="button-1">cancel</div>
+        <div class="button-2">create contact</div>
+    </div>
+</form>

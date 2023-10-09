@@ -7,3 +7,79 @@
 router-outlet {
     position: fixed;
 }
+
+.filter {
+    animation: blur 300ms ease-in-out;
+    filter: blur(5px);
+}
+
+.popup-contact {
+    position: absolute;
+    animation: showFromRight 300ms ease-in-out;
+    border-radius: 10px;
+    display: flex;
+    height: 50vh;
+    width: 65%;
+}
+
+@keyframes showFromRight {
+    0% {
+        transform: translate(100%, -50%);
+    }
+
+    100% {
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+.popup-contact-left {
+    width: 30%;
+    border-bottom-left-radius: inherit;
+    border-top-left-radius: inherit;
+
+    img {
+        height: 50px;
+        margin-bottom: 20px;
+    }
+}
+
+.popup-contact-right {
+    width: 50%;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.popup-contact-middle {
+    width: 20%;
+    img {
+        height: 40px;
+        width: 40px;
+    }
+}
+
+.person-icon {
+    padding: 30px;
+    background-color: rgba(128, 128, 128, 0.349);
+    border-radius: 100%;
+    border: 3px white solid;
+    box-shadow: 1px 1px 8px rgb(122, 122, 122);
+}
+
+@keyframes blur {
+    0% {
+        filter: blur(0);
+    }
+
+    100% {
+        filter: blur(5px);
+    }
+}
+
+app-edit-contact {
+    width: 100%;
+}
+
+app-add-contact {
+    width: 100%;
+}

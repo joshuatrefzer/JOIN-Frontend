@@ -21,6 +21,8 @@ import { AddtaskComponent } from './addtask/addtask.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { LegalsComponent } from './legals/legals.component';
 import { BoardComponent } from './board/board.component';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
+import { AddContactComponent } from './add-contact/add-contact.component';
 
 
 
@@ -37,6 +39,8 @@ import { BoardComponent } from './board/board.component';
     ContactsComponent,
     LegalsComponent,
     BoardComponent,
+    EditContactComponent,
+    AddContactComponent,
   ],
   imports: [
     BrowserModule,
