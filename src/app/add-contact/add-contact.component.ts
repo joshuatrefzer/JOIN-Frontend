@@ -18,9 +18,8 @@ export class AddContactComponent {
 
   onSubmit() {
     if (this.contactForm.valid) {
-      console.log(this.contactForm);
       this.contactService.addContact(this.contactForm);
-      this.contactService.getContacts();
+      this.popupService.closePopups();
     }
   }
 

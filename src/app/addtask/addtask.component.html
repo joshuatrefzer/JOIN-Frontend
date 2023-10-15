@@ -24,7 +24,7 @@
                     <span class="field-name color-primary">Description</span>
                     <mat-form-field appearance="outline">
                         <mat-label>Description</mat-label>
-                        <textarea class="input-field" type="text" matInput></textarea>
+                        <textarea class="input-field" type="text" matInput formControlName="description" ></textarea>
                     </mat-form-field>
                 </div>
 
@@ -33,7 +33,7 @@
                     <span class="field-name color-primary">Assigned to</span>
                     <mat-form-field appearance="outline">
                         <mat-label>choose contact</mat-label>
-                        <mat-select>
+                        <mat-select formControlName="assigned_to">
                             <mat-option *ngFor="let contact of contactService.contacts" value="option1">{{
                                 contact.first_name }} {{ contact.last_name }}</mat-option>
 
@@ -148,7 +148,6 @@
                             <mat-option value="administration">Administration</mat-option>
                             <mat-option value="engineering">Engineering</mat-option>
                             <mat-option value="design">Design</mat-option>
-
                         </mat-select>
                     </mat-form-field>
                 </div>

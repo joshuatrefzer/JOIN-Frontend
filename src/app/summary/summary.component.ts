@@ -17,4 +17,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.templateService.summary = false;
 
   }
+
+  
 }

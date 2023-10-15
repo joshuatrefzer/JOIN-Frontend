@@ -28,7 +28,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     ) { }
 
 
-
   ngOnInit(): void {
     this.templateService.addTask = true;
   }
@@ -56,6 +55,8 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
     description: new FormControl(''),
     subtask: new FormControl(''),
+    assigned_to: new FormControl(''),
+    prio: new FormControl(''),
 
   });
 
@@ -74,11 +75,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.subtask.push(value); 
     this.addTaskForm.get('subtask')?.setValue('');
   }
-
-  // selectPrio(prio:string) {
-  //   const element = this.el.nativeElement.querySelector(`#${prio}`);
-  //   this.renderer.addClass(element, `${prio}`);
-  // }
 
 
   selectPrio(prio: string) {

@@ -1,3 +1,86 @@
 <div class="h1-component">
     <h1>Summary</h1>
 </div>
+
+<div class="summary-content">
+    <div class="summary-elements">
+        <div class="summary-child-container">
+            <a href="/board/boardIndex.html" class="tasks task-little">
+                <h1 id="tasks-in-board"></h1>
+                <div class="text-light">Tasks in<br>Board</div>
+            </a>
+            <a href="/board/boardIndex.html" class="tasks task-little">
+                <h1 id="inProgressTask"></h1>
+                <div class="text-light">Tasks in<br>Progress</div>
+            </a>
+            <a href="/board/boardIndex.html" class="tasks task-little">
+                <h1 id="awaitingFeedbackTask"></h1>
+                <div class="text-light">Awaiting<br>Feedback</div>
+            </a>
+        </div>
+
+        <!--Zweite Reihe (ein Container)-->
+
+        <div class="summary-child-container">
+            <a href="/board/boardIndex.html" class="tasks width-100"
+                style="justify-content: space-around; position: relative;">
+                <div class="summary-priority">
+                    <img src="../img/urgent-button.png" alt="">
+                    <div style="margin-left: 10px;">
+                        <div>
+                            <h1 id="urgent"></h1>
+                        </div>
+                        <div class="text-light">Urgent</div>
+                    </div>
+                </div>
+                <div class="summary-date">
+                    <div><b id="summary-date">Oktober 16, 2023</b></div>
+                    <div>Upcoming deadline</div>
+                </div>
+                <img class="grey-line" src="../img/grey-line.svg" alt="">
+            </a>
+        </div>
+
+        <!--dritte Reihe (zwei Container)-->
+
+        <div class="summary-child-container">
+
+            <a href="/board/boardIndex.html" onmouseover="hoverLeftButton()" onmouseout="hoverOffLeftButton()"
+                class="tasks width-50">
+                <div class="position-relative">
+                    <img id="button-hover0" src="../img/blue-button-summary.svg" alt="">
+                    <img id="pencil-hover" class="button-content-img position-btn-left"
+                        src="../img/pencil-1.svg" alt="">
+                </div>
+                <div style="margin-left: 10px;">
+                    <h1 id="todoTask"></h1>
+                    <div class="text-light">To do</div>
+                </div>
+            </a>
+
+            <a href=""
+                class="tasks width-50">
+                <div class="position-relative">
+                    <img id="button-hover1" src="../img/blue-button-summary.svg" alt="">
+                    <img id="check-icon-hover" class="button-content-img position-btn-right"
+                        src="../img/check-icon-white.svg" alt="">
+                </div>
+                <div style="margin-left: 10px;">
+                    <h1 id="doneTask"></h1>
+                    <div class="text-light">Done</div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <div id="greeting" class="greeting-container d-none-mobile-sum">
+        <div class="greeting">
+            <span id="greeting-container"></span>
+            <span class="h1 blue-text">
+                <h1 id="profileName"></h1>
+            </span>
+        </div>
+    </div>
+
+</div>

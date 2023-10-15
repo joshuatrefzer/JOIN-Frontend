@@ -19,12 +19,10 @@ constructor(
 
 onSubmit() {
   if (this.contactForm.valid) {
-    console.log(this.contactForm);
     if (this.popupService.contactForView) {
       this.contactService.updateContact(this.contactForm, this.popupService.contactForView.id);
     }
-  
-    this.contactService.getContacts();
+    this.popupService.closePopups();
   }
 }
 

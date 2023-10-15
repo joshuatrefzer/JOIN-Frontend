@@ -76,11 +76,11 @@
                                 <span>Delete</span>
                             </div>
 
-                            <div *ngIf="deleteContact" class="sure center poup center-column">
+                            <div *ngIf="deleteContact && popupService.contactForView" class="sure center poup center-column">
                                 <span class="color-primary">Are you sure?</span>
                                 <div class="display-flex">
-                                    <div class="text-btn color-primary"><b>No</b></div>
-                                    <div class="text-btn color-primary"><b>Yes</b></div>
+                                    <div  (click)="deleteContact = false;"  class="text-btn color-primary"><b>No</b></div>
+                                    <div (click)="deleteContact = false; contactService.deleteContact(popupService.contactForView.id)" class="text-btn color-primary"><b>Yes</b></div>
                                 </div>
 
                             </div>

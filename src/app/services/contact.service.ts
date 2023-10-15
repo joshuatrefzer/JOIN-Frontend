@@ -17,35 +17,28 @@ export interface Contact {
 })
 export class ContactService {
 
-  contacts: Contact[] = [
-    { id: 1, first_name: 'Alice', last_name:'Müller',   mail: 'alice@example.com', phone: '01756245'},
-  ];
+  contacts: Contact[] = [];
+  myContacts$: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
 
-  myContacts$: BehaviorSubject<any> = new BehaviorSubject<string>('');
+
   url = environment.baseUrl + '/contacts/';
 
 
 
   constructor(
     private http: HttpClient,
-
     ) {
   }
 
 
-  // loadContacts(): Observable<any> {
-  //   return from((this.http.get(this.url)))
-  // }
-
-  getContacts(){
+  getContacts() {
     this.loadContacts().subscribe((data) => {
-      this.myContacts$.next(data);
       this.contacts = data;
+      this.myContacts$.next(data); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
     });
   }
 
   
-
   private loadContacts(): Observable<Contact[]> {
     return this.http.get<Contact[]>(this.url).pipe(
       tap((data) => {
@@ -57,21 +50,27 @@ export class ContactService {
     );
   }
 
-  // loadContacts() {
-  //   return this.http.get<Contact[]>(this.url);
-  // }
 
+  updateContact(form: FormGroup, id: number) {
+    const url = `${this.url}${id}/`;
+    const data = {
+      first_name: form.value.first_name,
+      last_name: form.value.last_name,
+      mail: form.value.email,
+      phone: form.value.phone
+    };
 
-  updateContact(form:FormGroup , id:number){
-      const url = `${this.url}${id}/`;
-      const data = {
-        first_name: form.value.first_name,
-        last_name: form.value.last_name,
-        mail: form.value.email,
-        phone: form.value.phone
-      };
-      return lastValueFrom(this.http.put(url, data));
-    }
+    this.http.put(url, data).subscribe(() => {
+      // Hier können Sie die aktualisierten Kontaktinformationen verwenden, wenn Sie sie benötigen
+      const updatedIndex = this.contacts.findIndex(contact => contact.id === id);
+      if (updatedIndex !== -1) {
+        this.contacts[updatedIndex] = { id, ...data };
+      }
+      this.myContacts$.next(this.contacts); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+    }, (error) => {
+      console.error('Fehler bei der Aktualisierung des Kontakts', error);
+    });
+  }
 
 
   addContact(form: FormGroup) {
@@ -82,20 +81,26 @@ export class ContactService {
       phone: form.value.phone
     };
 
-    try {
-      return lastValueFrom(this.http.post(this.url, data));
-    } catch (e) {
-      console.log('Folgender Fehler', e);
-      return false;
-    }
+    this.http.post(this.url, data).subscribe((response: any) => {
+      // Hier können Sie die neu hinzugefügten Kontaktinformationen verwenden, wenn Sie sie benötigen
+      this.contacts.push(response);
+      this.myContacts$.next(this.contacts); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+    }, (error) => {
+      console.error('Contact was not added', error);
+    });
   }
+  
 
-
-  deleteContact(id: number) {    
-    const url = `${this.url}${id}/`; 
-    return lastValueFrom(this.http.delete(url));
+  deleteContact(id: number) {
+    const url = `${this.url}${id}/`;
+    this.http.delete(url).subscribe(() => {
+      // Hier können Sie den gelöschten Kontakt entfernen, wenn Sie dies benötigen
+      this.contacts = this.contacts.filter(contact => contact.id !== id);
+      this.myContacts$.next(this.contacts); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+    }, (error) => {
+      console.error('Fehler beim Löschen des Kontakts', error);
+    });
   }
-
 
 
 
