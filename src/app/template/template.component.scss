@@ -138,4 +138,5 @@ header {
     width: calc(100% - $widthSideMenu);
     height: calc(100vh - $heigthHeader);
     overflow: hidden;
+    background: linear-gradient(rgba(241, 241, 241, 0.385), rgba(217, 217, 217, 0.592));
 }
