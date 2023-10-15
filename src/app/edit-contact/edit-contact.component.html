@@ -1,23 +1,33 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="example-form center">
+<form (ngSubmit)="onSubmit()" [formGroup]="contactForm" class="example-form center">
 
-    <!-- Full Name -->
+    <!-- First Name -->
     <mat-form-field appearance="outline">
-        <mat-label>Full name</mat-label>
-        <input class="input-field" type="text" matInput formControlName="fullname" ngModel="{{ popupService.contactForView?.first_name }}">
-        <mat-icon matSuffix>user</mat-icon>
-        <mat-error *ngIf="loginForm.controls['fullname'].errors?.['required']">
-            <strong>Full name</strong> is required
+        <mat-label>Frist name</mat-label>
+        <input class="input-field" type="text" matInput formControlName="first_name" ngModel="{{ popupService.contactForView?.first_name }}">
+        <mat-icon matSuffix>account_circle</mat-icon>
+        <mat-error *ngIf="contactForm.controls['first_name'].errors?.['required']">
+            <strong>First name</strong> is required
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Last Name -->
+    <mat-form-field appearance="outline">
+        <mat-label>Last name</mat-label>
+        <input class="input-field" type="text" matInput formControlName="last_name" ngModel="{{ popupService.contactForView?.last_name }}">
+        <mat-icon matSuffix>account_circle</mat-icon>
+        <mat-error *ngIf="contactForm.controls['last_name'].errors?.['required']">
+            <strong>Last name</strong> is required
         </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
-        <input type="email" matInput formControlName="email" ngModel="{{ popupService.contactForView?.email }}">
+        <input type="email" matInput formControlName="email" ngModel="{{ popupService.contactForView?.mail }}">
         <mat-icon matSuffix>mail</mat-icon>
-        <mat-error *ngIf="loginForm.controls['email'].errors?.['email']">
+        <mat-error *ngIf="contactForm.controls['email'].errors?.['email']">
             Please enter a valid <strong>email</strong> address
         </mat-error>
-        <mat-error *ngIf="loginForm.controls['email'].errors?.['required']">
+        <mat-error *ngIf="contactForm.controls['email'].errors?.['required']">
             Email is <strong>required</strong>
         </mat-error>
     </mat-form-field>
@@ -27,13 +37,13 @@
         <mat-label>Phone</mat-label>
         <input autocomplete="phone" class="input-field" type="phone" matInput formControlName="phone" value="popupService.contactForView.phone" ngModel="{{ popupService.contactForView?.phone }}" >
         <mat-icon matSuffix>phone</mat-icon>
-        <mat-error *ngIf="loginForm.controls['phone'].errors?.['required']">
+        <mat-error *ngIf="contactForm.controls['phone'].errors?.['required']">
             Phone Nr. is <strong>required</strong>
         </mat-error>
     </mat-form-field>
 
     <div class="row-container">
         <div type="button" action="submit" class="button-1">delete</div>
-        <div class="button-2">save</div>
+        <button action="submit" [disabled]="!contactForm.valid" [ngClass]="{'valid':contactForm.valid}" class="button-2 submit">save</button>
     </div>
 </form>

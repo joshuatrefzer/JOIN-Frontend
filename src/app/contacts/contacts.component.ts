@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/co
 import { TemplateService } from '../services/template.service';
 import { User } from '../services/user.service';
 import { PoupService } from '../services/poup.service';
+import { Contact, ContactService } from '../services/contact.service';
 
 @Component({
   selector: 'app-contacts',
@@ -14,13 +15,15 @@ export class ContactsComponent implements OnInit, OnDestroy {
     public templateService: TemplateService,
     public popupService: PoupService,
     private renderer: Renderer2,
+    public contactService: ContactService,
     private el: ElementRef
   ) { }
 
 
   ngOnInit(): void {
-    this.templateService.contacts = true;
+    this.contactService.getContacts();
   }
+  
 
   ngOnDestroy(): void {
     this.templateService.contacts = false;
@@ -29,26 +32,15 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
   showContactContainer: boolean = false;
   hideContactContainer: boolean = false;
+  deleteContact:boolean = false;
 
+  sortedContacts = this.contactService.contacts.sort((a, b) => a.first_name.localeCompare(b.first_name));
 
+ 
+   groupContactsByLetter() {
+    const groupedContacts: { [key: string]: Contact[] } = {};
 
-  contacts: User[] = [
-    { id: 1, first_name: 'Alice', last_name: 'müller', email: 'alice@example.com', 'phone': '01756245', active: true },
-    { id: 2, first_name: 'Bob', last_name: 'Höfer', email: 'alice@example.com', 'phone': '01756245', active: true },
-    { id: 3, first_name: 'Gudrun', last_name: 'Schmidt', email: 'alice@example.com', 'phone': '01756245', active: true },
-    { id: 4, first_name: 'Budrun', last_name: 'Schmidt', email: 'alice@example.com', 'phone': '01756245', active: true },
-    // Weitere Kontakte hier hinzufügen
-  ];
-
-
-  // Sortiere die Kontakte nach dem Namen
-  sortedContacts = this.contacts.sort((a, b) => a.first_name.localeCompare(b.first_name));
-
-  // Methode zur Gruppierung der Kontakte nach Buchstaben
-  groupContactsByLetter() {
-    const groupedContacts: { [key: string]: User[] } = {};
-
-    this.contacts.forEach(contact => {
+    this.contactService.contacts.forEach(contact => {
       const firstLetter = contact.first_name.charAt(0).toUpperCase();
       if (!groupedContacts[firstLetter]) {
         groupedContacts[firstLetter] = [];
@@ -59,10 +51,10 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return groupedContacts;
   }
 
-  // Methode zur Extraktion eindeutiger Buchstaben
+  
   getUniqueLetters() {
     const letters: string[] = [];
-    this.contacts.forEach(contact => {
+    this.contactService.contacts.forEach(contact => {
       const firstLetter = contact.first_name.charAt(0).toUpperCase();
       if (!letters.includes(firstLetter)) {
         letters.push(firstLetter);
@@ -71,7 +63,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return letters;
   }
 
-  showContact(id: number, contact: User) {
+  showContact(id: number, contact: Contact) {
     if (this.showContactContainer) {
       this.hideContactContainer = true;
       this.showContactContainer = false;
@@ -88,6 +80,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.showContainer(id);
   }
 
+  delete() {
+
+    if (this.popupService.contactForView) {
+      this.contactService.deleteContact(this.popupService.contactForView.id)
+    }
+  }
 
   showContainer(id: number) {
     this.showContactContainer = true;
@@ -95,7 +93,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
 
   removeSelection() {
-    for (const contact of this.contacts) {
+    for (const contact of this.contactService.contacts) {
       const element = this.el.nativeElement.querySelector(`#contact${contact.id}`);
       this.renderer.removeClass(element, 'selected-contact');
     }

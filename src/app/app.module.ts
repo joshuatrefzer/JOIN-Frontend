@@ -24,6 +24,11 @@ import { BoardComponent } from './board/board.component';
 import { EditContactComponent } from './edit-contact/edit-contact.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
 
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -52,7 +57,11 @@ import { AddContactComponent } from './add-contact/add-contact.component';
     MatFormFieldModule,
     MatCheckboxModule,
     FormsModule,
-
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    HttpClientModule
+  
   ],
 
   providers: [],

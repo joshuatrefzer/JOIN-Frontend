@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PoupService } from '../services/poup.service';
+import { ContactService } from '../services/contact.service';
+
 
 @Component({
   selector: 'app-edit-contact',
@@ -10,15 +12,25 @@ import { PoupService } from '../services/poup.service';
 export class EditContactComponent {
 
 
-constructor(public popupService : PoupService) {}
+constructor(
+  public popupService : PoupService,
+  public contactService: ContactService,
+  ) {}
 
 onSubmit() {
-throw new Error('Method not implemented.');
+  if (this.contactForm.valid) {
+    console.log(this.contactForm);
+    if (this.popupService.contactForView) {
+      this.contactService.updateContact(this.contactForm, this.popupService.contactForView.id);
+    }
+  
+    this.contactService.getContacts();
+  }
 }
 
 
 
-  public loginForm: FormGroup = new FormGroup({
+  public contactForm: FormGroup = new FormGroup({
 
     email: new FormControl('', [
       Validators.required,
@@ -29,10 +41,13 @@ throw new Error('Method not implemented.');
       Validators.required
     ] , [] ),
 
-    fullname: new FormControl('', [
+    first_name: new FormControl('', [
       Validators.required
     ] , [] ),
 
+    last_name: new FormControl('', [
+      Validators.required
+    ] , [] ),
   });
 
 }

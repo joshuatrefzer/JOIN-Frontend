@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PoupService } from '../services/poup.service';
+import { ContactService } from '../services/contact.service';
 
 @Component({
   selector: 'app-add-contact',
@@ -9,28 +10,40 @@ import { PoupService } from '../services/poup.service';
 })
 export class AddContactComponent {
 
-  constructor(public popupService: PoupService){}
+  constructor(
+    public popupService: PoupService,
+    public contactService: ContactService
 
-onSubmit() {
-  throw new Error('Method not implemented.');
+  ) { }
+
+  onSubmit() {
+    if (this.contactForm.valid) {
+      console.log(this.contactForm);
+      this.contactService.addContact(this.contactForm);
+      this.contactService.getContacts();
+    }
   }
-  
-  
-  
-    public loginForm: FormGroup = new FormGroup({
-  
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ], []),
-  
-      phone: new FormControl('', [
-        Validators.required
-      ] , [] ),
-  
-      fullname: new FormControl('', [
-        Validators.required
-      ] , [] ),
-  
-    });
+
+
+
+  public contactForm: FormGroup = new FormGroup({
+
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
+    ], []),
+
+    phone: new FormControl('', [
+      Validators.required
+    ], []),
+
+    first_name: new FormControl('', [
+      Validators.required
+    ], []),
+
+    last_name: new FormControl('', [
+      Validators.required
+    ], []),
+
+  });
 }

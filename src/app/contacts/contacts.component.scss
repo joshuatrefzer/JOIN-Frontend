@@ -23,6 +23,13 @@ h1 {
     border-right:#29ABE2 3px solid ;
 }
 
+.sure {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px grey;
+}
+
 .show-contacts-container {
     height: calc(100vh - 230px);
     position: relative;

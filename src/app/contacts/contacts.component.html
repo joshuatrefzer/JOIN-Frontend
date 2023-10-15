@@ -31,7 +31,7 @@
 
                     <div class="contact-right-side column-center">
                         <div class="name">{{ contact.first_name }} {{ contact.last_name }}</div>
-                        <div class="mail">{{ contact.email }}</div>
+                        <div class="mail">{{ contact.mail }}</div>
                     </div>
 
 
@@ -57,30 +57,46 @@
                 <div class="top-area display-flex">
                     <div class="user-icon-contact user-icon center">{{
                         popupService.contactForView?.first_name?.charAt(0)?.toUpperCase()}}{{
-                            popupService.contactForView?.last_name?.charAt(0)?.toUpperCase()}}</div>
+                        popupService.contactForView?.last_name?.charAt(0)?.toUpperCase()}}</div>
                     <div class="center-column box">
                         <span style="font-size: 40px;">{{ popupService.contactForView?.first_name}} {{
                             popupService.contactForView?.last_name}}</span>
 
                         <!-- buttons -->
                         <div class="display-flex">
-                            <div (click)="openEditContactPopup()" class="center button-container text-btn color-primary">
+                            <div (click)="openEditContactPopup()"
+                                class="center button-container text-btn color-primary">
                                 <img style="height: 20px;" src="assets/img/edit.png" alt="">
                                 <span>Edit</span>
                             </div>
-                            <div class="center button-container text-btn color-primary">
+
+                            <div *ngIf="popupService.contactForView && !deleteContact" (click)="deleteContact = true;"
+                                class="center button-container text-btn color-primary">
                                 <img style="height: 20px;" src="assets/img/delete.png" alt="">
                                 <span>Delete</span>
                             </div>
+
+                            <div *ngIf="deleteContact" class="sure center poup center-column">
+                                <span class="color-primary">Are you sure?</span>
+                                <div class="display-flex">
+                                    <div class="text-btn color-primary"><b>No</b></div>
+                                    <div class="text-btn color-primary"><b>Yes</b></div>
+                                </div>
+
+                            </div>
+
+
                         </div>
 
                     </div>
                 </div>
 
-                <div style="font-size: 20px; font-weight:300;" >Contact information:</div>
+                <div style="font-size: 20px; font-weight:300;">Contact information:</div>
                 <div class="center-column box">
-                    <span style="font-size: 15px; font-weight:300;">Email: <a href= "mailto:abc@example.com" class="mail text-btn"> {{ popupService.contactForView?.email }}</a></span>
-                    <span style="font-size: 15px; font-weight:300;">Phone: {{ popupService.contactForView?.phone }}</span>
+                    <span style="font-size: 15px; font-weight:300;">Email: <a href="mailto:abc@example.com"
+                            class="mail text-btn"> {{ popupService.contactForView?.mail }}</a></span>
+                    <span style="font-size: 15px; font-weight:300;">Phone: {{ popupService.contactForView?.phone
+                        }}</span>
                 </div>
             </div>
 
@@ -89,5 +105,3 @@
         </div>
     </div>
 </div>
-
-

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from './user.service';
+import { Contact } from './contact.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class PoupService {
   behindPopupContainer:boolean = false;
   addContact:boolean = false;
   editContact:boolean = false;
-  contactForView: User | null = null;
+  contactForView: Contact | null = null;
 
 
   constructor() { }
