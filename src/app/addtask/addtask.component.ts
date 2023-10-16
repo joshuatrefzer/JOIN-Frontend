@@ -10,26 +10,28 @@ import { ContactService } from '../services/contact.service';
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
   subtask = [''];
+
+  buttons = ['urgent', 'medium', 'low'];
+
   myFilter = (d: Date | null): boolean => {
-    console.log(d);
-    
     const today = new Date();
     d = d || today;
     return d >= today;
   };
 
-   
+
 
   constructor(
     public templateService: TemplateService,
     public contactService: ContactService,
     private renderer: Renderer2, private el: ElementRef
-    
-    ) { }
+
+  ) { }
 
 
   ngOnInit(): void {
     this.templateService.addTask = true;
+    this.contactService.getContacts();
   }
 
   ngOnDestroy(): void {
@@ -37,7 +39,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   }
 
-  selected:string = '';
+  selected: string = '';
 
   public addTaskForm: FormGroup = new FormGroup({
 
@@ -60,9 +62,12 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   });
 
+  
   onSubmit() {
-    throw new Error('Method not implemented.');
+    debugger
+    console.log(this.addTaskForm);
   }
+
 
   checkForKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -70,34 +75,71 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  pushToSubtask(value:string) {
+  pushToSubtask(value: string) {
     console.log(value);
-    this.subtask.push(value); 
+    this.subtask.push(value);
     this.addTaskForm.get('subtask')?.setValue('');
   }
 
+  resetForm() {
+    this.addTaskForm.reset({
+      title: '',
+      category: '',
+      date: '',
+      description: '',
+      subtask: '',
+      assigned_to: '',
+      prio: ''
+    });
+    this.subtask = [];
+    this.resetButtons();
+  }
+
+
+  //   selectPrio(prio: string) {
+  //   const buttons = ['urgent', 'medium', 'low'];
+  //   const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
+
+  //   // Überprüfen, ob die übergebene Prio gültig ist
+  //   if (buttons.includes(prio)) {
+  //     // Wenn der ausgewählte Prio-Button bereits die Klasse hat, die Auswahl aufheben
+  //     if (selectedElement.classList.contains(prio)) {
+  //       selectedElement.classList.remove(prio);
+  //     } else {
+  //       // Andernfalls alle Prio-Buttons zurücksetzen und die Klasse setzen
+  //       buttons.forEach(button => {
+  //         const element = this.el.nativeElement.querySelector(`#${button}`);
+  //         element.classList.remove(button);
+  //       });
+  //       selectedElement.classList.add(prio);
+  //     }
+  //   } else {
+  //     console.error('Ungültige Prio ausgewählt');
+  //   }
+  // }
 
   selectPrio(prio: string) {
-  const buttons = ['urgent', 'medium', 'low'];
-  const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
-
-  // Überprüfen, ob die übergebene Prio gültig ist
-  if (buttons.includes(prio)) {
-    // Wenn der ausgewählte Prio-Button bereits die Klasse hat, die Auswahl aufheben
-    if (selectedElement.classList.contains(prio)) {
-      selectedElement.classList.remove(prio);
+    const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
+    if (this.buttons.includes(prio)) {
+      if (selectedElement.classList.contains(prio)) {
+        selectedElement.classList.remove(prio);
+        this.addTaskForm.value.prio = '';
+      } else {
+        this.resetButtons();
+        selectedElement.classList.add(prio);
+        this.addTaskForm.value.prio = `${prio}`;
+      }
     } else {
-      // Andernfalls alle Prio-Buttons zurücksetzen und die Klasse setzen
-      buttons.forEach(button => {
-        const element = this.el.nativeElement.querySelector(`#${button}`);
-        element.classList.remove(button);
-      });
-      selectedElement.classList.add(prio);
+      console.error('Ungültige Prio ausgewählt');
     }
-  } else {
-    console.error('Ungültige Prio ausgewählt');
   }
-}
+
+  resetButtons() {
+    this.buttons.forEach(button => {
+      const element = this.el.nativeElement.querySelector(`#${button}`);
+      element.classList.remove(button);
+    });
+  }
 
 
 
