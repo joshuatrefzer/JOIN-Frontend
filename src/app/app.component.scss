@@ -22,6 +22,19 @@ router-outlet {
     width: 65%;
 }
 
+.popup-add-task {
+    position: absolute;
+    animation: showFromRight 300ms ease-in-out;
+    border-radius: 10px;
+    display: flex;
+    height: 90vh;
+    width: 80vw;
+}
+
+app-addtask {
+    width: 100%;
+}
+
 @keyframes showFromRight {
     0% {
         transform: translate(100%, -50%);

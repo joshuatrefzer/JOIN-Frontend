@@ -1,0 +1,39 @@
+
+
+.h1-component {
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.top {
+    height: 20%;
+}
+
+.content {
+    height: 80%;
+    width: 100%;
+}
+
+.status-container {
+    margin: 2px;
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+}
+
+.status-h1 {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add {
+    background-color: white;
+    padding: 2px;
+    border-radius: 100%;
+    box-shadow: 1px 1px 5px lightgray;
+    &:hover {
+    box-shadow: 2px 2px 10px lightgray;
+    }
+}

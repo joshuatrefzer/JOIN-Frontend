@@ -1,3 +1,37 @@
-<div class="h1-component">
-    <h1>Board</h1>
+<div class="main-container center-column">
+    <div class="top">
+        <div class="h1-component">
+            <h1>Board</h1>
+        </div>
+    </div>
+    <div cdkDropListGroup class="content display-flex">
+        <div class="status-container column-center">
+            <div class="color-primary status-h1">
+                <div class="center add text-btn" (click)="addTaskPopup('Todo')" ><mat-icon>add</mat-icon></div>
+                <span>ToDo</span>
+            </div>
+        </div>
+
+        <div class="status-container column-center">
+            <div class="color-primary status-h1">
+                <div class="center add text-btn" (click)="addTaskPopup('in_progress')" ><mat-icon>add</mat-icon></div>
+                <span>In progress</span>
+            </div>
+        </div>
+
+        <div class="status-container column-center">
+            <div class="color-primary status-h1">
+                <div class="center add text-btn" (click)="addTaskPopup('awaiting_feedback')" ><mat-icon>add</mat-icon></div>
+                <span>Awaiting Feedback</span>
+            </div>
+        </div>
+
+        <div class="status-container column-center">
+            <div class="color-primary status-h1">
+                <div class=" center add text-btn" (click)="addTaskPopup('done')" ><mat-icon>add</mat-icon></div>
+                <span>Done</span>
+            </div>
+        </div>
+    </div>
+    
 </div>

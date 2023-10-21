@@ -10,8 +10,10 @@ export class StartscreenComponent implements OnInit {
   hideImage:boolean = false;
 
   constructor(public authService: AuthenticationService){}
+  audio = new Audio('assets/audio/join.mp3');
 
   ngOnInit():void {
+    // this.audio.play();
     setTimeout(() => {
       this.hideImage = true;
       this.authService.showLogin = true;

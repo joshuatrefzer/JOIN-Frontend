@@ -8,7 +8,7 @@ export class AuthenticationService {
   showLogin:boolean =false;
   showSignUp:boolean = false;
   forgotPassword:boolean = false;
-  userIsLoggedIn:boolean = true;
+  userIsLoggedIn:boolean = false;
 
   constructor() { }
 

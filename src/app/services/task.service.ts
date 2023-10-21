@@ -5,27 +5,25 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 interface Task {
-  id?:number;
-  title:string;
-  description?:string;
-  assigned_to?:[];
-  date:Date;
-  prio:string;
-  category:string;
+  id?: number;
+  title: string;
+  description?: string;
+  assigned_to?: [];
+  date: Date;
+  prio: string;
+  category: string;
   subtasks?: [];
 }
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  
+
   constructor(
     private http: HttpClient,
-    ) {
+  ) {
   }
 
   tasks: Task[] = [];
@@ -41,7 +39,7 @@ export class TaskService {
     });
   }
 
-  
+
   private loadTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.url).pipe(
       tap((data) => {
@@ -75,23 +73,30 @@ export class TaskService {
   }
 
 
-  addContact(form: FormGroup) {
+  addTask(form: FormGroup) {
+    debugger
     const data = {
-      first_name: form.value.first_name,
-      last_name: form.value.last_name,
-      mail: form.value.email,
-      phone: form.value.phone
+      title: form.value.title,
+      description: form.value.description,
+      assigned_to: form.value.assigned_to,
+      date: form.value.date,
+      prio: form.value.prio,
+      category: form.value.category,
+      subtasks: form.value.subtask,
     };
 
     this.http.post(this.url, data).subscribe((response: any) => {
       // Hier können Sie die neu hinzugefügten Kontaktinformationen verwenden, wenn Sie sie benötigen
       this.tasks.push(response);
-      this.myTasks$.next(this.tasks); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+      this.myTasks$.next(this.tasks);
+      console.log(this.tasks);
+      
     }, (error) => {
       console.error('Contact was not added', error);
     });
   }
-  
+
+
 
   deleteContact(id: number) {
     const url = `${this.url}${id}/`;
@@ -103,4 +108,8 @@ export class TaskService {
       console.error('Fehler beim Löschen des Tasks', error);
     });
   }
+
+
+
+
 }

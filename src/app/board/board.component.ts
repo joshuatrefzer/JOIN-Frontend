@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { TaskService } from '../services/task.service';
+import { PoupService } from '../services/poup.service';
 
 @Component({
   selector: 'app-board',
@@ -11,11 +12,10 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   constructor(
     public templateService: TemplateService,
-    public taskService: TaskService
+    public taskService: TaskService,
+    public popupService: PoupService,
     
     ) { }
-
-
 
 
   ngOnInit(): void {
@@ -24,9 +24,16 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   }
 
+
   ngOnDestroy(): void {
     this.templateService.board = false;
 
+  }
+
+
+  addTaskPopup(status:string) {
+    this.popupService.behindPopupContainer = true;
+    this.popupService.addTaskPopup = true;
   }
 
 }

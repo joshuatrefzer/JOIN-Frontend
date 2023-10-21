@@ -8,6 +8,7 @@ import { Contact } from './contact.service';
 export class PoupService {
   showAddContactPopup:boolean = false;
   behindPopupContainer:boolean = false;
+  addTaskPopup:boolean = false;
   addContact:boolean = false;
   editContact:boolean = false;
   contactForView: Contact | null = null;
@@ -19,6 +20,7 @@ export class PoupService {
     this.behindPopupContainer = false;
     this.addContact = false;
     this.editContact = false;
+    this.addTaskPopup = false;
   }
 
 

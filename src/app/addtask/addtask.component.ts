@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ContactService } from '../services/contact.service';
+import { Contact, ContactService } from '../services/contact.service';
+import { SubtaskService } from '../services/subtask.service';
+import { TaskService } from '../services/task.service';
+import { PoupService } from '../services/poup.service';
 
 @Component({
   selector: 'app-addtask',
@@ -9,7 +12,7 @@ import { ContactService } from '../services/contact.service';
   styleUrls: ['./addtask.component.scss']
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
-  subtask = [''];
+
 
   buttons = ['urgent', 'medium', 'low'];
 
@@ -19,19 +22,33 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     return d >= today;
   };
 
+  subtasksforView: any = [];
+  subtasksForSubmit: any = []
+
+  assigned_contacts: any = [];
+
 
 
   constructor(
     public templateService: TemplateService,
     public contactService: ContactService,
+    public popupService: PoupService,
+    public subtaskService: SubtaskService,
+    public taskService: TaskService,
     private renderer: Renderer2, private el: ElementRef
 
   ) { }
 
 
   ngOnInit(): void {
-    this.templateService.addTask = true;
+    if (!this.popupService.addTaskPopup) {
+      this.templateService.addTask = true;
+    }
+    
     this.contactService.getContacts();
+    this.subtaskService.getSubTasks();
+    this.subtaskService.getSubTasks();
+    this.resetForm();
   }
 
   ngOnDestroy(): void {
@@ -56,29 +73,39 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     ], []),
 
     description: new FormControl(''),
-    subtask: new FormControl(''),
     assigned_to: new FormControl(''),
+    subtask: new FormControl(''),
     prio: new FormControl(''),
-
   });
+
 
   
   onSubmit() {
-    debugger
-    console.log(this.addTaskForm);
+    if (!this.addTaskForm.valid) {
+      console.log('Fülle die Form aus');
+      return;
+    }
+
+    this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
+    if (this.subtasksforView.length >= 1) {
+      for (const subtask of this.subtasksforView) {
+        this.subtasksForSubmit.push(`${subtask.id}`);
+      }
+    }
+    this.addTaskForm.value.subtask = this.subtasksForSubmit;
+    this.taskService.addTask(this.addTaskForm)
+    //send to backend
+    this.subtaskService.mySubTasks$.subscribe(() => {
+      this.subtasksForSubmit = [];
+      this.subtasksforView = [];
+    });
   }
 
 
   checkForKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
-      this.pushToSubtask(this.addTaskForm.get('subtask')?.value);
+      this.addNewSubtask();
     }
-  }
-
-  pushToSubtask(value: string) {
-    console.log(value);
-    this.subtask.push(value);
-    this.addTaskForm.get('subtask')?.setValue('');
   }
 
   resetForm() {
@@ -87,52 +114,51 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       category: '',
       date: '',
       description: '',
-      subtask: '',
-      assigned_to: '',
+      subtask: [],
+      assigned_to: [],
       prio: ''
     });
-    this.subtask = [];
+
+    this.resetSubTaskForView();
+    this.assigned_contacts = [];
     this.resetButtons();
   }
 
+  resetSubTaskForView() {
+    this.subtasksforView.forEach((st: { id: number; }) => {
+      this.subtaskService.deleteSubTask(st.id);
+    });
+    this.subtasksforView = [];
+  }
 
-  //   selectPrio(prio: string) {
-  //   const buttons = ['urgent', 'medium', 'low'];
-  //   const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
 
-  //   // Überprüfen, ob die übergebene Prio gültig ist
-  //   if (buttons.includes(prio)) {
-  //     // Wenn der ausgewählte Prio-Button bereits die Klasse hat, die Auswahl aufheben
-  //     if (selectedElement.classList.contains(prio)) {
-  //       selectedElement.classList.remove(prio);
-  //     } else {
-  //       // Andernfalls alle Prio-Buttons zurücksetzen und die Klasse setzen
-  //       buttons.forEach(button => {
-  //         const element = this.el.nativeElement.querySelector(`#${button}`);
-  //         element.classList.remove(button);
-  //       });
-  //       selectedElement.classList.add(prio);
-  //     }
-  //   } else {
-  //     console.error('Ungültige Prio ausgewählt');
-  //   }
-  // }
+  assigneContact(contact: Contact) {
+    this.assigned_contacts.push(contact);
+
+  }
+
+  removeSubTask(i: number, task: any) {
+    // this.subtaskService.deleteSubTask(task.id)
+    this.subtasksforView.splice(i, 1);
+  }
+
 
   selectPrio(prio: string) {
     const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
     if (this.buttons.includes(prio)) {
       if (selectedElement.classList.contains(prio)) {
         selectedElement.classList.remove(prio);
-        this.addTaskForm.value.prio = '';
+        this.addTaskForm.get('prio')?.setValue('');
       } else {
         this.resetButtons();
         selectedElement.classList.add(prio);
-        this.addTaskForm.value.prio = `${prio}`;
+        this.addTaskForm.get('prio')?.setValue(`${prio}`);
       }
     } else {
       console.error('Ungültige Prio ausgewählt');
     }
   }
+
 
   resetButtons() {
     this.buttons.forEach(button => {
@@ -140,6 +166,55 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       element.classList.remove(button);
     });
   }
+
+
+  // VERBESSERN!!! Funktioniert noch nicht richtig gut.
+
+  addNewSubtask() {
+    const SubTaskValue = this.addTaskForm.value.subtask;
+    this.addTaskForm.get('subtask')?.setValue('');
+    this.subtaskService.addSubTask(SubTaskValue);
+
+    this.subtaskService.mySubTasks$.subscribe(() => {
+      const existingSubtask = this.subtaskService.subTasks.find(subtask => subtask.title === SubTaskValue);
+
+      if (existingSubtask && existingSubtask.id !== undefined) {
+        const isAlreadyAdded = this.subtasksforView.some((subtask: { id: number }) => subtask.id === existingSubtask.id);
+        if (!isAlreadyAdded) {
+          this.subtasksforView.push(existingSubtask);
+        }
+      }
+    });
+  }
+
+
+  // addNewSubtask() {
+  //   const SubTaskValue = this.addTaskForm.value.subtask;
+  //   this.addTaskForm.get('subtask')?.setValue('');
+  //   this.subtaskService.addSubTask(SubTaskValue);
+  //   this.subtaskService.mySubTasks$.subscribe(() => {
+  //     const subTasks = this.subtaskService.subTasks;
+  //     let existingSubtask;
+  //     //Probleme -> Beim löschen wird hier auch aufgerufen und andere Werte mit gleichem Titel kommen nach.. (subscribtion)
+  //     //Das hinzugefügte objekt taucht in der SChleife noch nicht auf und es wird (wenn vorhanden) auf einen späteren Wert zugegriffen
+
+  //     for (let i = this.subtaskService.subTasks.length - 1; i >= 0; i--) {
+  //       if (this.subtaskService.subTasks[i].title === SubTaskValue) {
+  //         debugger
+  //         existingSubtask = subTasks[i];
+  //         break; // Breche die Schleife ab, sobald der gesuchte Wert gefunden wurde
+  //       }
+  //     }
+  //     if (existingSubtask && existingSubtask.id !== undefined) {
+  //       if (!this.subtasksforView.includes(existingSubtask)) {
+  //         this.subtasksforView.push(existingSubtask);
+  //       }
+  //     }
+  //   });
+  // }
+
+
+
 
 
 
