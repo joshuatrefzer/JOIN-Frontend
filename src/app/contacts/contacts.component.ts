@@ -21,6 +21,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.templateService.contacts = true;
     this.contactService.getContacts();
   }
   

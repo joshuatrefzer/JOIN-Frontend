@@ -5,33 +5,72 @@
         </div>
     </div>
     <div cdkDropListGroup class="content display-flex">
+
         <div class="status-container column-center">
             <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('Todo')" ><mat-icon>add</mat-icon></div>
+                <div class="center add text-btn" (click)="addTaskPopup('Todo')"><mat-icon>add</mat-icon></div>
                 <span>ToDo</span>
             </div>
+
+
+            <div cdkDropList [cdkDropListData]="taskService.todo" (cdkDropListDropped)="drop($event , 'todo')"
+                class="drop-container center-column">
+                <div class="example-box" *ngFor="let item of taskService.todo" cdkDrag>
+                    <app-task [task]="item"></app-task>
+                </div>
+            </div>
+
         </div>
+
 
         <div class="status-container column-center">
             <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('in_progress')" ><mat-icon>add</mat-icon></div>
+                <div class="center add text-btn" (click)="addTaskPopup('in_progress')"><mat-icon>add</mat-icon></div>
                 <span>In progress</span>
             </div>
-        </div>
 
-        <div class="status-container column-center">
-            <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('awaiting_feedback')" ><mat-icon>add</mat-icon></div>
-                <span>Awaiting Feedback</span>
+
+            <div cdkDropList [cdkDropListData]="taskService.inProgress" (cdkDropListDropped)="drop($event , 'inProgress')"
+                class="drop-container center-column">
+                <div class="example-box" *ngFor="let item of taskService.inProgress" cdkDrag>
+                    <app-task [task]="item"></app-task>
+                </div>
             </div>
         </div>
 
         <div class="status-container column-center">
             <div class="color-primary status-h1">
-                <div class=" center add text-btn" (click)="addTaskPopup('done')" ><mat-icon>add</mat-icon></div>
+                <div class="center add text-btn" (click)="addTaskPopup('awaiting_feedback')"><mat-icon>add</mat-icon>
+                </div>
+                <span>Awaiting Feedback</span>
+            </div>
+
+
+
+            <div cdkDropList [cdkDropListData]="taskService.awaitingFeedback" (cdkDropListDropped)="drop($event , 'awaitingFeedback')"
+                class="drop-container center-column">
+                <div class="example-box" *ngFor="let item of taskService.awaitingFeedback" cdkDrag>
+                    <app-task [task]="item"></app-task>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="status-container column-center">
+            <div class="color-primary status-h1">
+                <div class=" center add text-btn" (click)="addTaskPopup('done')"><mat-icon>add</mat-icon></div>
                 <span>Done</span>
+            </div>
+
+
+
+            <div cdkDropList [cdkDropListData]="taskService.done" class="drop-container center-column"
+                (cdkDropListDropped)="drop($event , 'done')">
+                <div class="example-box" *ngFor="let item of taskService.done" cdkDrag>
+                    <app-task [task]="item"></app-task>
+                </div>
             </div>
         </div>
     </div>
-    
+
 </div>

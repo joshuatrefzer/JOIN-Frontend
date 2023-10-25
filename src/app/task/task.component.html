@@ -1,0 +1,29 @@
+<div class="category">
+    <span>{{ task.category }}</span>
+</div>
+
+<div class="title">
+    <span>{{ task.title }}</span>
+</div>
+
+<div class="description">
+    <span>{{ task.description }}</span>
+</div>
+
+<div class="subtasks-progress">
+    <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+    <span>1/2 Subtasks</span>
+</div>
+
+<div class="bottom-task-box">
+    <div class="contact-box">
+        
+        <div class="contact-icon" >
+            <!-- <div *ngFor="let contact of getAssignedTo(item.assigend_to)" ></div>  -->
+        </div>
+    </div>
+
+    <div class="prio-box center">
+        <img src="assets/img/{{ task.prio }}.svg" alt="">
+    </div>
+</div>

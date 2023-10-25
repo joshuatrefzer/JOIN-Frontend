@@ -28,6 +28,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { TaskComponent } from './task/task.component';
 
 
 
@@ -46,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     BoardComponent,
     EditContactComponent,
     AddContactComponent,
+    TaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    DragDropModule,
+    MatProgressBarModule
   
   ],
 

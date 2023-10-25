@@ -9,6 +9,7 @@ interface Task {
   title: string;
   description?: string;
   assigned_to?: [];
+  status?:string;
   date: Date;
   prio: string;
   category: string;
@@ -28,8 +29,13 @@ export class TaskService {
 
   tasks: Task[] = [];
   myTasks$: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
-
   url = environment.baseUrl + '/tasks/';
+  
+
+  todo:any = [];
+  inProgress:any = [];
+  awaitingFeedback:any = [];
+  done:any = [];
 
 
   getTasks() {
@@ -46,11 +52,33 @@ export class TaskService {
         this.tasks = data;
         this.myTasks$.next(data);
         console.log(this.tasks);
+        this.sortTasks();
       })
     );
   }
 
+  sortTasks() {
+    this.todo = [];
+    this.inProgress = [];
+    this.awaitingFeedback = [];
+    this.done = [];
+  
+ 
+    this.tasks.forEach(task => {
+      if (task.status === 'todo') {
+        this.todo.push(task);
+      } else if (task.status === 'inProgress') {
+        this.inProgress.push(task);
+      } else if (task.status === 'awaitingFeedback') {
+        this.awaitingFeedback.push(task);
+      } else if (task.status === 'done') {
+        this.done.push(task);
+      }
+    });
+  }
 
+
+  // Funktion so umschreiben, dass man auch als normales Objekt die Funktion benutzen kann.(Über Parameter)
   updateTask(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
     const data: Task = {
@@ -72,9 +100,30 @@ export class TaskService {
     });
   }
 
+  updateTaskStatus(t: any, id: number) {
+    const url = `${this.url}${id}/`;
+    const data: Task = {
+      title: t.title,
+      date: t.date,
+      prio: t.prio,
+      category: t.category,
+      status:t.status
+    };
+
+    this.http.patch(url, data).subscribe(() => {
+      // Hier können Sie die aktualisierten Taskinfos verwenden, wenn Sie sie benötigen
+      const updatedIndex = this.tasks.findIndex(task => task.id === id);
+      if (updatedIndex !== -1) {
+        this.tasks[updatedIndex] = { status, ...data };
+      }
+      this.myTasks$.next(this.tasks); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+    }, (error) => {
+      console.error('Fehler bei der Aktualisierung des Kontakts', error);
+    });
+  }
+
 
   addTask(form: FormGroup) {
-    debugger
     const data = {
       title: form.value.title,
       description: form.value.description,
