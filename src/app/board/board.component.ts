@@ -38,18 +38,6 @@ export class BoardComponent implements OnInit, OnDestroy {
       
       this.taskService.updateTaskStatus(transferredItem, transferredItem.id)
       
-
-      //checken ob das überhaupt noch nötig ist
-      if (targetStatus === 'todo') {
-        this.taskService.todo.push(transferredItem);
-      } else if (targetStatus === 'inProgress') {
-        this.taskService.inProgress.push(transferredItem);
-      } else if (targetStatus === 'awaitingFeedback') {
-        this.taskService.awaitingFeedback.push(transferredItem);
-      } else if (targetStatus === 'done') {
-        this.taskService.done.push(transferredItem);
-      }
-
       // Entfernen Sie das Element aus dem ursprünglichen Array
       event.previousContainer.data.splice(event.previousIndex, 1);
 

@@ -1,0 +1,35 @@
+.container {
+    position: relative;
+    height: 100%;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.delete {
+    gap: 10px;
+    margin-right: 25px
+}
+
+.edit {
+    @extend .delete;
+    border-left: 1px solid lightgray;
+    padding-left: 25px;
+}
+
+.button-container {
+    display: flex;
+    margin-right: 50px;
+    font-size: 20px;
+    img {
+        height: 20px;
+    }
+}

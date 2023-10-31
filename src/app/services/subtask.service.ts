@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-interface SubTask {
+export interface SubTask {
   id?:number;
   title:string;
   done:boolean;

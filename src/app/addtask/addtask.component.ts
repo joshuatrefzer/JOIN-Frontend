@@ -47,7 +47,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     
     this.contactService.getContacts();
     this.subtaskService.getSubTasks();
-    this.subtaskService.getSubTasks();
     this.resetForm();
   }
 

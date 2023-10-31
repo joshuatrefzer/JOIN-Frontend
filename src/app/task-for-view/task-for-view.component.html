@@ -1,0 +1,23 @@
+<div class="column-center container color-primary">
+    <div class="row">{{ task?.category }}</div>
+    <div class="row">{{ task?.title }}</div>
+    <div class="row">{{ task?.description }}</div>
+    <div class="row">Due Date:{{ task?.date }}</div>
+    <div class="row">Priority:{{ task?.prio }} <img src="assets/img/{{task?.prio}}.svg" alt=""></div>
+    <div class="row">Assigned To:{{ task?.assigned_to }}</div>
+    <div class="row">Subtasks:{{ task?.subtasks }}</div>
+    <div class="row bottom">
+        <div class="button-container">
+            <div class="delete text-btn center">
+                <img src="assets/img/delete.png" alt="">
+                delete
+                
+            </div>
+            <div class="text-btn edit center">
+                <img src="assets/img/edit.png" alt="">
+                edit
+                
+            </div>
+        </div>
+    </div>
+</div>

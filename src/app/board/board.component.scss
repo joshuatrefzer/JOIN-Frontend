@@ -46,6 +46,17 @@ app-task {
     gap: 10px;
 }
 
+.more {
+    position: absolute;
+    top: 5px;
+    right:10px;
+    z-index: 10;
+    font-size: 20px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .drop-container {
     margin-top: 10px;
     width: 100%;
@@ -139,6 +150,7 @@ app-task {
 .example-box {
     padding: 20px 10px;
     font-size: 20px;
+    position: relative;
 
     color: rgba(0, 0, 0, 0.87);
     display: flex;

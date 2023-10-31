@@ -12,18 +12,25 @@
 
 <div class="subtasks-progress">
     <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
-    <span>1/2 Subtasks</span>
+    <span>{{ subtasks.length }}</span>
 </div>
 
 <div class="bottom-task-box">
     <div class="contact-box">
         
-        <div class="contact-icon" >
-            <!-- <div *ngFor="let contact of getAssignedTo(item.assigend_to)" ></div>  -->
+        <div class="contact-container" >
+            <div class="center box-shadow contact-icon" *ngFor="let contact of contacts; let i = index" [ngStyle]="{'left.px': i * 35}">
+                <span>{{contact.first_name.charAt(0).toUpperCase()}}
+                {{contact.last_name.charAt(0).toUpperCase()}}</span>
+            </div> 
         </div>
     </div>
 
     <div class="prio-box center">
         <img src="assets/img/{{ task.prio }}.svg" alt="">
     </div>
+</div>
+
+<div class="more text-btn" (click)="popupService.showTaskPopup(task)">
+    <b>...</b>
 </div>

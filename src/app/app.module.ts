@@ -31,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { TaskComponent } from './task/task.component';
+import { TaskForViewComponent } from './task-for-view/task-for-view.component';
 
 
 
@@ -50,6 +51,7 @@ import { TaskComponent } from './task/task.component';
     EditContactComponent,
     AddContactComponent,
     TaskComponent,
+    TaskForViewComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-interface Task {
+export interface Task {
   id?: number;
   title: string;
   description?: string;
