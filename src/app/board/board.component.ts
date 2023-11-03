@@ -32,7 +32,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      
+      console.log(event, targetStatus);
       const transferredItem = event.previousContainer.data[event.previousIndex];
       transferredItem.status = targetStatus;
       

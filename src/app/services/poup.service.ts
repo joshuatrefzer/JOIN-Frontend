@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from './user.service';
 import { Contact } from './contact.service';
 import { Task } from './task.service';
+import { SubTask } from './subtask.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,12 @@ export class PoupService {
   addContact:boolean = false;
   editContact:boolean = false;
   contactForView: Contact | null = null;
-  taskPopupForView:Task |null = null;
+  
+  
 
+  taskPopupForView:Task |null = null;
+  taskPopupContacts:Contact[] = []; 
+  taskPopupSubtasks:SubTask[] = []; 
 
   constructor() { }
 
@@ -26,10 +31,11 @@ export class PoupService {
     this.taskPopupForView = null;
   }
 
-  showTaskPopup(task:Task) {
+  showTaskPopup(task:Task, subtasks:SubTask[], contacts:Contact[] ) {
     this.behindPopupContainer = true;
     this.taskPopupForView = task;
-
+    this.taskPopupContacts = contacts;
+    this.taskPopupSubtasks = subtasks;
   }
 
 

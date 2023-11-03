@@ -1,22 +1,69 @@
 <div class="column-center container color-primary">
-    <div class="row">{{ task?.category }}</div>
-    <div class="row">{{ task?.title }}</div>
-    <div class="row">{{ task?.description }}</div>
-    <div class="row">Due Date:{{ task?.date }}</div>
-    <div class="row">Priority:{{ task?.prio }} <img src="assets/img/{{task?.prio}}.svg" alt=""></div>
-    <div class="row">Assigned To:{{ task?.assigned_to }}</div>
-    <div class="row">Subtasks:{{ task?.subtasks }}</div>
+    <div class="head">
+
+        <div class="left">
+            <div class="font-30"><b>{{ task?.title }}</b></div>
+            <div style="color: grey; margin-top:10px;"> {{
+                formattedDate }}
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="category">
+                <span>{{ task?.category }}</span>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="description">
+        <span class="font-20">Description:</span>
+        <span style="color: grey; margin-top:10px;">{{ task?.description }}</span>
+    </div>
+
+
+
+
+    <div class="row">
+        <span class="prio-button">
+            {{ task?.prio }} 
+            <img src="assets/img/{{task?.prio}}.svg" alt="">
+        </span>
+    </div>
+
+
+    <div class="row assigned">Assigned To:
+        <div class="contact-box" *ngFor="let contact of popupService.taskPopupContacts">
+            <div class="center box-shadow contact-icon">
+                <span>{{contact.first_name.charAt(0).toUpperCase()}}
+                    {{contact.last_name.charAt(0).toUpperCase()}}
+                </span>
+            </div>
+            <span>{{ contact.first_name }} {{ contact.last_name }}</span>
+        </div>
+
+    </div>
+    
+    <div class="row">
+        <span class="font-20">Subtasks:</span>
+        <div class="subtask column-center" *ngFor="let subtask of popupService.taskPopupSubtasks; let i = index">
+            <span>{{ subtask.title }}</span>
+            <input type="checkbox" [(ngModel)]="subtask.done" name="subtask-{{i}}">
+          </div>
+    </div>
     <div class="row bottom">
         <div class="button-container">
             <div class="delete text-btn center">
                 <img src="assets/img/delete.png" alt="">
                 delete
-                
+
             </div>
             <div class="text-btn edit center">
                 <img src="assets/img/edit.png" alt="">
                 edit
-                
+
             </div>
         </div>
     </div>

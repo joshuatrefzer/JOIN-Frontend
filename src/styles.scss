@@ -63,6 +63,21 @@
     }
 }
 
+.category {
+    width: 100%;
+    margin-top: 0 !important;
+    span {
+        padding: 5px;
+        height: 10px;
+        background-color: rgb(111, 174, 213);
+        border-radius: 5px;
+        color: white;
+        font-weight: 200;
+        font-size: 20px;
+
+    }
+}
+
 .button {
     min-width: 80px;
     cursor: pointer;

@@ -102,23 +102,18 @@ export class TaskService {
 
   updateTaskStatus(t: any, id: number) {
     const url = `${this.url}${id}/`;
-    const data: Task = {
-      title: t.title,
-      date: t.date,
-      prio: t.prio,
-      category: t.category,
+    const data: Partial<Task> = {
       status:t.status
     };
 
     this.http.patch(url, data).subscribe(() => {
-      // Hier können Sie die aktualisierten Taskinfos verwenden, wenn Sie sie benötigen
       const updatedIndex = this.tasks.findIndex(task => task.id === id);
       if (updatedIndex !== -1) {
-        this.tasks[updatedIndex] = { status, ...data };
+        this.tasks[updatedIndex].status = t.status
       }
-      this.myTasks$.next(this.tasks); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+      this.myTasks$.next(this.tasks); 
     }, (error) => {
-      console.error('Fehler bei der Aktualisierung des Kontakts', error);
+      console.error('Fehler bei der Aktualisierung des Tasks', error);
     });
   }
 

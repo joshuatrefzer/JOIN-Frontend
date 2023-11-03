@@ -70,20 +70,6 @@ app-task {
     overflow-y: scroll;
 }
 
-.category {
-    width: 100%;
-    margin-top: 0 !important;
-    span {
-        padding: 5px;
-        height: 10px;
-        background-color: rgb(111, 174, 213);
-        border-radius: 5px;
-        color: white;
-        font-weight: 200;
-        font-size: 20px;
-
-    }
-}
 
 .title {
     width: 100%;
@@ -158,7 +144,7 @@ app-task {
     box-sizing: border-box;
     cursor: grab;
     background: white;
-    min-height: 230px;
+    // height: 250px;
     width: calc(90% - 20px);
     margin: 10px;
     border-radius: 10px;
@@ -172,7 +158,7 @@ app-task {
 
 .cdk-drag-preview {
     box-sizing: border-box;
-    border-radius: 4px;
+    border-radius: 10px;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
         0 8px 10px 1px rgba(0, 0, 0, 0.14),
         0 3px 14px 2px rgba(0, 0, 0, 0.12);

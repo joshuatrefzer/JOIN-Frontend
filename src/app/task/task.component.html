@@ -11,8 +11,8 @@
 </div>
 
 <div class="subtasks-progress">
-    <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
-    <span>{{ subtasks.length }}</span>
+    <mat-progress-bar mode="determinate" value="{{progressBarValue}}"></mat-progress-bar>
+    <span>{{ doneSubtasks() }}/{{ subtasks.length }}</span>
 </div>
 
 <div class="bottom-task-box">
@@ -31,6 +31,6 @@
     </div>
 </div>
 
-<div class="more text-btn" (click)="popupService.showTaskPopup(task)">
+<div class="more text-btn" (click)="popupService.showTaskPopup(task, subtasks, contacts)">
     <b>...</b>
 </div>
