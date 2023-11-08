@@ -50,11 +50,12 @@ export class SubtaskService {
     return this.subTasks.some(subtask => subtask.title === title);
   }
 
+
   updateSubTask(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
     const data: SubTask = {
       title: form.value.title,
-      done: form.value.date,
+      done: form.value.done,
     };
 
     this.http.put(url, data).subscribe(() => {
@@ -68,6 +69,28 @@ export class SubtaskService {
       console.error('Fehler bei der Aktualisierung des Kontakts', error);
     });
   }
+
+
+
+  ////FUNKTIONIERT NOCH NICHT 
+  updateSubtaskCheckbox(id:number, st:SubTask){
+    debugger
+    const url = `${this.url}${id}/`;
+    const data: Partial<SubTask> = {
+      done: st.done,
+    };
+    this.http.patch(url, data).subscribe(() => {
+      this.mySubTasks$.next(this.subTasks);
+      console.log(this.subTasks);
+      
+    }, (error) => {
+      console.error('Fehler bei der Aktualisierung des SubTasks', error);
+    });
+
+
+
+  }
+
 
 
   addSubTask(title:string) {

@@ -2,9 +2,15 @@
 <div class="main-container center-column">
 
     <div class="top">
-        <div class="h1-component">
+        <div *ngIf="!popupService.addTaskPopup" class="h1-component">
+            <h1>{{ headline }}</h1>
+        </div>
+
+        <div *ngIf="popupService.addTaskPopup">
             <h1>Add Task</h1>
         </div>
+
+
 
 
         <form (ngSubmit)="onSubmit()" [formGroup]="addTaskForm" class="center">

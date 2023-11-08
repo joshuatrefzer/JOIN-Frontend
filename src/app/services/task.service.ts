@@ -107,10 +107,10 @@ export class TaskService {
     };
 
     this.http.patch(url, data).subscribe(() => {
-      const updatedIndex = this.tasks.findIndex(task => task.id === id);
-      if (updatedIndex !== -1) {
-        this.tasks[updatedIndex].status = t.status
-      }
+      // const updatedIndex = this.tasks.findIndex(task => task.id === id);
+      // if (updatedIndex !== -1) {
+      //   this.tasks[updatedIndex].status = t.status
+      // }
       this.myTasks$.next(this.tasks); 
     }, (error) => {
       console.error('Fehler bei der Aktualisierung des Tasks', error);

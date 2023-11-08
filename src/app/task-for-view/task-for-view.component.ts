@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PoupService } from '../services/poup.service';
 import { Task } from '../services/task.service';
+import { SubTask, SubtaskService } from '../services/subtask.service';
 
 @Component({
   selector: 'app-task-for-view',
@@ -10,9 +11,13 @@ import { Task } from '../services/task.service';
 export class TaskForViewComponent implements OnInit, OnDestroy {
 
   task: Task | undefined;
-  formattedDate:string = "";
-  
-  constructor(public popupService: PoupService) {
+  formattedDate: string = "";
+
+  constructor(
+    public popupService: PoupService,
+    public subTaskService: SubtaskService,
+
+  ) {
 
   }
 
@@ -21,6 +26,10 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
       this.task = this.popupService.taskPopupForView;
     }
     this.formatDate();
+  }
+
+  updateCheckbox(id: any, subtask: SubTask) {
+    this.subTaskService.updateSubtaskCheckbox(id, subtask);
   }
 
   formatDate() {
@@ -32,15 +41,24 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
       this.formattedDate = formattedDate;
     } else {
       console.log('No Date availabe in', this.task);
-      
+
     }
   }
 
 
   ngOnDestroy(): void {
-    this.task = undefined;
-    this.popupService.taskPopupContacts = [];
-    this.popupService.taskPopupSubtasks = [];
+    if (!this.popupService.editTask) {
+      this.task = undefined;
+      this.popupService.taskPopupContacts = [];
+      this.popupService.taskPopupSubtasks = [];
+    } else {
+      return;
+    }
+  }
+
+  openEditTaskPopup() {
+    this.popupService.closePopups();
+    this.popupService.editTask();
   }
 
 

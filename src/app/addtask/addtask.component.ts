@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Contact, ContactService } from '../services/contact.service';
@@ -12,7 +12,7 @@ import { PoupService } from '../services/poup.service';
   styleUrls: ['./addtask.component.scss']
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
-
+  @Input() headline: string = 'Add Task';
 
   buttons = ['urgent', 'medium', 'low'];
 
@@ -41,10 +41,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    if (!this.popupService.addTaskPopup) {
-      this.templateService.addTask = true;
-    }
-    
+    if (!this.popupService.addTaskPopup) this.templateService.addTask = true;
+    this.popupService.editTaskPopup ? this.fillForm() : null;
+
     this.contactService.getContacts();
     this.subtaskService.getSubTasks();
     this.resetForm();
@@ -76,6 +75,19 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     subtask: new FormControl(''),
     prio: new FormControl(''),
   });
+
+  fillForm() {
+    debugger
+    const task = this.popupService.taskPopupForView;
+    // this.subtasksforView = this.popupService.taskPopupSubtasks;
+    this.addTaskForm.get('title')?.setValue(`${task?.title}`);
+    this.addTaskForm.get('description')?.setValue(`${task?.description}`);
+    this.addTaskForm.get('assigned_to')?.setValue(`${task?.assigned_to}`);
+    this.addTaskForm.get('date')?.setValue(`${task?.date}`);
+    this.addTaskForm.get('prio')?.setValue(`${task?.prio}`);
+    this.addTaskForm.get('category')?.setValue(`${task?.category}`);
+    this.addTaskForm.get('subtasks')?.setValue(`${task?.subtasks}`);
+  }
 
 
   

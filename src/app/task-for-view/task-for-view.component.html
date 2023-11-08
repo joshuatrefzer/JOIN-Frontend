@@ -50,7 +50,7 @@
         <span class="font-20">Subtasks:</span>
         <div class="subtask column-center" *ngFor="let subtask of popupService.taskPopupSubtasks; let i = index">
             <span>{{ subtask.title }}</span>
-            <input type="checkbox" [(ngModel)]="subtask.done" name="subtask-{{i}}">
+            <input (change)="updateCheckbox(subtask.id , subtask)" type="checkbox" [(ngModel)]="subtask.done" name="subtask-{{i}}">
           </div>
     </div>
     <div class="row bottom">
@@ -60,7 +60,7 @@
                 delete
 
             </div>
-            <div class="text-btn edit center">
+            <div (click)="openEditTaskPopup()" class="text-btn edit center">
                 <img src="assets/img/edit.png" alt="">
                 edit
 

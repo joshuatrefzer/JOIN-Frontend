@@ -59,6 +59,12 @@
     <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
 </div>
 
+<!-- Edit Task POPUP -->
+<div *ngIf="popupService.editTaskPopup" class="popup popup-add-task center-absolute br popup-shadow">
+    <app-addtask [headline]="'Edit Task'" ></app-addtask>
+    <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
+</div>
+
 
 <!-- TaskForView -Popup -->
 
