@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PoupService } from '../services/poup.service';
-import { Task } from '../services/task.service';
+import { Task, TaskService } from '../services/task.service';
 import { SubTask, SubtaskService } from '../services/subtask.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
   constructor(
     public popupService: PoupService,
     public subTaskService: SubtaskService,
+    public taskService: TaskService,
 
   ) {
 
@@ -47,7 +48,7 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    if (!this.popupService.editTask) {
+    if (!this.popupService.editTaskPopup) {
       this.task = undefined;
       this.popupService.taskPopupContacts = [];
       this.popupService.taskPopupSubtasks = [];
@@ -56,9 +57,14 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  openEditTaskPopup() {
+  openEditTaskPopup(task: any) {
     this.popupService.closePopups();
-    this.popupService.editTask();
+    this.popupService.editTask(task);
+  }
+
+  deleteTask(id:any){
+    this.taskService.deleteTask(id);
+    this.popupService.closePopups();
   }
 
 

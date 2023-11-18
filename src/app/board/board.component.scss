@@ -1,15 +1,29 @@
 .h1-component {
     margin-bottom: 50px;
     margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .top {
     height: 15%;
 }
 
+.search {
+    display: flex;
+    height: 100%;
+}
+
 .content {
-    height: 80%;
+    height: 85%;
     width: 100%;
+}
+
+
+
+.searchbar {
+    width: 300px;
 }
 
 .status-container {

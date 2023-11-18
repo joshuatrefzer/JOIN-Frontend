@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
+
+
 import {
   CdkDragDrop,
   CdkDrag,
@@ -18,6 +20,8 @@ import { ContactService } from '../services/contact.service';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, OnDestroy {
+
+  search:string = '';
 
   constructor(
     public templateService: TemplateService,

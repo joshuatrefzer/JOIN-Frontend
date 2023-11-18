@@ -8,11 +8,21 @@
     width: 30%;
     height: 100%;
     border-right: rgba(208, 208, 208, 0.621) 1px solid;
+
+    @media (max-width:1000px) {
+        width: 100%;
+        border: none;
+    }
 }
+
 
 .contact-infos {
     width: 70%;
     height: 100%;
+
+    @media (max-width:1000px) {
+        width: 100%;
+    }
 }
 
 h1 {
@@ -20,7 +30,7 @@ h1 {
     font-weight: bold;
     margin: 0;
     padding-right: 10px;
-    border-right:#29ABE2 3px solid ;
+    border-right: #29ABE2 3px solid;
 }
 
 
@@ -54,6 +64,10 @@ h1 {
     gap: 10px;
 }
 
+.button-row {
+    height: 50px;
+}
+
 .show-contact {
     animation: show 200ms ease-in-out;
     left: 0;
@@ -68,6 +82,7 @@ h1 {
     0% {
         left: 100%;
     }
+
     100% {
         left: 0%;
     }
@@ -77,6 +92,7 @@ h1 {
     0% {
         left: 0%;
     }
+
     100% {
         left: 100%;
     }
@@ -152,6 +168,7 @@ h1 {
     padding: 10px;
     margin: 10px 0px;
     cursor: pointer;
+
     &:hover {
         box-shadow: 1px 1px 8px rgba(193, 193, 193, 0.599);
     }
@@ -173,12 +190,13 @@ h1 {
 }
 
 .selected-contact {
-    background-color:  rgba(217, 217, 217, 0.163);
+    background-color: rgba(217, 217, 217, 0.163);
     box-shadow: 1px 1px 8px rgba(193, 193, 193, 0.599);
 }
 
 .top-area {
-    height: 250px;
+    height: 350px;
+    justify-content: flex-start;
 }
 
 .contact-popup {
@@ -186,4 +204,27 @@ h1 {
     position: absolute;
     z-index: 100;
     filter: blur(-5px) !important;
+}
+
+.h1-component {
+    justify-content: flex-start;
+    @media (max-width:550px) {
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        margin-left: 0;
+        h1 {
+            border-right: none;
+            padding-bottom: 10px;
+            border-bottom: #29ABE2 4px solid;
+        }
+    }
+}
+
+.hide-infos {
+    @media (max-width:1000px) {
+        display: none !important;
+    }
+
 }

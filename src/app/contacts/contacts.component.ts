@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { User } from '../services/user.service';
 import { PoupService } from '../services/poup.service';
@@ -23,22 +23,43 @@ export class ContactsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.templateService.contacts = true;
     this.contactService.getContacts();
+    this.checkForMobileView();
+    if (this.mobile) {
+      this.showInfo = false;
+    }
   }
-  
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.checkForMobileView();
+  }
+
+  checkForMobileView(){
+    if (window.innerWidth < 1000) {
+      this.mobile = true;
+    } else {
+      this.mobile = false;
+      this.showInfo = false;
+    }
+  }
+
 
   ngOnDestroy(): void {
     this.templateService.contacts = false;
+    this.showInfo = false;
   }
 
+  showInfo: boolean = true;
+  mobile:boolean = true;
 
   showContactContainer: boolean = false;
   hideContactContainer: boolean = false;
-  deleteContact:boolean = false;
+  deleteContact: boolean = false;
 
   sortedContacts = this.contactService.contacts.sort((a, b) => a.first_name.localeCompare(b.first_name));
 
- 
-   groupContactsByLetter() {
+
+  groupContactsByLetter() {
     const groupedContacts: { [key: string]: Contact[] } = {};
 
     this.contactService.contacts.forEach(contact => {
@@ -52,7 +73,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return groupedContacts;
   }
 
-  
+
   getUniqueLetters() {
     const letters: string[] = [];
     this.contactService.contacts.forEach(contact => {
@@ -79,13 +100,18 @@ export class ContactsComponent implements OnInit, OnDestroy {
     const element = this.el.nativeElement.querySelector(`#contact${id}`);
     this.renderer.addClass(element, 'selected-contact');
     this.showContainer(id);
+    if(this.mobile) this.showInfo = true;
   }
 
-  delete() {
 
+
+
+
+  delete() {
     if (this.popupService.contactForView) {
       this.contactService.deleteContact(this.popupService.contactForView.id)
     }
+    this.showInfo = false;
   }
 
   showContainer(id: number) {

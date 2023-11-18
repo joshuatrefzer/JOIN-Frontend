@@ -9,7 +9,7 @@ export interface Task {
   title: string;
   description?: string;
   assigned_to?: [];
-  status?:string;
+  status?: string;
   date: Date;
   prio: string;
   category: string;
@@ -30,12 +30,12 @@ export class TaskService {
   tasks: Task[] = [];
   myTasks$: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
   url = environment.baseUrl + '/tasks/';
-  
 
-  todo:any = [];
-  inProgress:any = [];
-  awaitingFeedback:any = [];
-  done:any = [];
+
+  todo: any = [];
+  inProgress: any = [];
+  awaitingFeedback: any = [];
+  done: any = [];
 
 
   getTasks() {
@@ -62,8 +62,8 @@ export class TaskService {
     this.inProgress = [];
     this.awaitingFeedback = [];
     this.done = [];
-  
- 
+
+
     this.tasks.forEach(task => {
       if (task.status === 'todo') {
         this.todo.push(task);
@@ -78,40 +78,36 @@ export class TaskService {
   }
 
 
-  // Funktion so umschreiben, dass man auch als normales Objekt die Funktion benutzen kann.(Über Parameter)
-  updateTask(form: FormGroup, id: number) {
+  updateTask(task: any, id: number) {
+    debugger
     const url = `${this.url}${id}/`;
     const data: Task = {
-      title: form.value.title,
-      date: form.value.date,
-      prio: form.value.prio,
-      category: form.value.category,
+      title: task.title,
+      description: task.description,
+      assigned_to: task.assigned_to,
+      date: task.date,
+      prio: task.prio,
+      category: task.category,
+      subtasks: task.subtask,
     };
 
     this.http.put(url, data).subscribe(() => {
-      // Hier können Sie die aktualisierten Taskinfos verwenden, wenn Sie sie benötigen
-      const updatedIndex = this.tasks.findIndex(task => task.id === id);
-      if (updatedIndex !== -1) {
-        this.tasks[updatedIndex] = { id, ...data };
-      }
-      this.myTasks$.next(this.tasks); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+      this.getTasks();
     }, (error) => {
-      console.error('Fehler bei der Aktualisierung des Kontakts', error);
+      console.error('Fehler bei der Aktualisierung des Tasks', error);
     });
   }
+
+  
 
   updateTaskStatus(t: any, id: number) {
     const url = `${this.url}${id}/`;
     const data: Partial<Task> = {
-      status:t.status
+      status: t.status
     };
 
     this.http.patch(url, data).subscribe(() => {
-      // const updatedIndex = this.tasks.findIndex(task => task.id === id);
-      // if (updatedIndex !== -1) {
-      //   this.tasks[updatedIndex].status = t.status
-      // }
-      this.myTasks$.next(this.tasks); 
+      this.myTasks$.next(this.tasks);
     }, (error) => {
       console.error('Fehler bei der Aktualisierung des Tasks', error);
     });
@@ -134,20 +130,17 @@ export class TaskService {
       this.tasks.push(response);
       this.myTasks$.next(this.tasks);
       console.log(this.tasks);
-      
+
     }, (error) => {
       console.error('Contact was not added', error);
     });
   }
 
 
-
-  deleteContact(id: number) {
+  deleteTask(id: number) {
     const url = `${this.url}${id}/`;
     this.http.delete(url).subscribe(() => {
-      // Hier können Sie den gelöschten Task entfernen, wenn Sie dies benötigen
-      this.tasks = this.tasks.filter(task => task.id !== id);
-      this.myTasks$.next(this.tasks); // Aktualisieren Sie das BehaviorSubject mit den neuesten Daten
+      this.getTasks();
     }, (error) => {
       console.error('Fehler beim Löschen des Tasks', error);
     });

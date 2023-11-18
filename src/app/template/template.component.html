@@ -1,7 +1,7 @@
 <!-- sidemenu -->
-<div class="side-menu linear-gradient">
+<div [ngClass]="{'linear-gradient': !templateService.mobileview}" class="side-menu linear-gradient">
 
-    <div class="logo-container">
+    <div *ngIf="!templateService.mobileview" class="logo-container">
         <img class="logo center-absolute" src="assets/img/join-logo.png" alt="">
     </div>
 
@@ -62,7 +62,7 @@
             </a>
         </div>
 
-        <div class="links-bottom">
+        <div *ngIf="!templateService.mobileview" class="links-bottom">
             <a (click)="updateLink('legals')" routerLink="/legals" [ngClass]="{'selected-link' : legals}">Privacy policy | Legal notice</a>
             
         </div>
@@ -74,7 +74,8 @@
 
 <!-- header -->
 <header class="grey-underline">
-    <div class="user-icon center"><span class="initials center ">GA</span></div>
+    <div *ngIf="userService.currentUser" class="user-icon center"><span class="initials center ">{{ getFirstLetter(userService.currentUser.username) }}</span></div>
+    <div *ngIf="!userService.currentUser" class="user-icon center"><span class="initials center ">U</span></div>
 </header>
 
 

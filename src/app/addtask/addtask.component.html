@@ -13,7 +13,7 @@
 
 
 
-        <form (ngSubmit)="onSubmit()" [formGroup]="addTaskForm" class="center">
+        <form (ngSubmit)="onSubmit(0)" [formGroup]="addTaskForm" class="center">
 
             <div class="left-container center-column">
 
@@ -42,10 +42,9 @@
                     <span class="field-name color-primary">Assigned to</span>
                     <mat-form-field appearance="outline">
                         <mat-label>choose contact</mat-label>
-                        <mat-select formControlName="assigned_to" multiple>
-                            <mat-option click="assigneContact(contact)" *ngFor="let contact of contactService.contacts" value="{{ contact.id }}">{{
+                        <mat-select (selectionChange)="assigneContact()" formControlName="assigned_to" multiple>
+                            <mat-option *ngFor="let contact of contactService.contacts" value="{{ contact.id }}">{{
                                 contact.first_name }} {{ contact.last_name }}</mat-option>
-
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -196,14 +195,16 @@
     </div>
 
 
-
-
     <div class="bottom">
         <div class="bottom-left color-primary"><span class="required">*</span>This field is required</div>
-        <div class="bottom-right">
+        <div *ngIf="!popupService.taskToEdit" class="bottom-right">
             <div type="button" (click)="resetForm()" class="button button-1">Clear</div>
-            <div (click)="onSubmit()" type="submit" [ngClass]="{'valid':addTaskForm.valid}"
-                class="button-2 submit">Create Task</div>
+            <div (click)="onSubmit(0)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit">Create Task</div>
+        </div>
+
+        <div *ngIf="popupService.taskToEdit" class="bottom-right">
+            <div type="button" (click)="deleteTask(popupService.taskToEdit.id)" class="button button-1"><mat-icon>trash</mat-icon> Delete</div>
+            <div (click)="changeTask(popupService.taskToEdit)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit"><mat-icon>save</mat-icon> Save</div>
         </div>
     </div>
 </div>

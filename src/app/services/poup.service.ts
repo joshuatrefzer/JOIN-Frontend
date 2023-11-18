@@ -15,9 +15,8 @@ export class PoupService {
   addContact:boolean = false;
   editContact:boolean = false;
   contactForView: Contact | null = null;
-  taskToEdit:{} | Task = {};
+  taskToEdit: Task | null = null;
   
-
   taskPopupForView:Task |null = null;
   taskPopupContacts:Contact[] = []; 
   taskPopupSubtasks:SubTask[] = []; 
@@ -40,10 +39,10 @@ export class PoupService {
     this.taskPopupSubtasks = subtasks;
   }
 
-
-  editTask() {
+  // Wenn die Funktion aufgerufen wird, sollte die Variable noch gefüllt sein. 
+  editTask(task:any) {
     this.behindPopupContainer = true;
     this.editTaskPopup = true;
+    this.taskToEdit = task;
   }
-
 }

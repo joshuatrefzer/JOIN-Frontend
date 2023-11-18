@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -7,7 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
-  public loginForm: FormGroup = new FormGroup({
+  public signUpForm: FormGroup = new FormGroup({
 
     email: new FormControl('', [
       Validators.required,
@@ -16,24 +18,38 @@ export class SignUpComponent {
 
     password: new FormControl('', [
       Validators.required
-    ] , [] ),
+    ], []),
 
-    lastname: new FormControl('', [
+    username: new FormControl('', [
       Validators.required
-    ] , [] ),
+    ], []),
 
-    firstname: new FormControl('', [
-      Validators.required
-    ] , [] ),
-    
   });
 
-onSubmit() {
-throw new Error('Method not implemented.');
-}
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router
+  ) { }
 
-redirectToLogin() {
-  //implementieren!
-}
+  onSubmit() {
+    this.signUp();
+  }
+
+  signUp() {
+    this.authService.signUp(this.signUpForm.value).subscribe(
+      response => {
+        //Token speichern im LS
+        console.log(response);
+        // this.redirectToLogin();
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  redirectToLogin() {
+    this.router.navigate(['/login']);
+  }
 
 }

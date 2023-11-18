@@ -4,6 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TemplateService {
+
+  mobileview: boolean = false;
+
+
   summary: boolean = false;
   addTask: boolean = false;
   board: boolean = false;

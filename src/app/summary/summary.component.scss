@@ -1,9 +1,3 @@
-.body {
-    background-color: rgba(233, 233, 233, 0.487);
-    display: flex;
-    flex-direction: column;
-}
-
 .greeting-animation-mobile {
     display: none;
     position: absolute;
@@ -34,9 +28,26 @@ a {
     margin-left: 110px;
 }
 
+.headline {
+    padding-right: 20px;
+    border-right: #2aaae2 2px solid;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    @media (max-width:580px) {
+        border-right: none;
+        border-bottom: #2aaae2 4px solid;
+        padding-bottom: 10px;
+
+    }
+
+}
+
 .text-light {
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 200;
+    margin-top: 10px;
 }
 
 .summary-content {
@@ -47,7 +58,6 @@ a {
 }
 
 .summary-elements {
-    width: 60%;
     height: 500px;
     display: flex;
     flex-direction: column;
@@ -63,6 +73,7 @@ a {
     align-items: center;
     justify-content: center;
     text-align: center;
+    box-shadow: 1px 1px 10px lightgray;
 }
 
 .tasks:hover {
@@ -107,6 +118,12 @@ a {
 
 .position-relative {
     position: relative;
+    background-color: #2A3647;
+    padding: 10px;
+    border-radius: 100%;
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
 }
 
 
@@ -323,8 +340,8 @@ a {
 @media (min-width: 2300px) {
 
     .summary-elements {
-       margin-top: 150px;
-       margin-left: 50px;
+        margin-top: 150px;
+        margin-left: 50px;
         scale: 1.5;
         width: 30%;
     }
@@ -336,8 +353,91 @@ a {
     }
 }
 
+mat-icon {
+    color: white;
+}
+
 .pencil {
     path {
         fill: white;
     }
+
+    mat-icon {
+        color: white;
+    }
+
+    &:hover {
+        path {
+            fill: #2A3647;
+        }
+
+        mat-icon {
+            color: #2A3647;
+        }
+
+        .position-relative {
+            background-color: white;
+        }
+    }
 }
+
+
+.top {
+    height: 15%;
+    display: flex;
+
+    @media (max-width:1200px) {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.content {
+    height: 85%;
+    width: 100%;
+    display: flex;
+}
+
+.left {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    @media (max-width:1200px) {
+        width: 100% !important;
+        justify-content: center;
+    }
+}
+
+.right {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+}
+
+.main-container {
+    margin: 40px 0px;
+    margin-left: 120px;
+    width: calc(100% - 120px);
+    height: 95%;
+
+    @media (max-width:1200px) {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+}
+
+.h1-component {
+    margin-top: 80px !important;
+    @media (max-width:580px){
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width:1200px) {}

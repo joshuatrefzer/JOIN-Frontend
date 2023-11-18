@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 
 export interface User {
   id:number;
-  first_name:string;
-  last_name:string;
+  username:string;
   email:string;
-  phone:string;
-  active:boolean;
+  token:string;
 }
 
 @Injectable({
@@ -14,9 +12,13 @@ export interface User {
 })
 
 export class UserService {
-  login(user: User) {
-    throw new Error('Method not implemented.');
-  }
+  
+  public currentUser:any = {
+    "username": 'GuestUser',
+  
+  };
+
+  
 
   constructor() { }
 }

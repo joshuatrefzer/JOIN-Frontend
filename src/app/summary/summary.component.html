@@ -1,89 +1,116 @@
-<div class="h1-component">
-    <h1>Summary</h1>
-</div>
-
-<div class="summary-content">
-    <div class="summary-elements">
-        <div class="summary-child-container">
-            <a href="/board/boardIndex.html" class="tasks task-little">
-                <h1 id="tasks-in-board">{{ taskService.tasks.length }}</h1>
-                <div class="text-light">Tasks in<br>Board</div>
-            </a>
-            <a href="/board/boardIndex.html" class="tasks task-little">
-                <h1 id="inProgressTask">{{ taskService.inProgress.length }}</h1>
-                <div class="text-light">Tasks in<br>Progress</div>
-            </a>
-            <a href="/board/boardIndex.html" class="tasks task-little">
-                <h1 id="awaitingFeedbackTask">{{ taskService.awaitingFeedback.length }}</h1>
-                <div class="text-light">Awaiting<br>Feedback</div>
-            </a>
+<div class="main-container">
+    <div class="top">
+        <div class="h1-component ">
+            <h1 class="headline">JOIN 360</h1>
+            <div style="padding-left: 20px; height:100%" class="center text-light">Key Metrics at a Glance</div>
         </div>
+    </div>
 
-        <!--Zweite Reihe (ein Container)-->
+    <div class="content">
 
-        <div class="summary-child-container">
-            <a class="tasks width-100" style="justify-content: space-around; position: relative;">
-                <div class="summary-priority">
-                    <img src="" alt="">
-                    <div style="margin-left: 10px;">
-                        <div>
-                            <h1 id="urgent">{{ lenghtUrgentTasks }}</h1>
-                        </div>
-                        <div class="text-light">Urgent</div>
+
+        <div class="left">
+            <div class="summary-content">
+                <div class="summary-elements">
+                    <div class="summary-child-container">
+                        <a href="/board/boardIndex.html" class="tasks task-little">
+                            <h1 id="tasks-in-board">{{ taskService.tasks.length }}</h1>
+                            <div class="text-light">Tasks in<br>Board</div>
+                        </a>
+                        <a href="/board/boardIndex.html" class="tasks task-little">
+                            <h1 id="inProgressTask">{{ taskService.inProgress.length }}</h1>
+                            <div class="text-light">Tasks in<br>Progress</div>
+                        </a>
+                        <a href="/board/boardIndex.html" class="tasks task-little">
+                            <h1 id="awaitingFeedbackTask">{{ taskService.awaitingFeedback.length }}</h1>
+                            <div class="text-light">Awaiting<br>Feedback</div>
+                        </a>
+                    </div>
+
+                    <!--Zweite Reihe (ein Container)-->
+
+                    <div class="summary-child-container">
+                        <a class="tasks width-100" style="justify-content: space-around; position: relative;">
+                            <div class="summary-priority">
+                                <img  style="height: 30px;" src="assets/img/urgent.svg" alt="">
+                                <div style="margin-left: 10px;">
+                                    <div>
+                                        <h1 id="urgent">{{ lenghtUrgentTasks }}</h1>
+                                    </div>
+                                    <div class="text-light">Urgent</div>
+                                </div>
+                            </div>
+                            <div class="summary-date">
+                                <div><b id="summary-date">{{ getNextDate() }}</b></div>
+                                <div>Upcoming deadline</div>
+                            </div>
+                            <img class="grey-line" src="" alt="">
+                        </a>
+                    </div>
+
+                    <!--dritte Reihe (zwei Container)-->
+
+                    <div class="summary-child-container">
+
+                        <a routerLink="/board/" class="tasks width-50 pencil">
+                            <div class="position-relative center">
+
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="#2A3647"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M3.16667 22.3332H5.03333L16.5333 10.8332L14.6667 8.9665L3.16667 20.4665V22.3332ZM22.2333 8.89984L16.5667 3.29984L18.4333 1.43317C18.9444 0.922059 19.5722 0.666504 20.3167 0.666504C21.0611 0.666504 21.6889 0.922059 22.2 1.43317L24.0667 3.29984C24.5778 3.81095 24.8444 4.42761 24.8667 5.14984C24.8889 5.87206 24.6444 6.48873 24.1333 6.99984L22.2333 8.89984ZM20.3 10.8665L6.16667 24.9998H0.5V19.3332L14.6333 5.19984L20.3 10.8665Z"
+                                        fill="#2A3647" />
+                                </svg>
+                            </div>
+
+                            <div style="margin-left: 10px;">
+                                <h1 id="todoTask">{{ taskService.todo.length }}</h1>
+                                <div class="text-light">To do</div>
+                            </div>
+                        </a>
+
+                        <a href="" class="tasks width-50 pencil">
+                            <div class="position-relative center">
+                               <mat-icon>done_outline</mat-icon>
+
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <h1 id="doneTask">{{ taskService.done.length }}</h1>
+                                <div class="text-light">Done</div>
+                            </div>
+                        </a>
+
                     </div>
                 </div>
-                <div class="summary-date">
-                    <div><b id="summary-date">Oktober 16, 2023</b></div>
-                    <div>Upcoming deadline</div>
+
+                <div id="greeting" class="greeting-container d-none-mobile-sum">
+                    <div class="greeting">
+                        <span id="greeting-container"></span>
+                        <span class="h1 blue-text">
+                            <h1 id="profileName"></h1>
+                        </span>
+                    </div>
                 </div>
-                <img class="grey-line" src="" alt="">
-            </a>
+
+            </div>
         </div>
 
-        <!--dritte Reihe (zwei Container)-->
-
-        <div class="summary-child-container">
-
-            <a href="" (mouseover)="hoverLeftButton()" (mouseleave)="hoverOffLeftButton()" class="tasks width-50 pencil">
-                <div class="position-relative">
-                    <img id="button-hover0" src="" alt="">
-
-                    <svg width="25" height="25" viewBox="0 0 25 25" fill="#2A3647" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M3.16667 22.3332H5.03333L16.5333 10.8332L14.6667 8.9665L3.16667 20.4665V22.3332ZM22.2333 8.89984L16.5667 3.29984L18.4333 1.43317C18.9444 0.922059 19.5722 0.666504 20.3167 0.666504C21.0611 0.666504 21.6889 0.922059 22.2 1.43317L24.0667 3.29984C24.5778 3.81095 24.8444 4.42761 24.8667 5.14984C24.8889 5.87206 24.6444 6.48873 24.1333 6.99984L22.2333 8.89984ZM20.3 10.8665L6.16667 24.9998H0.5V19.3332L14.6333 5.19984L20.3 10.8665Z"
-                            fill="#2A3647" />
-                    </svg>
-
-
-
-                </div>
-                <div style="margin-left: 10px;">
-                    <h1 id="todoTask">{{ taskService.todo.length }}</h1>
-                    <div class="text-light">To do</div>
-                </div>
-            </a>
-
-            <a href="" class="tasks width-50">
-                <div class="position-relative">
-                    <img id="button-hover1" src="" alt="">
-                    <img id="check-icon-hover" class="button-content-img position-btn-right" src="" alt="">
-                </div>
-                <div style="margin-left: 10px;">
-                    <h1 id="doneTask">{{ taskService.done.length }}</h1>
-                    <div class="text-light">Done</div>
-                </div>
-            </a>
-
+        <div *ngIf="!templateService.mobileview" class="right">
+            <div class="">
+                <h1 class="color-secondary">{{ greeting }}</h1><br>
+                <div class="text-light">{{ userService.currentUser.username }}</div>
+            </div>
         </div>
+
     </div>
 
-    <div id="greeting" class="greeting-container d-none-mobile-sum">
-        <div class="greeting">
-            <span id="greeting-container"></span>
-            <span class="h1 blue-text">
-                <h1 id="profileName"></h1>
-            </span>
-        </div>
-    </div>
+
+
+
+
+
+
+
+
 
 </div>

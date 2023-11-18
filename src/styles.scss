@@ -15,6 +15,10 @@
     color: #2A3647;
 }
 
+.color-secondary {
+    color: #29ABE2;
+}
+
 .color-white {
     color: white;
 }
@@ -48,6 +52,11 @@
         font-weight: bold;
         margin: 0;
     }
+    
+    @media (max-width:1200px){
+        justify-content: center;
+    }
+    
 }
 
 .h1 {

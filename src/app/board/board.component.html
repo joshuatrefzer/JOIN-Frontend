@@ -2,6 +2,21 @@
     <div class="top">
         <div class="h1-component">
             <h1>Board</h1>
+            <div class="search">
+                <mat-form-field appearance="outline" class="searchbar">
+                    <mat-label>Search Task..</mat-label>
+                    <input matInput type="text" [(ngModel)]="search">
+        
+                    <div class="text-btn" style="margin-right: 10px;" *ngIf="search.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="search=''">
+                        <mat-icon>search</mat-icon>
+                    </div>
+        
+                </mat-form-field>
+
+                <div class="button-1"><mat-icon>add</mat-icon> Add Task</div>
+
+            </div>
+        
         </div>
     </div>
     <div cdkDropListGroup class="content display-flex">
@@ -30,8 +45,8 @@
             </div>
 
 
-            <div cdkDropList [cdkDropListData]="taskService.inProgress" (cdkDropListDropped)="drop($event , 'inProgress')"
-                class="drop-container center-column">
+            <div cdkDropList [cdkDropListData]="taskService.inProgress"
+                (cdkDropListDropped)="drop($event , 'inProgress')" class="drop-container center-column">
                 <div class="example-box" *ngFor="let item of taskService.inProgress" cdkDrag>
                     <app-task [task]="item"></app-task>
                 </div>
@@ -47,8 +62,8 @@
 
 
 
-            <div cdkDropList [cdkDropListData]="taskService.awaitingFeedback" (cdkDropListDropped)="drop($event , 'awaitingFeedback')"
-                class="drop-container center-column">
+            <div cdkDropList [cdkDropListData]="taskService.awaitingFeedback"
+                (cdkDropListDropped)="drop($event , 'awaitingFeedback')" class="drop-container center-column">
                 <div class="example-box" *ngFor="let item of taskService.awaitingFeedback" cdkDrag>
                     <app-task [task]="item"></app-task>
                 </div>

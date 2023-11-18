@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="contact-list center-column">
+    <div *ngIf="!showInfo" class="contact-list center-column">
 
         <!-- Add Contact Button -->
         <div (click)="openAddContactPopup()" class="button-1 add-contact-button">
@@ -18,7 +18,7 @@
         </div>
 
         <!-- contact-list -->
-        <div class="list center-column">
+        <div class="list center-column ">
             <div class="contact-container" *ngFor="let letter of getUniqueLetters()">
                 <div class="letter">{{ letter }}</div>
 
@@ -45,7 +45,8 @@
 
 
 
-    <div class="contact-infos">
+    <div [ngClass]="{'hide-infos': !showInfo}" class="contact-infos">
+        <img  *ngIf="showInfo" (click)="showInfo = false" style="height: 35px;" class="close" src="assets/img/arrow-left.svg" alt="">
         <div class="h1-component">
             <h1>Contacts</h1>
             <span class="undertitle">better with a team</span>
@@ -58,12 +59,12 @@
                     <div class="user-icon-contact user-icon center">{{
                         popupService.contactForView?.first_name?.charAt(0)?.toUpperCase()}}{{
                         popupService.contactForView?.last_name?.charAt(0)?.toUpperCase()}}</div>
-                    <div class="center-column box">
+                    <div class="center-column box button-and-headline">
                         <span style="font-size: 40px;">{{ popupService.contactForView?.first_name}} {{
                             popupService.contactForView?.last_name}}</span>
 
                         <!-- buttons -->
-                        <div class="display-flex">
+                        <div class="display-flex button-row">
                             <div (click)="openEditContactPopup()"
                                 class="center button-container text-btn color-primary">
                                 <img style="height: 20px;" src="assets/img/edit.png" alt="">

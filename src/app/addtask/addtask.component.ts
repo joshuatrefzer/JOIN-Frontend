@@ -2,8 +2,8 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@ang
 import { TemplateService } from '../services/template.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Contact, ContactService } from '../services/contact.service';
-import { SubtaskService } from '../services/subtask.service';
-import { TaskService } from '../services/task.service';
+import { SubTask, SubtaskService } from '../services/subtask.service';
+import { Task, TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   buttons = ['urgent', 'medium', 'low'];
 
+
   myFilter = (d: Date | null): boolean => {
     const today = new Date();
     d = d || today;
@@ -26,34 +27,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   subtasksForSubmit: any = []
 
   assigned_contacts: any = [];
-
-
-
-  constructor(
-    public templateService: TemplateService,
-    public contactService: ContactService,
-    public popupService: PoupService,
-    public subtaskService: SubtaskService,
-    public taskService: TaskService,
-    private renderer: Renderer2, private el: ElementRef
-
-  ) { }
-
-
-  ngOnInit(): void {
-    if (!this.popupService.addTaskPopup) this.templateService.addTask = true;
-    this.popupService.editTaskPopup ? this.fillForm() : null;
-
-    this.contactService.getContacts();
-    this.subtaskService.getSubTasks();
-    this.resetForm();
-  }
-
-  ngOnDestroy(): void {
-    this.templateService.addTask = false;
-
-  }
-
   selected: string = '';
 
   public addTaskForm: FormGroup = new FormGroup({
@@ -76,39 +49,87 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     prio: new FormControl(''),
   });
 
-  fillForm() {
-    debugger
-    const task = this.popupService.taskPopupForView;
-    // this.subtasksforView = this.popupService.taskPopupSubtasks;
-    this.addTaskForm.get('title')?.setValue(`${task?.title}`);
-    this.addTaskForm.get('description')?.setValue(`${task?.description}`);
-    this.addTaskForm.get('assigned_to')?.setValue(`${task?.assigned_to}`);
-    this.addTaskForm.get('date')?.setValue(`${task?.date}`);
-    this.addTaskForm.get('prio')?.setValue(`${task?.prio}`);
-    this.addTaskForm.get('category')?.setValue(`${task?.category}`);
-    this.addTaskForm.get('subtasks')?.setValue(`${task?.subtasks}`);
+
+  constructor(
+    public templateService: TemplateService,
+    public contactService: ContactService,
+    public popupService: PoupService,
+    public subtaskService: SubtaskService,
+    public taskService: TaskService,
+    private renderer: Renderer2, private el: ElementRef
+  ) { }
+
+
+  ngOnInit(): void {
+    this.resetForm();
+    if (!this.popupService.addTaskPopup) this.templateService.addTask = true;
+    this.popupService.editTaskPopup ? this.fillForm() : null;
+    this.contactService.getContacts();
+    this.subtaskService.getSubTasks();
   }
 
 
-  
-  onSubmit() {
+
+  ngOnDestroy(): void {
+    this.templateService.addTask = false;
+  }
+
+
+
+
+  fillForm() {
+    const task = this.popupService.taskToEdit;
+
+    this.addTaskForm.get('title')?.setValue(`${task?.title}`);
+    this.addTaskForm.get('description')?.setValue(`${task?.description}`);
+    this.fillContacts(task?.assigned_to);
+    this.addTaskForm.get('date')?.setValue(`${task?.date}`);
+    if (task) this.selectPrio(task.prio);
+    this.addTaskForm.get('category')?.setValue(`${task?.category}`);
+    this.subtasksforView = this.fillSubTasks(task?.subtasks);
+    console.log('taskform', this.addTaskForm, 'task:', task);
+  }
+
+
+  fillContacts(assigned_contacts: any) {
+    let contacts: any = [];
+    assigned_contacts.forEach((id: number) => {
+      this.addTaskForm.value.assigned_to.push(`${id}`);
+    })
+  }
+
+
+  fillSubTasks(subtasks: any) {
+    const st: SubTask[] = [];
+    subtasks.forEach((id: number) => {
+      let index = this.subtaskService.subTasks.findIndex((task: SubTask) => task.id === id);
+      if (index !== -1) {
+        st.push(this.subtaskService.subTasks[index]);
+      }
+    })
+    return st;
+  }
+
+
+  onSubmit(id: any) {
     if (!this.addTaskForm.valid) {
       console.log('Fülle die Form aus');
       return;
     }
-
-    this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
+    if (id == 0) this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
     if (this.subtasksforView.length >= 1) {
       for (const subtask of this.subtasksforView) {
         this.subtasksForSubmit.push(`${subtask.id}`);
       }
     }
     this.addTaskForm.value.subtask = this.subtasksForSubmit;
-    this.taskService.addTask(this.addTaskForm)
-    //send to backend
-    this.subtaskService.mySubTasks$.subscribe(() => {
+    if (id !== 0) this.taskService.updateTask(this.addTaskForm.value, id);
+    if (id == 0) this.taskService.addTask(this.addTaskForm);
+
+    this.taskService.myTasks$.subscribe(() => {
       this.subtasksForSubmit = [];
       this.subtasksforView = [];
+      this.resetForm();
     });
   }
 
@@ -143,8 +164,8 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
 
-  assigneContact(contact: Contact) {
-    this.assigned_contacts.push(contact);
+  assigneContact() {
+    console.log(this.addTaskForm.value.assigned_to);
 
   }
 
@@ -152,6 +173,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     // this.subtaskService.deleteSubTask(task.id)
     this.subtasksforView.splice(i, 1);
   }
+
 
 
   selectPrio(prio: string) {
@@ -198,35 +220,14 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteTask(id: any) {
+    this.taskService.deleteTask(id);
+    this.popupService.closePopups();
+  }
 
-  // addNewSubtask() {
-  //   const SubTaskValue = this.addTaskForm.value.subtask;
-  //   this.addTaskForm.get('subtask')?.setValue('');
-  //   this.subtaskService.addSubTask(SubTaskValue);
-  //   this.subtaskService.mySubTasks$.subscribe(() => {
-  //     const subTasks = this.subtaskService.subTasks;
-  //     let existingSubtask;
-  //     //Probleme -> Beim löschen wird hier auch aufgerufen und andere Werte mit gleichem Titel kommen nach.. (subscribtion)
-  //     //Das hinzugefügte objekt taucht in der SChleife noch nicht auf und es wird (wenn vorhanden) auf einen späteren Wert zugegriffen
-
-  //     for (let i = this.subtaskService.subTasks.length - 1; i >= 0; i--) {
-  //       if (this.subtaskService.subTasks[i].title === SubTaskValue) {
-  //         debugger
-  //         existingSubtask = subTasks[i];
-  //         break; // Breche die Schleife ab, sobald der gesuchte Wert gefunden wurde
-  //       }
-  //     }
-  //     if (existingSubtask && existingSubtask.id !== undefined) {
-  //       if (!this.subtasksforView.includes(existingSubtask)) {
-  //         this.subtasksforView.push(existingSubtask);
-  //       }
-  //     }
-  //   });
-  // }
-
-
-
-
-
+  changeTask(task: any) {
+    this.onSubmit(task.id)
+    this.popupService.closePopups();
+  }
 
 }

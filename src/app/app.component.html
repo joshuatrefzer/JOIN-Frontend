@@ -41,8 +41,9 @@
     </div>
 
     <div class="popup-contact-middle center">
-        <div class="person-icon center">
-            AS
+        <div *ngIf="popupService.contactForView" class="person-icon center">
+            {{ popupService.contactForView.first_name.charAt(0).toUpperCase() }}
+            {{ popupService.contactForView.last_name.charAt(0).toUpperCase() }}
         </div>
     </div>
 
