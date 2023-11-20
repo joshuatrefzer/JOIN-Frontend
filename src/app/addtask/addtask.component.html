@@ -2,7 +2,7 @@
 <div class="main-container center-column">
 
     <div class="top">
-        <div *ngIf="!popupService.addTaskPopup" class="h1-component">
+        <div *ngIf="!popupService.addTaskPopup" class="h1-component popup-headline">
             <h1>{{ headline }}</h1>
         </div>
 
@@ -171,7 +171,7 @@
                             mat-icon-button aria-label="Check" (click)="addNewSubtask()">
                             <mat-icon>check</mat-icon>
                         </button>
-                        <button class="subtask-button" type="button" *ngIf="addTaskForm.get('subtask')?.value" matSuffix
+                        <button class="subtask-button btn-hide" type="button" *ngIf="addTaskForm.get('subtask')?.value" matSuffix
                             mat-icon-button aria-label="Clear" (click)="addTaskForm.get('subtask')?.setValue('')">
                             <mat-icon>close</mat-icon>
                         </button>
