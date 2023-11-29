@@ -130,6 +130,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       this.subtasksForSubmit = [];
       this.subtasksforView = [];
       this.resetForm();
+      this.popupService.closePopups();
     });
   }
 

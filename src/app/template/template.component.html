@@ -74,12 +74,20 @@
 
 <!-- header -->
 <header class="grey-underline">
-    <div *ngIf="userService.currentUser" class="user-icon center"><span class="initials center ">{{ getFirstLetter(userService.currentUser.username) }}</span></div>
-    <div *ngIf="!userService.currentUser" class="user-icon center"><span class="initials center ">U</span></div>
+    <img class="mobile-logo" src="assets/img/join-dark.svg" *ngIf="templateService.mobileview" alt="">
+    <div (click)="togglePopup()"  *ngIf="userService.currentUser" class="user-icon center"><span class="initials center ">{{ getFirstLetter(userService.currentUser.username) }}</span></div>
+    <div (click)="togglePopup()" *ngIf="!userService.currentUser" class="user-icon center"><span class="initials center ">U</span></div>
 </header>
 
 
 
 <div class="router-container">
     <router-outlet></router-outlet>
+    <div *ngIf="templateService.logOutMenu" (click)="templateService.logOutMenu = false" class="behind-popup"></div>
+    <div [ngClass]="{'show-logout': templateService.logOutMenu}" class="logout-popup center-column">
+        <div class="row  text-btn"><span>About JOIN</span></div>
+        <div *ngIf="templateService.mobileview" class="row"><span>Legals</span></div>
+        <div (click)="logOut()" class="row  text-btn"><span>Log out</span></div>
+    </div>
+
 </div>

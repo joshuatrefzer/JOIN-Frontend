@@ -5,15 +5,15 @@
             <div class="search">
                 <mat-form-field appearance="outline" class="searchbar">
                     <mat-label>Search Task..</mat-label>
-                    <input matInput type="text" [(ngModel)]="search">
+                    <input matInput type="text" (keydown)="searchTask()" [(ngModel)]="search">
         
-                    <div class="text-btn" style="margin-right: 10px;" *ngIf="search.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="search=''">
-                        <mat-icon>search</mat-icon>
+                    <div class="text-btn" style="margin-right: 10px;" *ngIf="search.length > 0" matSuffix mat-icon-button (click)="search =''; searchTask()">
+                        <mat-icon>close</mat-icon>
                     </div>
         
                 </mat-form-field>
 
-                <div class="button-1"><mat-icon>add</mat-icon> Add Task</div>
+                <div (click)="addTaskPopup('Todo')" class="button-1 add-task-button"><mat-icon>add</mat-icon> <span *ngIf="!templateService.mobileview" >Add Task</span></div>
 
             </div>
         
@@ -23,7 +23,7 @@
 
         <div class="status-container column-center">
             <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('Todo')"><mat-icon>add</mat-icon></div>
+                <div class="center add text-btn" (click)="addTaskPopup('todo')"><mat-icon>add</mat-icon></div>
                 <span>ToDo</span>
             </div>
 
@@ -40,7 +40,7 @@
 
         <div class="status-container column-center">
             <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('in_progress')"><mat-icon>add</mat-icon></div>
+                <div class="center add text-btn" (click)="addTaskPopup('inProgress')"><mat-icon>add</mat-icon></div>
                 <span>In progress</span>
             </div>
 
@@ -55,7 +55,7 @@
 
         <div class="status-container column-center">
             <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('awaiting_feedback')"><mat-icon>add</mat-icon>
+                <div class="center add text-btn" (click)="addTaskPopup('awaitingFeedback')"><mat-icon>add</mat-icon>
                 </div>
                 <span>Awaiting Feedback</span>
             </div>

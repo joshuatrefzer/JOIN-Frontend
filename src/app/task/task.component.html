@@ -34,3 +34,14 @@
 <div class="more text-btn" (click)="popupService.showTaskPopup(task, subtasks, contacts)">
     <b>...</b>
 </div>
+
+<div class="move center" (click)="moveTaskPopup()">
+    <mat-icon class="text-btn">import_export</mat-icon>
+</div>
+
+<div *ngIf="openMoveTaskPopup" class="popup-move">
+    <div class="selection center color-secondary" (click)="moveTask('todo')">Todo</div>
+    <div class="selection center  color-secondary" (click)="moveTask('inProgress')">In Progress</div>
+    <div class="selection center color-secondary" (click)="moveTask('awaitingFeedback')">Awaiting Feedback</div>
+    <div class="selection center color-secondary" (click)="moveTask('done')">Done</div>
+</div>

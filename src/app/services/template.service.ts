@@ -14,6 +14,8 @@ export class TemplateService {
   contacts: boolean = false;
   legals: boolean = false;
 
+  logOutMenu:boolean = false;
+
 
   updateLink(link:string) {
     this.resetLinks()

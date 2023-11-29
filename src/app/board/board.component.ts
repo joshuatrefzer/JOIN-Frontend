@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TemplateService } from '../services/template.service';
-import { TaskService } from '../services/task.service';
+import { Task, TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
 
 
@@ -21,7 +21,9 @@ import { ContactService } from '../services/contact.service';
 })
 export class BoardComponent implements OnInit, OnDestroy {
 
-  search:string = '';
+search:string = '';
+
+taskListForSearch:Task[] = [];
 
   constructor(
     public templateService: TemplateService,
@@ -54,6 +56,10 @@ export class BoardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.templateService.board = true;
     this.taskService.getTasks();
+    this.taskService.myTasks$.subscribe(() =>{
+      this.taskListForSearch = this.taskService.tasks;
+    });
+    
   }
 
 
@@ -66,6 +72,23 @@ export class BoardComponent implements OnInit, OnDestroy {
   addTaskPopup(status: string) {
     this.popupService.behindPopupContainer = true;
     this.popupService.addTaskPopup = true;
+    this.taskService.status = status;
+  }
+
+
+  searchTask(){
+    const filteredTasksTodo = this.taskService.tasks.filter( task => {
+      return task.title.toLowerCase().includes(this.search.toLowerCase());
+    });
+    this.taskService.tasks = filteredTasksTodo;
+   this.checkSearchinput();
+    this.taskService.sortTasks();
+  }
+
+  checkSearchinput(){
+    if (this.search == '') {
+      this.taskService.tasks = this.taskListForSearch;
+    }
   }
 
 }

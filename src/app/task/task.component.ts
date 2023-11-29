@@ -17,6 +17,7 @@ export class TaskComponent implements OnInit, OnChanges {
   subtasks: SubTask[] = [];
   progressBarValue: number = 0;
   count: number = 0;
+  openMoveTaskPopup:boolean = false;
 
   constructor(
     public taskService: TaskService,
@@ -79,6 +80,16 @@ export class TaskComponent implements OnInit, OnChanges {
       }
     });
     this.doneSubtasks();
+  }
+
+  moveTaskPopup(){
+    this.openMoveTaskPopup = true;
+  }
+
+  moveTask(status:string){
+    this.task.status = status;
+    this.taskService.updateTaskStatus(this.task , this.task.id);
+    this.openMoveTaskPopup = false;
   }
 
 

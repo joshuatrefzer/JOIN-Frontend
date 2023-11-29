@@ -16,6 +16,7 @@ export class AuthenticationService {
   forgotPassword:boolean = false;
   userIsLoggedIn:boolean = false;
 
+
   constructor(private http: HttpClient) { }
 
   signUp(userData: any): Observable<any> {
@@ -27,7 +28,5 @@ export class AuthenticationService {
     let url = this.baseurl + '/login/';
     return this.http.post<any>(url, userData);
   }
-
-  
 
 }

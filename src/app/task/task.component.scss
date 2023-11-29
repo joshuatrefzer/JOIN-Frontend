@@ -26,3 +26,56 @@
     font-size: 15px;
     color: grey;
 }
+
+.move {
+    position: absolute;
+    top: 35px;
+    right: 5px;
+    display: none;
+   
+    &:hover {
+        .hint {
+            display: block;
+        }
+    }
+    @media (max-width:1200px){
+        display: flex;
+    }
+}
+
+.hint {
+    z-index: 20;
+    display: none;
+    opacity: 1 !important;
+    right: -60px;
+    font-size: 10px;
+    padding: 3px;
+    background-color: white;
+    box-shadow: 1px 1px 10px grey;
+    position: absolute;
+    width: 50px;
+    border-radius: 10px;
+}
+
+.popup-move {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color:#f9f9f9;
+    z-index: 30;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.selection {
+    margin: 10px;
+    height: calc(50% - 20px);
+    width: calc(50% - 20px);
+    font-size: 15px;
+    background-color: #2A3647;
+    box-shadow: 1px 1px 10px lightgrey;
+    border-radius: 10px;
+}

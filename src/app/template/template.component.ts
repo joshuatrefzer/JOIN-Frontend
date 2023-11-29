@@ -1,6 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { UserService } from '../services/user.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-template',
@@ -12,6 +14,8 @@ export class TemplateComponent {
   constructor(
     public templateService: TemplateService,
     public userService: UserService,
+    public auth: AuthenticationService,
+    public router: Router,
   ) {
     this.checkForMobileView();
    }
@@ -39,6 +43,10 @@ export class TemplateComponent {
     }
   }
 
+
+  togglePopup(){
+    this.templateService.logOutMenu = !this.templateService.logOutMenu;
+  }
 
 
   updateLink(link: string) {
@@ -71,6 +79,12 @@ export class TemplateComponent {
   getFirstLetter(name: string) {
     let letter = name.charAt(0).toUpperCase();
     return letter;
+  }
+
+  logOut(){
+    localStorage.removeItem('Token');
+    this.auth.userIsLoggedIn = false;
+    this.router.navigateByUrl('');
   }
 
 

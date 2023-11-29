@@ -30,6 +30,7 @@ export class TaskService {
   tasks: Task[] = [];
   myTasks$: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
   url = environment.baseUrl + '/tasks/';
+  status:string | undefined = undefined;
 
 
   todo: any = [];
@@ -79,7 +80,6 @@ export class TaskService {
 
 
   updateTask(task: any, id: number) {
-    debugger
     const url = `${this.url}${id}/`;
     const data: Task = {
       title: task.title,
@@ -108,6 +108,7 @@ export class TaskService {
 
     this.http.patch(url, data).subscribe(() => {
       this.myTasks$.next(this.tasks);
+      this.sortTasks();
     }, (error) => {
       console.error('Fehler bei der Aktualisierung des Tasks', error);
     });
@@ -115,6 +116,8 @@ export class TaskService {
 
 
   addTask(form: FormGroup) {
+
+    const status = this.checkForStatus();
     const data = {
       title: form.value.title,
       description: form.value.description,
@@ -123,17 +126,27 @@ export class TaskService {
       prio: form.value.prio,
       category: form.value.category,
       subtasks: form.value.subtask,
+      status:status
     };
 
     this.http.post(this.url, data).subscribe((response: any) => {
-      // Hier können Sie die neu hinzugefügten Kontaktinformationen verwenden, wenn Sie sie benötigen
       this.tasks.push(response);
       this.myTasks$.next(this.tasks);
-      console.log(this.tasks);
+      this.sortTasks();
+      this.status = undefined;
 
     }, (error) => {
       console.error('Contact was not added', error);
     });
+  }
+
+
+  checkForStatus(){
+    if (this.status) {
+      return this.status;
+    } else {
+      return 'todo'
+    }
   }
 
 

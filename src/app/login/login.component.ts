@@ -18,6 +18,11 @@ export class LoginComponent {
   isChecked: boolean = false;
 
   user: User = {} as User;
+  guestUser = {
+    'username': 'GuestAccount',
+    'email': 'guestaccount@example.com',
+    'password': 'Guest'
+  }
 
   public loginForm: FormGroup = new FormGroup({
 
@@ -45,7 +50,6 @@ export class LoginComponent {
 
 
   onSubmit() {
-    console.log(this.loginForm);
     this.login();
   }
 
@@ -62,20 +66,27 @@ export class LoginComponent {
 
 
   login() {
-    this.authService.login(this.loginForm.value).subscribe(
-      (response: any) => {
-        console.log(response, 'Successfully logged in!');
-        const token = response.token;
-        localStorage.setItem('Token', token);
-        this.userService.currentUser = response.user;
-        console.log(this.userService.currentUser);
-        this.authService.userIsLoggedIn = true;
-        this.redirectToApp();
-      },
-      error => {
-        console.error(error);
-      }
-    );
+    let json;
+    if (this.loginForm.valid) {
+      json = this.loginForm.value;
+    } else {
+      json = this.guestUser;
+    }
+
+      this.authService.login(json).subscribe(
+        (response: any) => {
+          const token = response.token;
+          localStorage.setItem('Token', token);
+          this.userService.currentUser = response.user;
+          console.log(this.userService.currentUser);
+          this.authService.userIsLoggedIn = true;
+          this.redirectToApp();
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    
   }
 
   redirectToApp() {
