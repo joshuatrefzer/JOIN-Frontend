@@ -91,7 +91,10 @@ app-addtask {
 .person-icon {
     width: 40px;
     height: 40px;
-    font-size: 25px;
+    font-size: 20px;
+    white-space: no-wrap;
+    font-weight: 200;
+    color: white;
     padding: 30px;
     background-color: rgba(128, 128, 128, 0.349);
     border-radius: 100%;
@@ -148,6 +151,9 @@ app-add-contact {
         left: 0;
         right: 0;
         top: 175px;
+        @media (max-width:870px) {
+            display: none;
+        }
     }
 
     .popup-contact-left {
