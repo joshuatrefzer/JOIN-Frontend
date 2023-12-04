@@ -203,8 +203,8 @@
         </div>
 
         <div *ngIf="popupService.taskToEdit" class="bottom-right">
-            <div type="button" (click)="deleteTask(popupService.taskToEdit.id)" class="button button-1"><mat-icon>trash</mat-icon> Delete</div>
-            <div (click)="changeTask(popupService.taskToEdit)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit"><mat-icon>save</mat-icon> Save</div>
+            <div type="button" (click)="deleteTask(popupService.taskToEdit.id)" class="button button-1">Delete</div>
+            <div (click)="changeTask(popupService.taskToEdit)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit">Save</div>
         </div>
     </div>
 </div>

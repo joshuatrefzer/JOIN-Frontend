@@ -81,6 +81,7 @@ app-addtask {
 
 .popup-contact-middle {
     width: 20%;
+
     img {
         height: 40px;
         width: 40px;
@@ -88,7 +89,7 @@ app-addtask {
 }
 
 .person-icon {
-    width:40px;
+    width: 40px;
     height: 40px;
     font-size: 25px;
     padding: 30px;
@@ -114,4 +115,55 @@ app-edit-contact {
 
 app-add-contact {
     width: 100%;
+}
+
+@media (max-width:1430px) {
+    .h2 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width:1200px) {
+    .popup-contact {
+        flex-direction: column;
+    }
+
+    .popup {
+        height: auto;
+        padding-bottom: 20px;
+    }
+
+    .popup-contact-right {
+        width: 100%;
+        margin-top: 50px;
+    }
+
+    .example-form {
+        max-width: unset;
+    }
+
+    .popup-contact-middle {
+        width: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 175px;
+    }
+
+    .popup-contact-left {
+        width: 100%;
+        min-height: 250px;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 10px;
+
+    }
+
+    .person-icon {
+        background-color: lightgrey;
+    }
+
+    .close {
+        filter: brightness(1000%);
+    }
+
 }

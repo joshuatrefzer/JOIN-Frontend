@@ -85,7 +85,7 @@ export class TaskService {
       title: task.title,
       description: task.description,
       assigned_to: task.assigned_to,
-      date: task.date,
+      date: task.date.toISOString().split('T')[0],
       prio: task.prio,
       category: task.category,
       subtasks: task.subtask,
@@ -116,13 +116,12 @@ export class TaskService {
 
 
   addTask(form: FormGroup) {
-
     const status = this.checkForStatus();
     const data = {
       title: form.value.title,
       description: form.value.description,
       assigned_to: form.value.assigned_to,
-      date: form.value.date,
+      date: form.value.date.toISOString().split('T')[0],
       prio: form.value.prio,
       category: form.value.category,
       subtasks: form.value.subtask,

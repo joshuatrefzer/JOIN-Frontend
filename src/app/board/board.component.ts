@@ -13,6 +13,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { ContactService } from '../services/contact.service';
+import { SubtaskService } from '../services/subtask.service';
 
 @Component({
   selector: 'app-board',
@@ -28,6 +29,7 @@ taskListForSearch:Task[] = [];
   constructor(
     public templateService: TemplateService,
     public taskService: TaskService,
+    public subTaskService: SubtaskService,
     public contactService: ContactService,
     public popupService: PoupService,
 
@@ -56,10 +58,11 @@ taskListForSearch:Task[] = [];
   ngOnInit(): void {
     this.templateService.board = true;
     this.taskService.getTasks();
+    this.subTaskService.getSubTasks();
+    this.contactService.getContacts();
     this.taskService.myTasks$.subscribe(() =>{
       this.taskListForSearch = this.taskService.tasks;
     });
-    
   }
 
 

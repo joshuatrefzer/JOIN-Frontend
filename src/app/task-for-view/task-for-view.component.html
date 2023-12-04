@@ -24,17 +24,15 @@
     </div>
 
 
-
-
-    <div class="row">
+    <div class="row" style="margin-bottom: 20px;">
         <span class="prio-button">
             {{ task?.prio }} 
             <img src="assets/img/{{task?.prio}}.svg" alt="">
         </span>
     </div>
 
-
-    <div class="row assigned">Assigned To:
+    <div class="row">Assigned to:</div>
+    <div class="row assigned">
         <div class="contact-box" *ngFor="let contact of popupService.taskPopupContacts">
             <div class="center box-shadow contact-icon">
                 <span>{{contact.first_name.charAt(0).toUpperCase()}}

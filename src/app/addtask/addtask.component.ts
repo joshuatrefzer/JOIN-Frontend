@@ -112,11 +112,12 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
 
   onSubmit(id: any) {
+    // If you create a new Task, the id will be 0, otherwise, it's >= 1;
     if (!this.addTaskForm.valid) {
       console.log('Fülle die Form aus');
       return;
     }
-    if (id == 0) this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
+    this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
     if (this.subtasksforView.length >= 1) {
       for (const subtask of this.subtasksforView) {
         this.subtasksForSubmit.push(`${subtask.id}`);
