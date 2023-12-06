@@ -30,6 +30,7 @@
     right: 0;
     bottom: 0;
     height: 100vh;
+    overflow: hidden;
     width: 100%;
     z-index: 1;
     background-color: rgba(110, 108, 108, 0.129);
@@ -148,6 +149,7 @@
     min-width: 400px;
     background-color: white;
     z-index: 50;
+    border-radius: 10px;
 
     h1 {
         margin-top: 30px;
@@ -156,6 +158,11 @@
         font-weight: bold;
         font-size: 30px;
         border-bottom: #29ABE2 2px solid;
+    }
+
+    @media (max-width:450px){
+        min-width: 340px;
+        min-height: 200px;
     }
 }
 

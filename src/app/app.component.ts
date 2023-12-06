@@ -23,11 +23,11 @@ export class AppComponent  implements OnInit {
     ){}
 
     ngOnInit(): void {
-      // this.contactService.getContacts();    
-      // this.subTaskService.getSubTasks(); 
       
       if (localStorage.getItem('Token')) {
         this.authService.userIsLoggedIn = true;
+      } else {
+        this.authService.userIsLoggedIn = false;
       }
       
     }

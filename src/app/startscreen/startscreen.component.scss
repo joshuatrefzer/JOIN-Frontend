@@ -1,7 +1,7 @@
 .background {
     width: 100%;
     height: 100vh;
-    overflow-y: hidden;
+    overflow:hidden;
 }
 
 .logo {
@@ -18,6 +18,9 @@
     left: 25px;
     height: 120px;
     display: block;
+    @media (max-width:450px) {
+        scale: 0.6;
+    }
 }
 
 
@@ -55,6 +58,7 @@
         height: 120px;
     }
 }
+
 
 
 
@@ -124,9 +128,14 @@ app-pwreset {
     top: 50px;
     right: -50%;
     width: auto !important;
+    @media (max-width:450px) {
+        scale: 0.8;
+        right: -100%;
+    }
 }
 
 .show-from-right {
     transition: all 1.2s ease-in-out;
     right: 50px !important;
+    
 }

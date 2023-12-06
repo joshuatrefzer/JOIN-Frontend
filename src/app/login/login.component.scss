@@ -8,6 +8,13 @@ mat-label {
   font-size: 12px;
 }
 
+.error {
+  color: red;
+  position: absolute;
+  top: unset;
+  bottom: 2px;
+}
+
 
 .example-section {
   margin: 12px 0;

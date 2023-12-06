@@ -179,11 +179,11 @@
                     </mat-form-field>
                     
                     <div *ngIf="subtasksforView.length >= 1" class="subtask-container">
-                        <div class="subtask center" *ngFor="let task of subtasksforView; let i = index">
+                        <div [ngClass]="{'subtask-grey' : popupService.addTaskPopup || popupService.editTaskPopup }" class="subtask center" *ngFor="let task of subtasksforView; let i = index">
                             <div class="color-primary">{{ task.title }}</div>
-                            <button (click)="removeSubTask(i, task)">
+                            <div class="trash-button" (click)="removeSubTask(i, task)">
                               <img src="assets/img/delete.png" alt="Löschen">
-                            </button>
+                            </div>
                           </div>
                     </div>
 

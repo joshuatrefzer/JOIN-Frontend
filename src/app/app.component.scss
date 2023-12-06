@@ -129,12 +129,11 @@ app-add-contact {
 @media (max-width:1200px) {
     .popup-contact {
         flex-direction: column;
-    }
-
-    .popup {
         height: auto;
         padding-bottom: 20px;
     }
+
+  
 
     .popup-contact-right {
         width: 100%;
@@ -166,10 +165,6 @@ app-add-contact {
 
     .person-icon {
         background-color: lightgrey;
-    }
-
-    .close {
-        filter: brightness(1000%);
     }
 
 }

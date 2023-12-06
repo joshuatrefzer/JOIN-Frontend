@@ -23,6 +23,7 @@ export class LoginComponent {
     'email': 'guestaccount@example.com',
     'password': 'Guest'
   }
+  error:boolean = false;
 
   public loginForm: FormGroup = new FormGroup({
 
@@ -49,8 +50,8 @@ export class LoginComponent {
   }
 
 
-  onSubmit() {
-    this.login();
+  onSubmit(type:string) {
+    this.login(type);
   }
 
   redirectToPWReset() {
@@ -65,12 +66,15 @@ export class LoginComponent {
   }
 
 
-  login() {
+  login(type:string) {
+    debugger
     let json;
-    if (this.loginForm.valid) {
+    if (this.loginForm.valid && type == 'login') {
       json = this.loginForm.value;
-    } else {
+    } else if(type == 'guest') {
       json = this.guestUser;
+    } else {
+      this.loginError();
     }
 
       this.authService.login(json).subscribe(
@@ -91,6 +95,13 @@ export class LoginComponent {
 
   redirectToApp() {
     this.router.navigate(['/summary']);
+  }
+
+  loginError(){
+    this.error = true;
+    setTimeout(() => {
+      this.error = false;
+    }, 2000);
   }
 
 

@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 
 export class AuthenticationService {
-  private baseurl  = 'http://localhost:8000';
+  private baseurl  = 'https://joshuatrefzer.pythonanywhere.com';
 
   showLogin:boolean =false;
   showSignUp:boolean = false;
