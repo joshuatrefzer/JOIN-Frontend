@@ -1,4 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+* {
+    transition: all 250ms;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden !important;
+}
+
+
+
+
 .primary-color {
     background-color: #2A3647;
 }
@@ -10,6 +25,7 @@
     top: 20px;
     @extend .text-btn;
 }
+
 
 .color-primary {
     color: #2A3647;
@@ -98,6 +114,17 @@
     @extend .br;
     @extend .center;
 }
+
+.invalid {
+    pointer-events: none; 
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+
+// .valid {
+
+// }
 
 .button-1 {
     @extend .button;

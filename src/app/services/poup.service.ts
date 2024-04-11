@@ -21,6 +21,8 @@ export class PoupService {
   taskPopupContacts:Contact[] = []; 
   taskPopupSubtasks:SubTask[] = []; 
 
+  loader:boolean = false;
+
   constructor() { }
 
   closePopups() {

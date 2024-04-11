@@ -3,6 +3,7 @@ import { FormControl, Validators, FormBuilder, FormsModule, FormGroup } from '@a
 import { User, UserService } from '../services/user.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { PoupService } from '../services/poup.service';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  // emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  // passwordFormControl = new FormControl('', [Validators.required]);
-  // firstnameFormControl = new FormControl('', [Validators.required, Validators.minLength(4)]);
-  // lastnameFormControl = new FormControl('', [Validators.required, Validators.minLength(4)]);
-
   isChecked: boolean = false;
-
   user: User = {} as User;
+
   guestUser = {
     'username': 'GuestAccount',
     'email': 'guestaccount@example.com',
@@ -33,19 +29,16 @@ export class LoginComponent {
 
     password: new FormControl('', [
       Validators.required
-    ], []),
-
-    isChecked: new FormControl('')
+    ], [])
 
   });
 
 
   constructor(
-    private _formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
     public authService: AuthenticationService,
-
+    public popupService: PoupService,
   ) {
   }
 
@@ -67,7 +60,6 @@ export class LoginComponent {
 
 
   login(type:string) {
-    debugger
     let json;
     if (this.loginForm.valid && type == 'login') {
       json = this.loginForm.value;
@@ -75,8 +67,9 @@ export class LoginComponent {
       json = this.guestUser;
     } else {
       this.loginError();
+      return;
     }
-
+    this.popupService.loader = true;
       this.authService.login(json).subscribe(
         (response: any) => {
           const token = response.token;
@@ -84,6 +77,7 @@ export class LoginComponent {
           this.userService.currentUser = response.user;
           console.log(this.userService.currentUser);
           this.authService.userIsLoggedIn = true;
+          this.popupService.loader = false;
           this.redirectToApp();
         },
         error => {

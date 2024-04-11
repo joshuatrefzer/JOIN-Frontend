@@ -14,9 +14,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     public templateService: TemplateService,
     public taskService: TaskService,
     public userService: UserService,
-  ) {
-    this.lenghtUrgentTasks = this.countUrgentTasks();
-  }
+  ) { }
 
   greeting: string = this.getGreeting();
   lenghtUrgentTasks: number = 0;
@@ -34,6 +32,10 @@ export class SummaryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.templateService.summary = true;
     this.taskService.getTasks();
+    this.taskService.myTasks$.subscribe(data => {
+      this.lenghtUrgentTasks = this.countUrgentTasks();
+    });
+    
   }
 
 
@@ -60,18 +62,21 @@ export class SummaryComponent implements OnInit, OnDestroy {
   getNextDate() {
     const currentDate = new Date();
     const taskDates = this.taskService.tasks.map(t => new Date(t.date));
-  
-    // Filtert die Datumsangaben, die in der Zukunft liegen
+    console.log('1' , taskDates);
+    
     const futureDates = taskDates.filter(date => date > currentDate);
-  
-    // Sortiere die zukünftigen Datumsangaben absteigend
+    console.log('2' , futureDates);
+    
     futureDates.sort((a, b) => b.getTime() - a.getTime());
   
-    // Das erste Element im sortierten Array ist das nächste Datum
     const nearestDate = futureDates[0];
-  
-    return nearestDate?.toISOString().split('T')[0];
+    return nearestDate ? this.formatDate(nearestDate) : 'No upcoming deadline';
   }
+
+  formatDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
 
 
 

@@ -67,7 +67,8 @@ $heigthHeader: 80px;
 }
 
 .selected-link {
-    background-color: #2A3647 !important;
+    background-color: #9eb2cd1c !important;
+    box-shadow: 1px 1px 10px rgba(66, 66, 66, 0.176);
     color: white;
 
     path {
@@ -248,12 +249,13 @@ header {
 }
 
 .behind-popup {
+    position: fixed;
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #b5bdc759;
+    backdrop-filter: blur(5px);
 }
 
 .router-container {

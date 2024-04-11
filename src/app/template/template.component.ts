@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { UserService } from '../services/user.service';
 import { AuthenticationService } from '../services/authentication.service';
-import { Router } from '@angular/router';
+import { Router , ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-template',
@@ -17,17 +17,8 @@ export class TemplateComponent {
     public auth: AuthenticationService,
     public router: Router,
   ) {
-    this.checkForMobileView();
+    this.checkForMobileView();   
    }
-
-
-  summary: boolean = true;
-  addTask: boolean = false;
-  board: boolean = false;
-  contacts: boolean = false;
-  legals: boolean = false;
-
-
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
@@ -49,33 +40,6 @@ export class TemplateComponent {
   }
 
 
-  updateLink(link: string) {
-    this.resetLinks()
-    if (link == 'summary') {
-      this.summary = true;
-    }
-    if (link == 'addTask') {
-      this.addTask = true;
-    }
-    if (link == 'board') {
-      this.board = true;
-    }
-    if (link == 'contacts') {
-      this.contacts = true;
-    }
-    if (link == 'legals') {
-      this.legals = true;
-    }
-  }
-
-  resetLinks() {
-    this.summary = false;
-    this.addTask = false;
-    this.board = false;
-    this.contacts = false;
-    this.legals = false;
-  }
-
   getFirstLetter(name: string) {
     let letter = name.charAt(0).toUpperCase();
     return letter;
@@ -83,8 +47,7 @@ export class TemplateComponent {
 
   logOut(){
     localStorage.removeItem('Token');
-    this.auth.userIsLoggedIn = false;
-    this.router.navigateByUrl('');
+    window.location.reload();
   }
 
 

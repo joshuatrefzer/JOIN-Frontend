@@ -1,4 +1,9 @@
 <app-startscreen *ngIf="!authService.userIsLoggedIn"></app-startscreen>
+
+
+
+
+
 <app-template [ngClass]="{'filter': popupService.behindPopupContainer}"
     *ngIf="authService.userIsLoggedIn"></app-template>
 
@@ -73,3 +78,6 @@
     <app-task-for-view></app-task-for-view>
     <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
 </div>
+
+
+<app-loader *ngIf="popupService.loader"></app-loader>

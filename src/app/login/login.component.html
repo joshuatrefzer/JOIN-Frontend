@@ -26,15 +26,11 @@
         </mat-form-field>
 
         <div class="row-container">
-            <div class="checkbox center">
-                <input class="checkbox" type="checkbox" formControlName="isChecked" name="isChecked">
-                <span>remember me</span>
-            </div>
-            <div (click)="redirectToPWReset()" class="font-blue text-btn">forgot password</div>
+            <div (click)="redirectToPWReset()" class="font-blue text-btn">forgot your password?</div>
         </div>
 
         <div class="row-container button-container">
-            <div (click)="onSubmit('login')" type="button" action="submit" class="button-1">Login</div>
+            <div (click)="onSubmit('login')" type="button" action="submit" class="button-1" [ngClass]="{'invalid': !loginForm.valid}">Login</div>
             <div (click)="onSubmit('guest')" class="button-2">Guest Login</div>
         </div>
         <div *ngIf="error" class="row center-absolute error">please fill the form!</div>

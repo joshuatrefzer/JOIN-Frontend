@@ -55,9 +55,13 @@ a {
     width: calc (100% -100px);
     justify-content: flex-start;
     margin-left: 100px;
+    * {
+        transition: all ease-in-out 0ms;
+    }
 }
 
 .summary-elements {
+    transition: all ease-in-out 200ms !important;
     height: 500px;
     display: flex;
     flex-direction: column;
