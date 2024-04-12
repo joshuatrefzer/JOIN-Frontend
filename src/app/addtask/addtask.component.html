@@ -198,8 +198,8 @@
     <div class="bottom">
         <div class="bottom-left color-primary"><span class="required">*</span>This field is required</div>
         <div *ngIf="!popupService.taskToEdit" class="bottom-right">
-            <div type="button" (click)="resetForm()" class="button button-1">Clear</div>
-            <div (click)="onSubmit(0)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit">Create Task</div>
+            <button type="button" (click)="resetForm()" class="button button-1">Clear</button>
+            <button (click)="onSubmit(0)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit">Create Task</button>
         </div>
 
         <div *ngIf="popupService.taskToEdit" class="bottom-right">

@@ -19,7 +19,6 @@ export class AppComponent  implements OnInit {
     public popupService: PoupService,
     public contactService: ContactService,
     public subTaskService: SubtaskService,
-
     ){}
 
     ngOnInit(): void {

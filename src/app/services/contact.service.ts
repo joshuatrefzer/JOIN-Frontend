@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, take, tap } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 
 export interface Contact {
@@ -32,7 +32,7 @@ export class ContactService {
 
 
   getContacts() {
-    this.loadContacts().subscribe((data) => {
+    this.loadContacts().pipe(take(1)).subscribe((data) => {
       this.contacts = data;
       this.myContacts$.next(data);
     });
@@ -41,6 +41,7 @@ export class ContactService {
 
   private loadContacts(): Observable<Contact[]> {
     return this.http.get<Contact[]>(this.url).pipe(
+      take(1),
       tap((data) => {
         this.contacts = data;
         this.myContacts$.next(data);
@@ -48,6 +49,13 @@ export class ContactService {
       })
     );
   }
+
+  async fetchContacts(){
+    const contactResponse = await firstValueFrom(this.http.get<Contact[]>(this.url));
+    this.myContacts$.next(contactResponse);
+  }
+
+
 
 
   updateContact(form: FormGroup, id: number) {

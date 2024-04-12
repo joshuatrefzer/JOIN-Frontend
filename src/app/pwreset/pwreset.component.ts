@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pwreset',
@@ -9,7 +10,7 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class PwresetComponent {
 
-constructor(public authService: AuthenticationService){}
+constructor(public authService: AuthenticationService, private router: Router){}
 
 
 onSubmit() {
@@ -22,11 +23,18 @@ throw new Error('Method not implemented.');
     email: new FormControl('', [
       Validators.required,
       Validators.email
-    ], []),
+    ], [])
 
-    password: new FormControl('', [
-      Validators.required
-    ] , [] )
-    
   });
+
+
+  redirectToLogin() {
+    this.authService.forgotPassword = false;
+    this.authService.showLogin = true;
+    this.authService.showSignUp = false;
+  }
+
+
 }
+
+

@@ -135,5 +135,9 @@ app-pwreset {
 .show-from-right {
     transition: all 1.2s ease-in-out;
     right: 50px !important;
+
+    @media (max-width:500px) {
+        right: 10px !important;
+    }
     
 }

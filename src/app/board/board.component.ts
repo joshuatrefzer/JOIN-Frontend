@@ -60,6 +60,11 @@ taskListForSearch:Task[] = [];
     this.taskService.getTasks();
     this.subTaskService.getSubTasks();
     this.contactService.getContacts();
+
+    this.contactService.myContacts$.subscribe( contacts => {
+      this.contactService.contacts = contacts;
+    });
+
     this.taskService.myTasks$.subscribe(() =>{
       this.taskListForSearch = this.taskService.tasks;
     });

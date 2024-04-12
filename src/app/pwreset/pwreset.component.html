@@ -10,16 +10,18 @@
             <input  type="email" matInput formControlName="email">
             <mat-icon matSuffix>mail</mat-icon>
             <mat-error *ngIf="reset.controls['email'].errors?.['email']">
-                Please enter a valid <strong>email</strong> address
+                Please enter a valid <strong> email</strong> address
             </mat-error>
             <mat-error *ngIf="reset.controls['email'].errors?.['required']">
-               We need your <strong>email</strong> to reset your password
+               We need your <strong> email</strong> 
             </mat-error>
         </mat-form-field>
+        <div class="row-container">
+            <div (click)="redirectToLogin()" class="font-blue text-btn">back to login</div>
+        </div>
 
-
-        <div class="row-container button-container">
-            <div type="button" action="submit" class="button-1">Send</div>
+        <div class="row-container button-container" style="margin-top: 22px;">
+            <button [ngClass]="{'invalid': !reset.valid}" type="button" action="submit" class="button-1">Send</button>
         </div>
     </form>
 </div>

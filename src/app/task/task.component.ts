@@ -3,6 +3,7 @@ import { TaskService, Task } from '../services/task.service';
 import { Contact, ContactService } from '../services/contact.service';
 import { SubtaskService, SubTask } from '../services/subtask.service';
 import { PoupService } from '../services/poup.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -36,12 +37,16 @@ export class TaskComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.getContacts();
     this.getSubTasks();
+    this.getContacts();
     this.mytask = this.task;
     
     this.subtaskService.mySubTasks$.subscribe(() => {
       this.getSubTasks();
+    });
+  
+    this.contactService.myContacts$.subscribe(()=> {
+      this.getContacts();
     });
   }
 
@@ -63,10 +68,13 @@ export class TaskComponent implements OnInit, OnChanges {
   }
 
   getContacts() {
+    this.contacts = [];
     this.task.assigned_to.forEach((contactId: number) => {
       const index = this.contactService.contacts.findIndex(c => c.id == contactId);
       if (index != -1) {
         this.contacts.push(this.contactService.contacts[index])
+      } else {
+        this.contactService.fetchContacts();
       }
     });
   }
