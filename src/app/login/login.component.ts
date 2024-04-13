@@ -4,6 +4,7 @@ import { User, UserService } from '../services/user.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 import { PoupService } from '../services/poup.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent {
 
 
   constructor(
+    private snackBar: MatSnackBar,
     private userService: UserService,
     private router: Router,
     public authService: AuthenticationService,
@@ -72,6 +74,10 @@ export class LoginComponent {
     this.popupService.loader = true;
       this.authService.login(json).subscribe(
         (response: any) => {
+          this.snackBar.open('Login Successful', 'close', {
+            duration: 3000,
+            panelClass: ['blue-snackbar']
+          });
           const token = response.token;
           localStorage.setItem('Token', token);
           this.userService.currentUser = response.user;
@@ -81,7 +87,9 @@ export class LoginComponent {
           this.redirectToApp();
         },
         error => {
-          console.error(error);
+          this.snackBar.open('Successful signed up! You can login now', 'close', {
+            duration: 3000
+          });
         }
       );
     

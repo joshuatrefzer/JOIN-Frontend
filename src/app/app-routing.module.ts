@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'addtask', component: AddtaskComponent },
   { path: 'contacts', component: ContactsComponent },
   { path: 'legals', component: LegalsComponent },
-  { path: '', component: AppComponent },
+  { path: '', component: SummaryComponent },
 ];
 
 @NgModule({

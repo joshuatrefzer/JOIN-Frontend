@@ -15,7 +15,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   @Input() headline: string = 'Add Task';
 
   buttons = ['urgent', 'medium', 'low'];
-
+  taskId:number | undefined;
 
   myFilter = (d: Date | null): boolean => {
     const today = new Date();
@@ -111,21 +111,26 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit(id: any) {
+  onSubmit() {
     // If you create a new Task, the id will be 0, otherwise, it's >= 1;
     if (!this.addTaskForm.valid) {
       console.log('Fülle die Form aus');
       return;
     }
-    this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
+    // this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
     if (this.subtasksforView.length >= 1) {
       for (const subtask of this.subtasksforView) {
         this.subtasksForSubmit.push(`${subtask.id}`);
       }
     }
     this.addTaskForm.value.subtask = this.subtasksForSubmit;
-    if (id !== 0) this.taskService.updateTask(this.addTaskForm.value, id);
-    if (id == 0) this.taskService.addTask(this.addTaskForm);
+    
+    if (this.headline !== "Add Task" && this.taskId) {
+      this.taskService.updateTask(this.addTaskForm.value, this.taskId);
+    } else {
+      this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
+      this.taskService.addTask(this.addTaskForm);
+    }
 
     this.taskService.myTasks$.subscribe(() => {
       this.subtasksForSubmit = [];
@@ -228,7 +233,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
   changeTask(task: any) {
-    this.onSubmit(task.id)
+    this.taskId = task.id
     this.popupService.closePopups();
   }
 

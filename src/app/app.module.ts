@@ -5,7 +5,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';// Importiere MatFormFieldModule
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -68,6 +68,7 @@ import { LoaderComponent } from './loader/loader.component';
     FormsModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatSnackBarModule,
     MatNativeDateModule,
     HttpClientModule,
     DragDropModule,

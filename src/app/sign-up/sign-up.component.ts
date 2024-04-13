@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sign-up',
@@ -27,6 +28,7 @@ export class SignUpComponent {
   });
 
   constructor(
+    private snackBar: MatSnackBar,
     private authService: AuthenticationService,
     private router: Router
   ) { }
@@ -38,12 +40,16 @@ export class SignUpComponent {
   signUp() {
     this.authService.signUp(this.signUpForm.value).subscribe(
       response => {
-        //Token speichern im LS
-        console.log(response);
-        // this.redirectToLogin();
+        this.snackBar.open('Successful signed up! You can login now', 'close', {
+          duration: 3000
+        });
+        this.signUpForm.reset();
       },
       error => {
-        console.error(error);
+        this.snackBar.open('Error by signing up, do you user valid data?', 'close', {
+          duration: 3000
+        });
+        this.signUpForm.reset();
       }
     );
   }

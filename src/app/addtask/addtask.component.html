@@ -1,4 +1,3 @@
-
 <div class="main-container center-column">
 
     <div class="top">
@@ -9,17 +8,18 @@
         <div *ngIf="popupService.addTaskPopup">
             <h1>Add Task</h1>
         </div>
+    </div>
 
 
 
 
-        <form (ngSubmit)="onSubmit(0)" [formGroup]="addTaskForm" class="center">
 
+    <form (submit)="onSubmit()" [formGroup]="addTaskForm" class="center">
             <div class="left-container center-column">
 
                 <!-- Title -->
                 <div class="row-left">
-                    <span class="field-name color-primary">Title<span class="required">*</span></span>
+                    <!-- <span class="field-name color-primary">Title<span class="required">*</span></span> -->
 
                     <mat-form-field appearance="outline">
                         <mat-label>Title</mat-label>
@@ -30,7 +30,7 @@
 
                 <!-- Description -->
                 <div class="row-left">
-                    <span class="field-name color-primary">Description</span>
+                    <!-- <span class="field-name color-primary">Description</span> -->
                     <mat-form-field appearance="outline">
                         <mat-label>Description</mat-label>
                         <textarea class="input-field" type="text" matInput formControlName="description"></textarea>
@@ -39,9 +39,9 @@
 
                 <!-- Assigned to -->
                 <div class="row-left">
-                    <span class="field-name color-primary">Assigned to</span>
+                    <!-- <span class="field-name color-primary">Assigned to</span> -->
                     <mat-form-field appearance="outline">
-                        <mat-label>choose contact</mat-label>
+                        <mat-label>choose contacts</mat-label>
                         <mat-select (selectionChange)="assigneContact()" formControlName="assigned_to" multiple>
                             <mat-option *ngFor="let contact of contactService.contacts" value="{{ contact.id }}">{{
                                 contact.first_name }} {{ contact.last_name }}</mat-option>
@@ -49,16 +49,32 @@
                     </mat-form-field>
                 </div>
 
-
             </div>
 
 
 
             <div class="right-container center-column">
+                
 
                 <!-- Datepicker -->
-                <div class="row-right">
-                    <span class="field-name color-primary">Due Date<span class="required">*</span></span>
+                <div class="row-right double">
+                    <mat-form-field appearance="outline">
+                        <mat-label>select category</mat-label>
+                        <mat-select formControlName="category">
+                            <mat-option value="marketing">Marketing</mat-option>
+                            <mat-option value="sales">Sales</mat-option>
+                            <mat-option value="finance">Finance</mat-option>
+                            <mat-option value="customer-support">Customer Support</mat-option>
+                            <mat-option value="product-development">Product Development</mat-option>
+                            <mat-option value="legal">Legal</mat-option>
+                            <mat-option value="quality-assurance">Quality Assurance</mat-option>
+                            <mat-option value="logistics">Logistics</mat-option>
+                            <mat-option value="administration">Administration</mat-option>
+                            <mat-option value="engineering">Engineering</mat-option>
+                            <mat-option value="design">Design</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    
                     <mat-form-field appearance="outline">
                         <mat-label>Choose a date</mat-label>
                         <input matInput [matDatepicker]="picker" [matDatepickerFilter]="myFilter"
@@ -71,7 +87,7 @@
 
                 <!-- Prio Buttons -->
                 <div class="row-right">
-                    <span class="field-name color-primary">Prio</span>
+                    <!-- <span class="field-name color-primary">Prio</span> -->
                     <div class="prio-button-container display-flex">
 
 
@@ -140,30 +156,8 @@
 
 
 
-                <!-- Category -->
-                <div class="row-right">
-                    <span class="field-name color-primary">Category<span class="required">*</span></span>
-                    <mat-form-field appearance="outline">
-                        <mat-label>select task category</mat-label>
-                        <mat-select formControlName="category">
-                            <mat-option value="marketing">Marketing</mat-option>
-                            <mat-option value="sales">Sales</mat-option>
-                            <mat-option value="finance">Finance</mat-option>
-                            <mat-option value="customer-support">Customer Support</mat-option>
-                            <mat-option value="product-development">Product Development</mat-option>
-                            <mat-option value="legal">Legal</mat-option>
-                            <mat-option value="quality-assurance">Quality Assurance</mat-option>
-                            <mat-option value="logistics">Logistics</mat-option>
-                            <mat-option value="administration">Administration</mat-option>
-                            <mat-option value="engineering">Engineering</mat-option>
-                            <mat-option value="design">Design</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
                 <!-- Subtask -->
                 <div class="row-right">
-                    <span class="field-name color-primary">Subtask</span>
                     <mat-form-field appearance="outline">
                         <mat-label>Add new subtask</mat-label>
                         <input matInput formControlName="subtask" (keydown)="checkForKey($event)">
@@ -171,40 +165,45 @@
                             mat-icon-button aria-label="Check" (click)="addNewSubtask()">
                             <mat-icon>check</mat-icon>
                         </button>
-                        <button class="subtask-button btn-hide" type="button" *ngIf="addTaskForm.get('subtask')?.value" matSuffix
-                            mat-icon-button aria-label="Clear" (click)="addTaskForm.get('subtask')?.setValue('')">
+                        <button class="subtask-button btn-hide" type="button" *ngIf="addTaskForm.get('subtask')?.value"
+                            matSuffix mat-icon-button aria-label="Clear"
+                            (click)="addTaskForm.get('subtask')?.setValue('')">
                             <mat-icon>close</mat-icon>
                         </button>
 
                     </mat-form-field>
-                    
+
                     <div *ngIf="subtasksforView.length >= 1" class="subtask-container">
-                        <div [ngClass]="{'subtask-grey' : popupService.addTaskPopup || popupService.editTaskPopup }" class="subtask center" *ngFor="let task of subtasksforView; let i = index">
+                        <div [ngClass]="{'subtask-grey' : popupService.addTaskPopup || popupService.editTaskPopup }"
+                            class="subtask center" *ngFor="let task of subtasksforView; let i = index">
                             <div class="color-primary">{{ task.title }}</div>
                             <div class="trash-button" (click)="removeSubTask(i, task)">
-                              <img src="assets/img/delete.png" alt="Löschen">
+                                <img src="assets/img/delete.png" alt="Löschen">
                             </div>
-                          </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
-        </form>
 
-    </div>
+
+    </form>
 
 
     <div class="bottom">
         <div class="bottom-left color-primary"><span class="required">*</span>This field is required</div>
         <div *ngIf="!popupService.taskToEdit" class="bottom-right">
             <button type="button" (click)="resetForm()" class="button button-1">Clear</button>
-            <button (click)="onSubmit(0)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit">Create Task</button>
+            <button type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit">Create
+                Task</button>
         </div>
 
         <div *ngIf="popupService.taskToEdit" class="bottom-right">
-            <div type="button" (click)="deleteTask(popupService.taskToEdit.id)" class="button button-1">Delete</div>
-            <div (click)="changeTask(popupService.taskToEdit)" type="submit" [ngClass]="{'valid':addTaskForm.valid}" class="button-2 submit">Save</div>
+            <button type="button" (click)="deleteTask(popupService.taskToEdit.id)"
+                class="button button-1">Delete</button>
+            <button (click)="changeTask(popupService.taskToEdit)" type="submit" class="button-2">Save</button>
         </div>
     </div>
+
 </div>

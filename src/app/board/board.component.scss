@@ -1,6 +1,6 @@
 .h1-component {
-    margin-bottom: 50px;
-    margin-top: 50px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,6 +19,7 @@
 .content {
     height: 85%;
     width: 100%;
+    gap: 10px;
 }
 
 .add-task-button {

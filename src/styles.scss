@@ -11,6 +11,18 @@ body {
     overflow: hidden !important;
 }
 
+.blue-snackbar {
+    color:#29ABE2;
+  }
+
+  .mat-mdc-snack-bar-container {
+    &.blue-snackbar {
+      --mdc-snackbar-container-color: #2A3647;
+      --mat-mdc-snack-bar-button-color: #29ABE2;
+      --mdc-snackbar-supporting-text-color: #ffffff;
+    }
+  }
+
 
 
 
@@ -62,10 +74,9 @@ body {
     width: calc( 100% - 100px);
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
-    margin-top: 50px;
+    margin-top: 20px;
     h1 {
-        font-size: 50px;
+        font-size: 40px;
         font-weight: bold;
         margin: 0;
     }
@@ -294,14 +305,14 @@ body {
 }
 
 .main-container {
-    margin: 40px 120px;
-    width: calc(100% - 240px);
+    margin: 20px 40px;
+    width: calc(100% - 80px);
     height: 95%;
 }
 
 .top {
     // height: calc(70% - 100px);
-    height: 75%;
+    height: 10%;
     width: 100%;
     // width: calc(100% - 100px);
 }

@@ -81,6 +81,7 @@ export class TaskService {
 
   updateTask(task: any, id: number) {
     const url = `${this.url}${id}/`;
+    console.log(task.date);
     const data: Task = {
       title: task.title,
       description: task.description,
