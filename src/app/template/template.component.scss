@@ -256,27 +256,3 @@ header {
     left: 0;
     backdrop-filter: blur(5px);
 }
-
-.router-container {
-    --sb-track-color: #2a3647;
-    --sb-thumb-color: #29abe2;
-    --sb-size: 2px;
-  
-    scrollbar-color: var(--sb-thumb-color) 
-                     var(--sb-track-color);
-  }
-  
-  .router-container::-webkit-scrollbar {
-    width: var(--sb-size) 
-  }
-  
-  .router-container::-webkit-scrollbar-track {
-    background: var(--sb-track-color);
-    border-radius: 14px;
-  }
-  
-  .router-container::-webkit-scrollbar-thumb {
-    background: var(--sb-thumb-color);
-    border-radius: 14px;
-    
-    }

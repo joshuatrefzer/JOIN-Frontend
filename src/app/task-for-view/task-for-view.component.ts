@@ -62,7 +62,7 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
     this.popupService.editTask(task);
   }
 
-  deleteTask(id:any){
+  deleteTask(id: any) {
     this.taskService.deleteTask(id);
     this.popupService.closePopups();
   }

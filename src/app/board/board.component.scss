@@ -70,9 +70,10 @@ app-task {
 .more {
     position: absolute;
     top: 5px;
-    right:10px;
+    right: 10px;
     z-index: 10;
     font-size: 20px;
+
     &:hover {
         cursor: pointer;
     }
@@ -84,11 +85,19 @@ app-task {
     height: 90%;
     box-shadow: inset 1px 1px 20px rgba(219, 218, 218, 0.637);
     border-radius: 30px;
+    overflow-y: scroll;
+
     :first-child {
         margin-top: 20px;
     }
-    overflow-y: scroll;
 
+    :last-child {
+        margin-bottom: 20px;
+    }
+}
+
+.drop-container::-webkit-scrollbar {
+    display: none !important;
 }
 
 
@@ -113,9 +122,11 @@ app-task {
     gap: 10px;
     display: flex;
     align-items: center;
+
     span {
         white-space: nowrap;
     }
+
     * {
         margin: 0 !important;
     }
@@ -202,19 +213,19 @@ app-task {
 
 
 
-@media (max-width:1200px){
+@media (max-width:1200px) {
     .main-container {
         width: 100%;
         height: 100%;
         margin: 0;
     }
 
-    .content{
+    .content {
         flex-direction: column;
-         overflow-y: scroll;
+        overflow-y: scroll;
     }
 
-    .h1-component{
+    .h1-component {
         flex-direction: column;
         width: 100%;
         gap: 30px;
@@ -231,7 +242,7 @@ app-task {
         top: 40px;
         box-shadow: 1px 1px 10px rgb(160, 160, 160);
     }
-    
+
     .top {
         height: auto !important;
         position: relative;
@@ -239,7 +250,7 @@ app-task {
 
     .drop-container {
         overflow-x: scroll;
-        overflow-y:unset;
+        overflow-y: unset;
         flex-direction: row !important;
         min-height: 50px;
         margin-bottom: 10px;

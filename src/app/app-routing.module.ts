@@ -10,10 +10,12 @@ import { LegalsComponent } from './legals/legals.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { BoardComponent } from './board/board.component';
 import { AppComponent } from './app.component';
+import { AboutComponent } from './about/about.component';
 
 
 const routes: Routes = [
   { path: 'summary', component: SummaryComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'board', component: BoardComponent },
   { path: 'addtask', component: AddtaskComponent },
   { path: 'contacts', component: ContactsComponent },

@@ -61,5 +61,10 @@ export class TemplateComponent {
     window.location.reload();
   }
 
+  navigateToAbout(){
+    this.router.navigate(['/about']);
+    this.togglePopup();
+  }
+
 
 }

@@ -85,7 +85,7 @@
     <router-outlet></router-outlet>
     <div *ngIf="templateService.logOutMenu" (click)="templateService.logOutMenu = false" class="behind-popup"></div>
     <div [ngClass]="{'show-logout': templateService.logOutMenu}" class="logout-popup center-column">
-        <div class="row  text-btn"><span>About JOIN</span></div>
+        <div class="row  text-btn"><span (click)="navigateToAbout()">About JOIN</span></div>
         <div *ngIf="templateService.mobileview" class="row"><span>Legals</span></div>
         <div (click)="logOut()" class="row  text-btn"><span>Log out</span></div>
     </div>
