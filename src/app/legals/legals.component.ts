@@ -6,16 +6,9 @@ import { TemplateService } from '../services/template.service';
   templateUrl: './legals.component.html',
   styleUrls: ['./legals.component.scss']
 })
-export class LegalsComponent implements OnInit, OnDestroy{
+export class LegalsComponent {
   constructor(public templateService: TemplateService){}
   
-  ngOnInit(): void {
-      this.templateService.legals = true;
-  }
-
-  ngOnDestroy(): void {
-    this.templateService.legals = false;
-  }
 
 
 }

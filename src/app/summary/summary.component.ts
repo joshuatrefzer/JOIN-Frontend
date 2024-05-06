@@ -8,7 +8,7 @@ import { UserService } from '../services/user.service';
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.scss']
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class SummaryComponent implements OnInit {
 
   constructor(
     public templateService: TemplateService,
@@ -30,7 +30,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.templateService.summary = true;
     this.taskService.getTasks();
     this.taskService.myTasks$.subscribe(data => {
       this.lenghtUrgentTasks = this.countUrgentTasks();
@@ -38,10 +37,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
     
   }
 
-
-  ngOnDestroy(): void {
-    this.templateService.summary = false;
-  }
 
   getGreeting() {
     let date = new Date();

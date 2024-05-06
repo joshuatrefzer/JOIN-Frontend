@@ -12,6 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  
+
   isChecked: boolean = false;
   user: User = {} as User;
 

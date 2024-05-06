@@ -21,7 +21,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.templateService.contacts = true;
     this.contactService.getContacts();
     this.checkForMobileView();
     if (this.mobile) {
@@ -45,7 +44,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.templateService.contacts = false;
     this.showInfo = false;
   }
 

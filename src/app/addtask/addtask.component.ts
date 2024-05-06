@@ -11,18 +11,12 @@ import { PoupService } from '../services/poup.service';
   templateUrl: './addtask.component.html',
   styleUrls: ['./addtask.component.scss']
 })
-export class AddtaskComponent implements OnInit, OnDestroy {
-  @Input() headline: string = 'Add Task';
+export class AddtaskComponent implements OnInit {
+  @Input() headline: 'Add Task' | 'Edit Task' = 'Add Task';
+
 
   buttons = ['urgent', 'medium', 'low'];
-  taskId:number | undefined;
-
-  myFilter = (d: Date | null): boolean => {
-    const today = new Date();
-    d = d || today;
-    return d >= today;
-  };
-
+  taskId: number | undefined;
   subtasksforView: any = [];
   subtasksForSubmit: any = []
 
@@ -40,8 +34,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     ], []),
 
     date: new FormControl('', [
-      Validators.required,
-    ], []),
+      Validators.required], []),
 
     description: new FormControl(''),
     assigned_to: new FormControl(''),
@@ -62,19 +55,22 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.resetForm();
-    if (!this.popupService.addTaskPopup) this.templateService.addTask = true;
     this.popupService.editTaskPopup ? this.fillForm() : null;
     this.contactService.getContacts();
     this.subtaskService.getSubTasks();
   }
 
 
+  myFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    d = d || today;
+    return d >= today;
+  };
 
-  ngOnDestroy(): void {
-    this.templateService.addTask = false;
+  showDate(){
+    console.log(this.addTaskForm.value.date);
+    
   }
-
-
 
 
   fillForm() {
@@ -92,7 +88,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
 
   fillContacts(assigned_contacts: any) {
-    let contacts: any = [];
     assigned_contacts.forEach((id: number) => {
       this.addTaskForm.value.assigned_to.push(`${id}`);
     })
@@ -110,25 +105,21 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     return st;
   }
 
-
   onSubmit() {
-    // If you create a new Task, the id will be 0, otherwise, it's >= 1;
-    if (!this.addTaskForm.valid) {
+    if (!this.addTaskForm.valid && this.headline == "Add Task") {
       console.log('Fülle die Form aus');
       return;
     }
-    // this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
+
     if (this.subtasksforView.length >= 1) {
       for (const subtask of this.subtasksforView) {
         this.subtasksForSubmit.push(`${subtask.id}`);
       }
     }
     this.addTaskForm.value.subtask = this.subtasksForSubmit;
-    
     if (this.headline !== "Add Task" && this.taskId) {
-      this.taskService.updateTask(this.addTaskForm.value, this.taskId);
-    } else {
-      this.addTaskForm.value.date = this.addTaskForm.value.date.toISOString().split('T')[0];
+      this.taskService.updateTask(this.addTaskForm, this.taskId);
+    } else {    
       this.taskService.addTask(this.addTaskForm);
     }
 
@@ -177,7 +168,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
   removeSubTask(i: number, task: any) {
-    // this.subtaskService.deleteSubTask(task.id)
     this.subtasksforView.splice(i, 1);
   }
 
@@ -234,6 +224,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   changeTask(task: any) {
     this.taskId = task.id
+    this.onSubmit();
     this.popupService.closePopups();
   }
 

@@ -20,7 +20,7 @@ import { SubtaskService } from '../services/subtask.service';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss']
 })
-export class BoardComponent implements OnInit, OnDestroy {
+export class BoardComponent implements OnInit {
 
 search:string = '';
 
@@ -56,7 +56,6 @@ taskListForSearch:Task[] = [];
 
 
   ngOnInit(): void {
-    this.templateService.board = true;
     this.taskService.getTasks();
     this.subTaskService.getSubTasks();
     this.contactService.getContacts();
@@ -68,12 +67,6 @@ taskListForSearch:Task[] = [];
     this.taskService.myTasks$.subscribe(() =>{
       this.taskListForSearch = this.taskService.tasks;
     });
-  }
-
-
-  ngOnDestroy(): void {
-    this.templateService.board = false;
-
   }
 
 

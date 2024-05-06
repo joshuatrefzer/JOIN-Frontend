@@ -7,7 +7,7 @@
 
     <div class="link-container">
         <div class="links-top">
-            <a routerLink="/summary" [ngClass]="{'selected-link' : templateService.summary}">
+            <a routerLink="/summary" [ngClass]="{'selected-link' : activeLink === '/summary'}">
                 <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M25.2273 3.48303H4.77273H4.5C3.39543 3.48303 2.5 4.37876 2.5 5.48333C2.5 5.66313 2.5 5.7905 2.5 5.823V26.2775V26.483C2.5 27.5876 3.39572 28.483 4.50029 28.483C4.64377 28.483 4.74401 28.483 4.77272 28.483H25.2273C25.256 28.483 25.3562 28.483 25.4997 28.483C26.6043 28.483 27.5 27.5871 27.5 26.4825C27.5 26.3757 27.5 26.3019 27.5 26.2775V5.82297C27.5 5.79047 27.5 5.66311 27.5 5.48333C27.5 4.37876 26.6043 3.48303 25.4997 3.48303C25.3562 3.48303 25.256 3.48303 25.2273 3.48303ZM17.2727 26.2775H4.77273V17.1866H17.2727V26.2775ZM17.2727 14.9139H4.77273V5.823L17.2727 5.82297V14.9139ZM25.2273 26.2775H19.5455V5.823H25.2273V26.2775Z"
@@ -16,7 +16,7 @@
                 <span>Summary</span>
             </a>
 
-            <a  routerLink="/addtask" [ngClass]="{'selected-link' : templateService.addTask}" >
+            <a  routerLink="/addtask" [ngClass]="{'selected-link' : activeLink === '/addtask'}" >
                 <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_90666_3776" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="30" height="31">
@@ -32,7 +32,7 @@
                 <span>Add Task</span>
             </a>
 
-            <a   routerLink="/board" [ngClass]="{'selected-link' : templateService.board}">
+            <a   routerLink="/board" [ngClass]="{'selected-link' : activeLink === '/board'}">
                 <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M22.9544 5.75564L22.9545 26.21C22.9538 26.8125 22.7142 27.3903 22.2881 27.8163C21.862 28.2424 21.2843 28.4821 20.6817 28.4827L16.1363 28.4827C15.5338 28.4821 14.956 28.2424 14.53 27.8163C14.1039 27.3903 13.8642 26.8125 13.8636 26.21L13.8636 5.75564C13.8642 5.15306 14.1039 4.57534 14.53 4.14926C14.956 3.72317 15.5338 3.48353 16.1363 3.48293L20.6817 3.48293C21.2843 3.48353 21.862 3.72317 22.2881 4.14926C22.7142 4.57534 22.9538 5.15306 22.9544 5.75564ZM16.1363 26.21L20.6817 26.21L20.6817 5.75564L16.1363 5.75564L16.1363 26.21ZM16.1363 5.75564L16.1363 26.21C16.1357 26.8125 15.8961 27.3902 15.47 27.8163C15.0439 28.2424 14.4662 28.482 13.8636 28.4826L9.31823 28.4826C8.71566 28.482 8.13794 28.2424 7.71185 27.8163C7.28577 27.3902 7.04613 26.8125 7.04553 26.2099L7.04553 5.75561C7.04613 5.15304 7.28577 4.57532 7.71185 4.14923C8.13793 3.72315 8.71566 3.48351 9.31823 3.48291L13.8636 3.48291C14.4662 3.48351 15.0439 3.72315 15.47 4.14923C15.8961 4.57532 16.1357 5.15306 16.1363 5.75564ZM9.31823 26.2099L13.8636 26.21L13.8636 5.75564L9.31823 5.75561L9.31823 26.2099ZM9.31823 5.75561L9.31823 26.2099C9.31763 26.8125 9.07799 27.3902 8.65191 27.8163C8.22582 28.2424 7.6481 28.482 7.04553 28.4826L2.50012 28.4826C1.89755 28.482 1.31983 28.2424 0.893741 27.8163C0.467657 27.3902 0.228019 26.8125 0.227417 26.2099L0.227416 5.75561C0.228018 5.15304 0.467656 4.57532 0.89374 4.14923C1.31982 3.72315 1.89755 3.48351 2.50012 3.48291L7.04553 3.48291C7.6481 3.48351 8.22582 3.72315 8.6519 4.14923C9.07799 4.57532 9.31763 5.15304 9.31823 5.75561ZM2.50012 26.2099L7.04553 26.2099L7.04553 5.75561L2.50012 5.75561L2.50012 26.2099Z"
@@ -46,7 +46,7 @@
                 <span>Board</span>
             </a>
 
-            <a  routerLink="/contacts" [ngClass]="{'selected-link' : templateService.contacts}">
+            <a  routerLink="/contacts" [ngClass]="{'selected-link' : activeLink === '/contacts'}">
                 <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_90666_3788" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="30" height="31">
@@ -63,7 +63,7 @@
         </div>
 
         <div *ngIf="!templateService.mobileview" class="links-bottom">
-            <a  routerLink="/legals" [ngClass]="{'selected-link' : templateService.legals}">Privacy policy | Legal notice</a>
+            <a  routerLink="/legals" [ngClass]="{'selected-link' : activeLink === '/legals'}">Privacy policy | Legal notice</a>
             
         </div>
 

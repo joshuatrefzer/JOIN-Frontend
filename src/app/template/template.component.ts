@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { UserService } from '../services/user.service';
 import { AuthenticationService } from '../services/authentication.service';
-import { Router , ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-template',
@@ -11,14 +11,25 @@ import { Router , ActivatedRoute} from '@angular/router';
 })
 export class TemplateComponent {
 
+  activeLink: string = '/summary';
+
   constructor(
     public templateService: TemplateService,
     public userService: UserService,
     public auth: AuthenticationService,
     public router: Router,
   ) {
-    this.checkForMobileView();   
-   }
+    this.checkForMobileView();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.setActiveLink();
+      }
+    });
+  }
+
+  setActiveLink() {
+    this.activeLink = this.router.url;
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
@@ -35,7 +46,7 @@ export class TemplateComponent {
   }
 
 
-  togglePopup(){
+  togglePopup() {
     this.templateService.logOutMenu = !this.templateService.logOutMenu;
   }
 
@@ -45,7 +56,7 @@ export class TemplateComponent {
     return letter;
   }
 
-  logOut(){
+  logOut() {
     localStorage.removeItem('Token');
     window.location.reload();
   }

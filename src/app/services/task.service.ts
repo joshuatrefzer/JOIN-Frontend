@@ -79,17 +79,17 @@ export class TaskService {
   }
 
 
-  updateTask(task: any, id: number) {
+  updateTask(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
-    console.log(task.date);
+    console.log(form.value.date);
     const data: Task = {
-      title: task.title,
-      description: task.description,
-      assigned_to: task.assigned_to,
-      date: task.date,
-      prio: task.prio,
-      category: task.category,
-      subtasks: task.subtask,
+      title: form.value.title,
+      description: form.value.description,
+      assigned_to: form.value.assigned_to,
+      date: form.value.date,
+      prio: form.value.prio,
+      category: form.value.category,
+      subtasks: form.value.subtask,
     };
 
     this.http.put(url, data).subscribe(() => {
@@ -136,7 +136,7 @@ export class TaskService {
       this.status = undefined;
 
     }, (error) => {
-      console.error('Contact was not added', error);
+      console.error('Task was not added', error);
     });
   }
 
