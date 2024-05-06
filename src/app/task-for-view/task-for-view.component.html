@@ -1,56 +1,62 @@
 <div class="column-center container color-primary">
-    <div class="head">
+    <div class="left-container">
+        <div class="head">
 
-        <div class="left">
-            <div class="font-30"><b>{{ task?.title }}</b></div>
-            <div style="color: grey; margin-top:10px;"> {{
-                formattedDate }}
+            <div class="left">
+                <div class="font-30"><b>{{ task?.title }}</b></div>
+                <div style="color: grey; margin-top:10px;"> {{
+                    formattedDate }}
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="category {{ task?.category }}">
+                    <span>{{ task?.category }}</span>
+                </div>
             </div>
         </div>
 
-        <div class="right">
-            <div class="category {{ task?.category }}">
-                <span>{{ task?.category }}</span>
-            </div>
+        <div class="row" style="margin-bottom: 20px;">
+            <span class="prio-button">
+                {{ task?.prio }}
+                <img src="assets/img/{{task?.prio}}.svg" alt="">
+            </span>
+        </div>
+        
+        <div class="description">
+            <h3>Description:</h3>
+            <span style="color: grey;">{{ task?.description }}</span>
         </div>
 
 
-    </div>
 
 
-    <div class="description">
-        <span class="font-20">Description:</span>
-        <span style="color: grey; margin-top:10px;">{{ task?.description }}</span>
-    </div>
-
-
-    <div class="row" style="margin-bottom: 20px;">
-        <span class="prio-button">
-            {{ task?.prio }} 
-            <img src="assets/img/{{task?.prio}}.svg" alt="">
-        </span>
-    </div>
-
-    <div class="row">Assigned to:</div>
-    <div class="row assigned">
-        <div class="contact-box" *ngFor="let contact of popupService.taskPopupContacts">
-            <div class="center box-shadow contact-icon">
-                <span>{{contact.first_name.charAt(0).toUpperCase()}}
-                    {{contact.last_name.charAt(0).toUpperCase()}}
-                </span>
+        <h3 class="row">Assigned contacts:</h3>
+        <div class="row assigned">
+            <div class="contact-box" *ngFor="let contact of popupService.taskPopupContacts">
+                <div class="center box-shadow contact-icon">
+                    <span class="ellipsis">{{contact.first_name.charAt(0).toUpperCase()}}
+                        {{contact.last_name.charAt(0).toUpperCase()}}
+                    </span>
+                </div>
+                <span>{{ contact.first_name }} {{ contact.last_name }}</span>
             </div>
-            <span>{{ contact.first_name }} {{ contact.last_name }}</span>
-        </div>
 
+        </div>
     </div>
-    
-    <div class="row">
-        <span class="font-20">Subtasks:</span>
-        <div class="subtask column-center" *ngFor="let subtask of popupService.taskPopupSubtasks; let i = index">
-            <span>{{ subtask.title }}</span>
-            <input (change)="updateCheckbox(subtask.id , subtask)" type="checkbox" [(ngModel)]="subtask.done" name="subtask-{{i}}">
-          </div>
+
+    <div class="right-container">
+        <div class="row">
+            <h3>Subtasks:</h3>
+            <div class="subtask column-center" *ngFor="let subtask of popupService.taskPopupSubtasks">
+                <mat-checkbox color="primary" (change)="updateCheckbox(subtask.id , subtask)" class="example-margin"
+                    [(ngModel)]="subtask.done">{{ subtask.title }}</mat-checkbox>
+            </div>
+        </div>
     </div>
+
+
+
     <div class="row bottom">
         <div class="button-container">
             <div (click)="deleteTask(task?.id)" class="delete text-btn center">

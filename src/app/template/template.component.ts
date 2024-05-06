@@ -61,8 +61,8 @@ export class TemplateComponent {
     window.location.reload();
   }
 
-  navigateToAbout(){
-    this.router.navigate(['/about']);
+  navigate(component: string){
+    this.router.navigate([component]);
     this.togglePopup();
   }
 

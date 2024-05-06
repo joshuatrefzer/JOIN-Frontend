@@ -332,6 +332,10 @@ body {
     z-index: 500;
 }
 
+.ellipsis {
+    text-overflow: ellipsis;
+}
+
 @media (max-width: 359px) and (max-height: 739px) {
     .unable-site {
         display: flex;

@@ -11,7 +11,7 @@ import { PoupService } from '../services/poup.service';
   templateUrl: './addtask.component.html',
   styleUrls: ['./addtask.component.scss']
 })
-export class AddtaskComponent implements OnInit {
+export class AddtaskComponent implements OnInit, OnDestroy{
   @Input() headline: 'Add Task' | 'Edit Task' = 'Add Task';
 
 
@@ -58,6 +58,10 @@ export class AddtaskComponent implements OnInit {
     this.popupService.editTaskPopup ? this.fillForm() : null;
     this.contactService.getContacts();
     this.subtaskService.getSubTasks();
+  }
+
+  ngOnDestroy(): void {
+    this.popupService.taskToEdit = null;
   }
 
 

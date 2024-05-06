@@ -57,8 +57,11 @@ router-outlet {
 
 .popup-view-task {
     @extend .popup-add-task;
-    height: 80vh;
-    width: 50vw;
+    height:fit-content;
+    width: 900px;
+    @media (max-width:1000px) {
+        width: 95%;
+    }
 }
 
 app-task-for-view {

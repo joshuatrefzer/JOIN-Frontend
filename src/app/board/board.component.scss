@@ -238,8 +238,8 @@ app-task {
         border-radius: 100% !important;
         min-width: unset !important;
         position: absolute;
-        right: 20px;
-        top: 40px;
+        right: 10px;
+        top: 20px;
         box-shadow: 1px 1px 10px rgb(160, 160, 160);
     }
 
@@ -252,13 +252,33 @@ app-task {
         overflow-x: scroll;
         overflow-y: unset;
         flex-direction: row !important;
+        align-items: center;
         min-height: 50px;
         margin-bottom: 10px;
+        height: fit-content;
+        box-sizing: border-box;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        :first-child {
+            margin-top: 0;
+            margin-left: 20px;
+        }
+    
+        :last-child {
+            margin-bottom: 0;
+            margin-right: 20px;
+        }
+        scale: 0.9;
     }
 
     .example-box {
         min-width: 300px;
         max-width: 300px;
         height: 85%;
+        margin-top: 0;
+        margin-right: 10px;
+        scale: 0.9;
     }
+
+    
 }
