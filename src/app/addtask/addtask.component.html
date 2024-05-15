@@ -37,7 +37,7 @@
             <div class="row-left">
                 <mat-form-field style="margin-top: 35px;" appearance="outline">
                     <mat-label>choose contacts</mat-label>
-                    <mat-select (selectionChange)="assigneContact()" formControlName="assigned_to" multiple>
+                    <mat-select formControlName="assigned_to" multiple>
                         <mat-option *ngFor="let contact of contactService.contacts" value="{{ contact.id }}">{{
                             contact.first_name }} {{ contact.last_name }}</mat-option>
                     </mat-select>
@@ -69,7 +69,7 @@
                 </mat-form-field>
 
 
-                <input type="date" (change)="showDate()" formControlName="date" [min]="minDate">
+                <input type="date" formControlName="date" [min]="minDate">
             </div>
 
             <div class="row-right">

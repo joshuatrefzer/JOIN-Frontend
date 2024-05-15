@@ -23,8 +23,6 @@ export class AddContactComponent {
     }
   }
 
-
-
   public contactForm: FormGroup = new FormGroup({
 
     email: new FormControl('', [

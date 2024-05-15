@@ -5,13 +5,14 @@ import { Contact, ContactService } from '../services/contact.service';
 import { SubTask, SubtaskService } from '../services/subtask.service';
 import { Task, TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-addtask',
   templateUrl: './addtask.component.html',
   styleUrls: ['./addtask.component.scss']
 })
-export class AddtaskComponent implements OnInit, OnDestroy{
+export class AddtaskComponent implements OnInit, OnDestroy {
   @Input() headline: 'Add Task' | 'Edit Task' = 'Add Task';
 
 
@@ -51,20 +52,9 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     public popupService: PoupService,
     public subtaskService: SubtaskService,
     public taskService: TaskService,
-    private renderer: Renderer2, private el: ElementRef
-  ) { 
-  }
-
-  getMinDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Monate sind nullbasiert
-    const year = today.getFullYear();
-    const minDate = `${year}-${month}-${day}`;
-    console.log(minDate);
-    
-    return minDate;
-  }
+    private renderer: Renderer2, private el: ElementRef,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.resetForm();
@@ -73,23 +63,44 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     this.subtaskService.getSubTasks();
   }
 
+
+  /**
+  * Returns the current date in "YYYY-MM-DD" format as the minimum value.
+  * 
+  * @returns {string} The current date in "YYYY-MM-DD" format.
+  */
+  getMinDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = today.getFullYear();
+    const minDate = `${year}-${month}-${day}`;
+
+    return minDate;
+  }
+
+
   ngOnDestroy(): void {
     this.popupService.taskToEdit = null;
   }
 
 
+  /**
+  * Filter function to determine whether a given date is greater than or equal to today's date.
+  * 
+  * @param {Date | null} d The date to be checked. If null, today's date is used.
+  * @returns {boolean} True if the given date is greater than or equal to today's date, false otherwise.
+  */
   myFilter = (d: Date | null): boolean => {
     const today = new Date();
     d = d || today;
     return d >= today;
   };
 
-  showDate(){
-    console.log(this.addTaskForm.value.date);
-    
-  }
 
-
+  /**
+  * Fills the form fields with the details of the task to be edited.
+  */
   fillForm() {
     const task = this.popupService.taskToEdit;
 
@@ -104,42 +115,82 @@ export class AddtaskComponent implements OnInit, OnDestroy{
   }
 
 
+  /**
+ * Fills the assigned_to field in the form with the given array of assigned contacts.
+ * 
+ * @param {any[]} assigned_contacts An array containing the IDs of assigned contacts.
+ */
   fillContacts(assigned_contacts: any) {
     assigned_contacts.forEach((id: number) => {
       this.addTaskForm.value.assigned_to.push(`${id}`);
-    })
+    });
   }
 
-
+  /**
+  * Fills an array with subtasks based on the given array of subtask IDs.
+  * 
+  * @param {any[]} subtasks An array containing the IDs of subtasks.
+  * @returns {SubTask[]} An array of SubTask objects corresponding to the given subtask IDs.
+  */
   fillSubTasks(subtasks: any) {
     const st: SubTask[] = [];
     subtasks.forEach((id: number) => {
+      // Find the index of the subtask in the subtask service
       let index = this.subtaskService.subTasks.findIndex((task: SubTask) => task.id === id);
+      // If the subtask exists in the subtask service, push it to the array
       if (index !== -1) {
         st.push(this.subtaskService.subTasks[index]);
       }
-    })
+    });
     return st;
   }
 
+
+  /**
+ * Handles the form submission by performing necessary validations and actions.
+ * 
+ * If the form is not valid and the headline is "Add Task", displays a snackbar message.
+ * Prepares subtasks for the request, updates or adds the task, and resets the subtasks and form.
+ */
   onSubmit() {
     if (!this.addTaskForm.valid && this.headline == "Add Task") {
-      console.log('Fülle die Form aus');
+      this.snackBarMessage('Please fill the form!');
       return;
     }
+    this.prepareSubtaskForRequest();
+    this.updateOrAddTask();
+    this.resetSubtaskandForm();
+  }
 
+  /**
+  * Determines whether to update or add the task and invokes the corresponding service method.
+  * 
+  * Updates the subtask value in the form, then calls either the task update or task add service method based on the headline and task ID.
+  */
+  updateOrAddTask() {
+    this.addTaskForm.value.subtask = this.subtasksForSubmit;
+    if (this.headline !== "Add Task" && this.taskId) {
+      this.taskService.updateTask(this.addTaskForm, this.taskId);
+    } else {
+      this.taskService.addTask(this.addTaskForm);
+    }
+  }
+
+  /**
+ * Prepares the subtasks for submission by extracting their IDs from the view array and pushing them to the submit array.
+ */
+  prepareSubtaskForRequest() {
     if (this.subtasksforView.length >= 1) {
       for (const subtask of this.subtasksforView) {
         this.subtasksForSubmit.push(`${subtask.id}`);
       }
     }
-    this.addTaskForm.value.subtask = this.subtasksForSubmit;
-    if (this.headline !== "Add Task" && this.taskId) {
-      this.taskService.updateTask(this.addTaskForm, this.taskId);
-    } else {    
-      this.taskService.addTask(this.addTaskForm);
-    }
+  }
 
+  /**
+  * Resets the subtasks array, form, and closes any popups after the tasks have been submitted.
+  */
+  resetSubtaskandForm() {
     this.taskService.myTasks$.subscribe(() => {
       this.subtasksForSubmit = [];
       this.subtasksforView = [];
@@ -148,13 +199,32 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     });
   }
 
+  /**
+  * Displays a snackbar message with the given message string.
+  * 
+  * @param {string} msg The message to be displayed in the snackbar.
+  */
+  snackBarMessage(msg: string) {
+    this.snackBar.open(msg, 'close', {
+      duration: 3000,
+      panelClass: ['blue-snackbar']
+    });
+  }
 
+  /**
+  * Checks for the 'Enter' key press event and adds a new subtask if detected.
+  * 
+  * @param {KeyboardEvent} event The keyboard event object.
+  */
   checkForKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.addNewSubtask();
     }
   }
 
+  /**
+ * Resets the form to its initial state, clearing all fields and arrays.
+ */
   resetForm() {
     this.addTaskForm.reset({
       title: '',
@@ -171,6 +241,9 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     this.resetButtons();
   }
 
+  /**
+  * Resets the subtasks array for view by deleting all subtasks and clearing the array.
+  */
   resetSubTaskForView() {
     this.subtasksforView.forEach((st: { id: number; }) => {
       this.subtaskService.deleteSubTask(st.id);
@@ -178,18 +251,23 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     this.subtasksforView = [];
   }
 
-
-  assigneContact() {
-    console.log(this.addTaskForm.value.assigned_to);
-
-  }
-
+  /**
+  * Removes a subtask from the subtasks array at the specified index.
+  * 
+  * @param {number} i The index of the subtask to be removed.
+  * @param {any} task The subtask object to be removed.
+  */
   removeSubTask(i: number, task: any) {
     this.subtasksforView.splice(i, 1);
   }
 
 
 
+  /**
+ * Selects the priority for the task and updates the form accordingly.
+ * 
+ * @param {string} prio The priority value to be selected.
+ */
   selectPrio(prio: string) {
     const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
     if (this.buttons.includes(prio)) {
@@ -202,11 +280,13 @@ export class AddtaskComponent implements OnInit, OnDestroy{
         this.addTaskForm.get('prio')?.setValue(`${prio}`);
       }
     } else {
-      console.error('Ungültige Prio ausgewählt');
+      this.snackBarMessage('Invalid priority selected');
     }
   }
 
-
+  /**
+  * Resets the priority buttons by removing their selected state.
+  */
   resetButtons() {
     this.buttons.forEach(button => {
       const element = this.el.nativeElement.querySelector(`#${button}`);
@@ -214,9 +294,9 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     });
   }
 
-
-  // VERBESSERN!!! Funktioniert noch nicht richtig gut.
-
+  /**
+  * Adds a new subtask to the form and the subtask service.
+  */
   addNewSubtask() {
     const SubTaskValue = this.addTaskForm.value.subtask;
     this.addTaskForm.get('subtask')?.setValue('');
@@ -234,15 +314,24 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     });
   }
 
+  /**
+  * Deletes a task with the specified ID.
+  * 
+  * @param {any} id The ID of the task to be deleted.
+  */
   deleteTask(id: any) {
     this.taskService.deleteTask(id);
     this.popupService.closePopups();
   }
 
+  /**
+  * Changes the task with the specified task object.
+  * 
+  * @param {any} task The task object to be changed.
+  */
   changeTask(task: any) {
-    this.taskId = task.id
+    this.taskId = task.id;
     this.onSubmit();
     this.popupService.closePopups();
   }
-
 }
