@@ -1,6 +1,6 @@
 <div class="popup">
     <div class="center">
-        <h1>Password reset</h1>
+        <h1>Forgot Password</h1>
     </div>
     <form (ngSubmit)="onSubmit()" [formGroup]="reset" class="example-form center">
         <div class="row-container">We will send you a mail to reset you password</div>
@@ -21,7 +21,7 @@
         </div>
 
         <div class="row-container button-container" style="margin-top: 22px;">
-            <button [ngClass]="{'invalid': !reset.valid}" type="button" action="submit" class="button-1">Send</button>
+            <button [ngClass]="{'invalid': !reset.valid}" type="submit" action="submit" class="button-1">Send</button>
         </div>
     </form>
 </div>

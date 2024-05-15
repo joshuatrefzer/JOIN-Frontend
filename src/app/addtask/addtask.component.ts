@@ -22,6 +22,8 @@ export class AddtaskComponent implements OnInit, OnDestroy{
 
   assigned_contacts: any = [];
   selected: string = '';
+  minDate: string = this.getMinDate();
+
 
   public addTaskForm: FormGroup = new FormGroup({
 
@@ -50,8 +52,19 @@ export class AddtaskComponent implements OnInit, OnDestroy{
     public subtaskService: SubtaskService,
     public taskService: TaskService,
     private renderer: Renderer2, private el: ElementRef
-  ) { }
+  ) { 
+  }
 
+  getMinDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Monate sind nullbasiert
+    const year = today.getFullYear();
+    const minDate = `${year}-${month}-${day}`;
+    console.log(minDate);
+    
+    return minDate;
+  }
 
   ngOnInit(): void {
     this.resetForm();

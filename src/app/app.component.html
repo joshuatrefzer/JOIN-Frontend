@@ -1,8 +1,5 @@
-<app-startscreen *ngIf="!authService.userIsLoggedIn"></app-startscreen>
-
-
-
-
+<app-startscreen *ngIf="!authService.userIsLoggedIn && !token"></app-startscreen>
+<app-reset-password *ngIf="token"></app-reset-password>
 
 <app-template [ngClass]="{'filter': popupService.behindPopupContainer}"
     *ngIf="authService.userIsLoggedIn"></app-template>
@@ -29,7 +26,7 @@
 
     <div class="popup-contact-right center">
         <app-add-contact></app-add-contact>
-        <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
+        <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close close-change-color">
     </div>
 </div>
 
@@ -55,7 +52,7 @@
 
     <div class="popup-contact-right center">
         <app-edit-contact></app-edit-contact>
-        <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
+        <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close close-change-color">
     </div>
 </div>
 
@@ -85,3 +82,4 @@
 <div class="unable-site">
     <img src="assets/img/join-logo.png" alt="">
     <p>Sorry! This site supports only devices with a minimum height of 740px an an minimum width of 360px</p>
+</div>

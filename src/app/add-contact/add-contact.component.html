@@ -41,10 +41,13 @@
         <mat-error *ngIf="contactForm.controls['phone'].errors?.['required']">
             Phone Nr. is <strong>required</strong>
         </mat-error>
+        <mat-error *ngIf="contactForm.controls['phone'].errors?.['pattern']">
+            Phone Nr. must contain only <strong>numbers</strong>
+        </mat-error>
     </mat-form-field>
 
     <div class="row-container">
-        <div (click)="popupService.closePopups()" type="button"  class="button-1">cancel</div>
+        <button (click)="popupService.closePopups()" type="button"  class="button-1">cancel</button>
         <button action="submit" [disabled]="!contactForm.valid" [ngClass]="{'valid':contactForm.valid}" class="button-2 submit">create contact</button>
     </div>
 </form>

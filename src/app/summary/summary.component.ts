@@ -57,13 +57,8 @@ export class SummaryComponent implements OnInit {
   getNextDate() {
     const currentDate = new Date();
     const taskDates = this.taskService.tasks.map(t => new Date(t.date));
-    console.log('1' , taskDates);
-    
     const futureDates = taskDates.filter(date => date > currentDate);
-    console.log('2' , futureDates);
-    
     futureDates.sort((a, b) => b.getTime() - a.getTime());
-  
     const nearestDate = futureDates[0];
     return nearestDate ? this.formatDate(nearestDate) : 'No upcoming deadline';
   }

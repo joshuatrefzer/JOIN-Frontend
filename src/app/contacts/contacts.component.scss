@@ -54,6 +54,18 @@ h1 {
     justify-content: center;
 }
 
+.ellipsis {
+    font-size: 40px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 12px;
+    overflow: hidden;
+
+    @media (max-width:800px) {
+       max-width: 170px; 
+    }
+}
+
 .button-container {
     gap: 10px;
 }
@@ -117,6 +129,7 @@ h1 {
     height: calc(100% - 70px);
     overflow-y: scroll;
     overflow-x: hidden;
+
     ::-webkit-scrollbar {
         display: none !important;
     }
@@ -202,6 +215,9 @@ h1 {
 .top-area {
     height: 350px;
     justify-content: flex-start;
+    @media (max-height:700px){
+        height: 220px;
+    }
 }
 
 .contact-popup {
@@ -213,12 +229,14 @@ h1 {
 
 .h1-component {
     justify-content: flex-start;
+
     @media (max-width:550px) {
         width: 100%;
         flex-direction: column;
         justify-content: center;
         gap: 10px;
         margin-left: 0;
+
         h1 {
             border-right: none;
             padding-bottom: 10px;

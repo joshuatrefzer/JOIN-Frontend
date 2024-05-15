@@ -33,7 +33,7 @@ export class AddContactComponent {
     ], []),
 
     phone: new FormControl('', [
-      Validators.required
+      Validators.required, Validators.pattern('^[0-9]*$')
     ], []),
 
     first_name: new FormControl('', [

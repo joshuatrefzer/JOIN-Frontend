@@ -35,6 +35,7 @@ import { TaskForViewComponent } from './task-for-view/task-for-view.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { LoaderComponent } from './loader/loader.component';
 import { AboutComponent } from './about/about.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
@@ -57,6 +58,7 @@ import { AboutComponent } from './about/about.component';
     TaskForViewComponent,
     LoaderComponent,
     AboutComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

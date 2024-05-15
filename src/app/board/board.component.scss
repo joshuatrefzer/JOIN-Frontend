@@ -178,7 +178,6 @@ app-task {
     background: white;
     width: calc(90% - 20px);
     border-radius: 20px;
-
     &:active {
         cursor: grabbing;
     }
@@ -255,18 +254,22 @@ app-task {
         align-items: center;
         min-height: 50px;
         margin-bottom: 10px;
+        margin-left: 10px;
         height: fit-content;
         box-sizing: border-box;
         padding-top: 10px;
         padding-bottom: 10px;
+        app-task {
+            padding: 10px 0px;
+        }
         :first-child {
             margin-top: 0;
-            margin-left: 20px;
+            margin-left: 10px;
         }
     
         :last-child {
             margin-bottom: 0;
-            margin-right: 20px;
+            margin-right: 10px;
         }
         scale: 0.9;
     }
@@ -274,11 +277,10 @@ app-task {
     .example-box {
         min-width: 300px;
         max-width: 300px;
-        height: 85%;
         margin-top: 0;
         margin-right: 10px;
         scale: 0.9;
+        height: fit-content !important;
     }
-
     
 }

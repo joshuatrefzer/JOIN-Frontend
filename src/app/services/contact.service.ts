@@ -19,8 +19,8 @@ export class ContactService {
 
   contacts: Contact[] = [];
   myContacts$: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
-
-
+  showInfo: boolean = true;
+  showContactContainer: boolean = false;
   url = environment.baseUrl + '/contacts/';
 
 
@@ -45,7 +45,6 @@ export class ContactService {
       tap((data) => {
         this.contacts = data;
         this.myContacts$.next(data);
-        console.log(this.contacts);
       })
     );
   }
@@ -67,8 +66,7 @@ export class ContactService {
       phone: form.value.phone
     };
 
-    this.http.put(url, data).subscribe(() => {
-
+    this.http.put(url, data).subscribe(res => {
       const updatedIndex = this.contacts.findIndex(contact => contact.id === id);
       if (updatedIndex !== -1) {
         this.contacts[updatedIndex] = { id, ...data };
@@ -107,6 +105,8 @@ export class ContactService {
 
       this.contacts = this.contacts.filter(contact => contact.id !== id);
       this.myContacts$.next(this.contacts);
+      this.showInfo = false;
+      this.showContactContainer = false;
     }, (error) => {
       console.error('Fehler beim Löschen des Kontakts', error);
     });

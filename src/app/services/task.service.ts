@@ -52,7 +52,6 @@ export class TaskService {
       tap((data) => {
         this.tasks = data;
         this.myTasks$.next(data);
-        console.log(this.tasks);
         this.sortTasks();
       })
     );
@@ -81,7 +80,6 @@ export class TaskService {
 
   updateTask(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
-    console.log(form.value.date);
     const data: Task = {
       title: form.value.title,
       description: form.value.description,

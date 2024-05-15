@@ -11,6 +11,31 @@
     font-size: 15px;
 }
 
+.category-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.category {
+    width: unset;
+}
+
+.overdue {
+    color:rgb(131, 0, 0);
+}
+
+.date {
+    color: rgb(131, 0, 0);
+    font-size: 12px;
+}
+
+.overdue-container {
+    display: flex;
+    flex-direction: column;
+
+}
+
 
 .contact-icon {
     position: absolute;

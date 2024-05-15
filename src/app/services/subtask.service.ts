@@ -40,7 +40,6 @@ export class SubtaskService {
       tap((data: SubTask[]) => {
         this.subTasks = data;
         this.mySubTasks$.next(data);
-        console.log(this.subTasks);
       })
     );
   }

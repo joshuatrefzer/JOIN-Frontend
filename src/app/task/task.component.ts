@@ -10,7 +10,7 @@ import { take } from 'rxjs';
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss']
 })
-export class TaskComponent implements OnInit, OnChanges {
+export class TaskComponent implements OnInit {
   @Input() task: any;
 
   mytask: any;
@@ -18,36 +18,41 @@ export class TaskComponent implements OnInit, OnChanges {
   subtasks: SubTask[] = [];
   progressBarValue: number = 0;
   count: number = 0;
-  openMoveTaskPopup:boolean = false;
+  openMoveTaskPopup: boolean = false;
+
+  overdue: boolean = false;
 
   constructor(
     public taskService: TaskService,
     public contactService: ContactService,
     public popupService: PoupService,
     public subtaskService: SubtaskService,
-  ) { 
-    
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['task']) {
-      console.log('Here changes');
-    }
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getSubTasks();
     this.getContacts();
     this.mytask = this.task;
-    
+
     this.subtaskService.mySubTasks$.subscribe(() => {
       this.getSubTasks();
     });
-  
-    this.contactService.myContacts$.subscribe(()=> {
+
+    this.contactService.myContacts$.subscribe(() => {
       this.getContacts();
     });
+
+    this.checkDate();
+  }
+
+  checkDate() {
+    const date = new Date();
+    let day = String(date.getDate()).padStart(2, '0'); 
+    let month = String(date.getMonth() + 1).padStart(2, '0'); 
+    let year = date.getFullYear();
+    let currentDate = `${year}-${month}-${day}`;
+  
+    this.overdue = currentDate > this.mytask.date;
   }
 
   doneSubtasks() {
@@ -90,13 +95,13 @@ export class TaskComponent implements OnInit, OnChanges {
     this.doneSubtasks();
   }
 
-  moveTaskPopup(){
+  moveTaskPopup() {
     this.openMoveTaskPopup = true;
   }
 
-  moveTask(status:string){
+  moveTask(status: string) {
     this.task.status = status;
-    this.taskService.updateTaskStatus(this.task , this.task.id);
+    this.taskService.updateTaskStatus(this.task, this.task.id);
     this.openMoveTaskPopup = false;
   }
 

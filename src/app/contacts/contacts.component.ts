@@ -17,14 +17,21 @@ export class ContactsComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     public contactService: ContactService,
     private el: ElementRef
-  ) { }
+  ) {
+    this.sortedContacts = this.contactService.contacts.sort((a, b) => a.first_name.localeCompare(b.first_name));
+   }
+
+  mobile:boolean = true;
+  hideContactContainer: boolean = false;
+  deleteContact: boolean = false;
+  sortedContacts;
 
 
   ngOnInit(): void {
     this.contactService.getContacts();
     this.checkForMobileView();
     if (this.mobile) {
-      this.showInfo = false;
+      this.contactService.showInfo = false;
     }
   }
 
@@ -38,23 +45,16 @@ export class ContactsComponent implements OnInit, OnDestroy {
       this.mobile = true;
     } else {
       this.mobile = false;
-      this.showInfo = false;
+      this.contactService.showInfo = false;
     }
   }
 
 
   ngOnDestroy(): void {
-    this.showInfo = false;
+    this.contactService.showInfo = false;
+    this.contactService.showContactContainer = false;
+    this.popupService.contactForView = null;
   }
-
-  showInfo: boolean = true;
-  mobile:boolean = true;
-
-  showContactContainer: boolean = false;
-  hideContactContainer: boolean = false;
-  deleteContact: boolean = false;
-
-  sortedContacts = this.contactService.contacts.sort((a, b) => a.first_name.localeCompare(b.first_name));
 
 
   groupContactsByLetter() {
@@ -84,11 +84,11 @@ export class ContactsComponent implements OnInit, OnDestroy {
   }
 
   showContact(id: number, contact: Contact) {
-    if (this.showContactContainer) {
+    if (this.contactService.showContactContainer) {
       this.hideContactContainer = true;
-      this.showContactContainer = false;
+      this.contactService.showContactContainer = false;
       setTimeout(() => {
-        this.showContactContainer = true;
+        this.contactService.showContactContainer = true;
         this.hideContactContainer = false;
       }, 300);
     }
@@ -98,7 +98,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     const element = this.el.nativeElement.querySelector(`#contact${id}`);
     this.renderer.addClass(element, 'selected-contact');
     this.showContainer(id);
-    if(this.mobile) this.showInfo = true;
+    if(this.mobile) this.contactService.showInfo = true;
   }
 
 
@@ -109,11 +109,11 @@ export class ContactsComponent implements OnInit, OnDestroy {
     if (this.popupService.contactForView) {
       this.contactService.deleteContact(this.popupService.contactForView.id)
     }
-    this.showInfo = false;
+    this.contactService.showInfo = false;
   }
 
   showContainer(id: number) {
-    this.showContactContainer = true;
+    this.contactService.showContactContainer = true;
   }
 
 
@@ -138,5 +138,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
   hidePopup() {
     this.popupService.behindPopupContainer = false;
   }
+
 
 }

@@ -40,10 +40,13 @@
         <mat-error *ngIf="contactForm.controls['phone'].errors?.['required']">
             Phone Nr. is <strong>required</strong>
         </mat-error>
+        <mat-error *ngIf="contactForm.controls['phone'].errors?.['pattern']">
+            Phone Nr. must contain only <strong>numbers</strong>
+        </mat-error>
     </mat-form-field>
 
     <div class="row-container">
-        <div type="button" action="submit" class="button-1">delete</div>
+        <button (click)="deleteUser()" type="button" action="submit" class="button-1">delete</button>
         <button action="submit" [disabled]="!contactForm.valid" [ngClass]="{'valid':contactForm.valid}" class="button-2 submit">save</button>
     </div>
 </form>

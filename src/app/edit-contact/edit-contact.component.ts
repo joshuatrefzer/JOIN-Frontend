@@ -10,24 +10,6 @@ import { ContactService } from '../services/contact.service';
   styleUrls: ['./edit-contact.component.scss']
 })
 export class EditContactComponent {
-
-
-constructor(
-  public popupService : PoupService,
-  public contactService: ContactService,
-  ) {}
-
-onSubmit() {
-  if (this.contactForm.valid) {
-    if (this.popupService.contactForView) {
-      this.contactService.updateContact(this.contactForm, this.popupService.contactForView.id);
-    }
-    this.popupService.closePopups();
-  }
-}
-
-
-
   public contactForm: FormGroup = new FormGroup({
 
     email: new FormControl('', [
@@ -36,7 +18,7 @@ onSubmit() {
     ], []),
 
     phone: new FormControl('', [
-      Validators.required
+      Validators.required, Validators.pattern('^[0-9]*$')
     ] , [] ),
 
     first_name: new FormControl('', [
@@ -47,5 +29,32 @@ onSubmit() {
       Validators.required
     ] , [] ),
   });
+
+  constructor(
+    public popupService: PoupService,
+    public contactService: ContactService,
+  ) { }
+
+  onSubmit() {
+    if (this.contactForm.valid) {
+      if (this.popupService.contactForView) {
+        this.contactService.updateContact(this.contactForm, this.popupService.contactForView.id);
+        this.popupService.contactForView = null;
+        this.contactService.showContactContainer = false;
+      }
+      this.popupService.closePopups();
+    }
+  }
+
+  deleteUser() {
+    const userId = this.popupService.contactForView?.id;
+    if (userId) {
+      this.contactService.deleteContact(userId);
+      this.popupService.contactForView = null;
+      this.popupService.editContact = false;
+      this.popupService.closePopups();
+    }
+  }
+
 
 }

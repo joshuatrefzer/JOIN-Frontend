@@ -16,7 +16,6 @@ export class AuthenticationService {
   forgotPassword:boolean = false;
   userIsLoggedIn:boolean = false;
 
-
   constructor(private http: HttpClient) { }
 
   signUp(userData: any): Observable<any> {

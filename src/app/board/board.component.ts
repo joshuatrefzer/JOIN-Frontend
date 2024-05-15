@@ -33,7 +33,9 @@ taskListForSearch:Task[] = [];
     public contactService: ContactService,
     public popupService: PoupService,
 
-  ) { }
+  ) { 
+    this.taskListForSearch = [...this.taskService.tasks];
+  }
 
   // Drag & Drop
   drop(event: CdkDragDrop<any>, targetStatus: string) {
@@ -77,12 +79,15 @@ taskListForSearch:Task[] = [];
   }
 
 
-  searchTask(){
-    const filteredTasksTodo = this.taskService.tasks.filter( task => {
-      return task.title.toLowerCase().includes(this.search.toLowerCase());
-    });
-    this.taskService.tasks = filteredTasksTodo;
-   this.checkSearchinput();
+  searchTask() {
+    if (this.search.trim() === '') {
+      this.taskService.tasks = [...this.taskListForSearch];
+    } else {
+      const filteredTasksTodo = this.taskListForSearch.filter(task => 
+        task.title.toLowerCase().includes(this.search.toLowerCase())
+      );
+      this.taskService.tasks = filteredTasksTodo;
+    }
     this.taskService.sortTasks();
   }
 

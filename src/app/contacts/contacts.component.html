@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="!showInfo" class="contact-list center-column">
+    <div *ngIf="!contactService.showInfo" class="contact-list center-column">
 
         <!-- Add Contact Button -->
         <div (click)="openAddContactPopup()" class="button-1 add-contact-button">
@@ -45,13 +45,13 @@
 
 
 
-    <div [ngClass]="{'hide-infos': !showInfo}" class="contact-infos">
-        <img  *ngIf="showInfo" (click)="showInfo = false" style="height: 35px;" class="close" src="assets/img/arrow-left.svg" alt="">
+    <div [ngClass]="{'hide-infos': !contactService.showInfo}" class="contact-infos">
+        <img  *ngIf="contactService.showInfo" (click)="contactService.showInfo = false" style="height: 35px;" class="close" src="assets/img/arrow-left.svg" alt="">
         <div class="h1-component">
             <h1>Contacts</h1>
             <span class="undertitle">better with a team</span>
         </div>
-        <div [ngClass]="{'show-contact': showContactContainer, 'hide-contact': hideContactContainer}"
+        <div [ngClass]="{'show-contact': contactService.showContactContainer, 'hide-contact': hideContactContainer}"
             class="show-contacts-container center">
 
             <div class="container-show-contact center-column">
@@ -60,7 +60,7 @@
                         popupService.contactForView?.first_name?.charAt(0)?.toUpperCase()}}{{
                         popupService.contactForView?.last_name?.charAt(0)?.toUpperCase()}}</div>
                     <div class="center-column box button-and-headline">
-                        <span style="font-size: 40px;">{{ popupService.contactForView?.first_name}} {{
+                        <span class="ellipsis">{{ popupService.contactForView?.first_name}} {{
                             popupService.contactForView?.last_name}}</span>
 
                         <!-- buttons -->
@@ -83,10 +83,7 @@
                                     <div  (click)="deleteContact = false;"  class="text-btn color-primary"><b>No</b></div>
                                     <div (click)="deleteContact = false; contactService.deleteContact(popupService.contactForView.id)" class="text-btn color-primary"><b>Yes</b></div>
                                 </div>
-
                             </div>
-
-
                         </div>
 
                     </div>
@@ -94,7 +91,7 @@
 
                 <div style="font-size: 20px; font-weight:300;">Contact information:</div>
                 <div class="center-column box">
-                    <span style="font-size: 15px; font-weight:300;">Email: <a href="mailto:abc@example.com"
+                    <span style="font-size: 15px; font-weight:300;">Email: <a href="mailto:{{ popupService.contactForView?.mail }}"
                             class="mail text-btn"> {{ popupService.contactForView?.mail }}</a></span>
                     <span style="font-size: 15px; font-weight:300;">Phone: {{ popupService.contactForView?.phone
                         }}</span>

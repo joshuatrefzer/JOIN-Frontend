@@ -5,7 +5,7 @@
             <div class="search">
                 <mat-form-field appearance="outline" class="searchbar">
                     <mat-label>Search Task..</mat-label>
-                    <input matInput type="text" (keydown)="searchTask()" [(ngModel)]="search">
+                    <input matInput type="text" (keyup)="searchTask()" [(ngModel)]="search">
         
                     <div class="text-btn" style="margin-right: 10px;" *ngIf="search.length > 0" matSuffix mat-icon-button (click)="search =''; searchTask()">
                         <mat-icon>close</mat-icon>

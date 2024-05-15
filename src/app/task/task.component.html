@@ -1,5 +1,13 @@
-<div class=" category" >
-    <span class="{{task.category}}">{{ task.category }}</span>
+<div class="category-container">
+    <div class="category">
+        <span class="{{task.category}}">{{ task.category }}</span>
+    </div>
+
+    <div *ngIf="overdue" class="overdue-container">
+        <span class="overdue"><strong>overdue</strong></span>
+        <span class="date">{{ task.date }}</span>
+    </div>
+
 </div>
 
 <div class="title">
@@ -17,10 +25,12 @@
 
 <div class="bottom-task-box">
     <div class="contact-box">
-        
+
         <div class="contact-container">
-            <div class="center box-shadow contact-icon" *ngFor="let contact of contacts; let i = index" [style.left.px]=" i * 28">
-                <span>{{contact.first_name.charAt(0).toUpperCase()}} {{contact.last_name.charAt(0).toUpperCase()}}</span>
+            <div class="center box-shadow contact-icon" *ngFor="let contact of contacts; let i = index"
+                [style.left.px]=" i * 28">
+                <span>{{contact.first_name.charAt(0).toUpperCase()}}
+                    {{contact.last_name.charAt(0).toUpperCase()}}</span>
             </div>
         </div>
     </div>

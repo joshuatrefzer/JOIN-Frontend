@@ -248,11 +248,10 @@ header {
 }
 
 .behind-popup {
-    position: fixed;
-    height: 100%;
-    width: 100%;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
     position: absolute;
     top: 0;
     left: 0;
-    backdrop-filter: blur(5px);
 }
