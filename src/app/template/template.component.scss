@@ -184,7 +184,7 @@ header {
 
 .body {
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
 }
 
@@ -193,14 +193,14 @@ header {
     top: $heigthHeader;
     left: $widthSideMenu;
     width: calc(100% - $widthSideMenu);
-    height: calc(100vh - $heigthHeader);
+    height: calc(100dvh - $heigthHeader);
     overflow: hidden;
     background: linear-gradient(rgba(241, 241, 241, 0.385), rgba(217, 217, 217, 0.592));
     @media (max-width:1200px) {
         bottom: $heigthHeader;
         left: 0;
         width: 100%;
-        height: calc(100vh - 2* $heigthHeader);
+        height: calc(100dvh - 2* $heigthHeader);
     }
 }
 
@@ -249,7 +249,7 @@ header {
 
 .behind-popup {
     position: absolute;
-    height: 100vh;
+    height: 100dvh;
     width: 100vw;
     position: absolute;
     top: 0;
