@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pwreset',
@@ -21,7 +22,7 @@ export class PwresetComponent {
   });
 
 
-  constructor(public authService: AuthenticationService, private router: Router, private http:HttpClient) { }
+  constructor(public authService: AuthenticationService, private router: Router, private http:HttpClient, private snackBar:MatSnackBar) { }
 
 
   onSubmit() {
@@ -34,6 +35,7 @@ export class PwresetComponent {
       const formData = new FormData();
       formData.append('email', this.reset.get('email')?.value);
       this.resetPasswordRequest(url, formData);
+      this.reset.reset()
     } else {
       console.log('Please fill the field with a valid email adress');
     }
@@ -53,10 +55,14 @@ export class PwresetComponent {
   */
   resetPasswordRequest(url: string, formData: FormData) {
     this.http.post(url, formData).subscribe(res => {
-      console.log('SUCCESS');
+      this.snackBar.open('Mail has been sent to you!', 'close', {
+        duration: 3000
+      });
       this.reset.reset();
     }, (error: any) => {
-      console.log(error);
+      this.snackBar.open('Something went wrong..', 'close', {
+        duration: 3000
+      });
     });
   }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,7 @@ export class ResetPasswordComponent {
   newPassword: string = '';
   pwResetForm: FormGroup;
 
-  constructor(auth:AuthenticationService, private route:ActivatedRoute, private http:HttpClient, private snackBar: MatSnackBar,){
+  constructor(auth:AuthenticationService, private route:ActivatedRoute, private http:HttpClient, private snackBar: MatSnackBar,private router: Router){
     this.pwResetForm = new FormGroup({
       password: new FormControl('', [Validators.required, Validators.minLength(8), this.passwordValidator.bind(this)]),
       repeatpassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -68,9 +68,12 @@ export class ResetPasswordComponent {
     });
   }
 
-
+  /**
+   * redirects to login page
+   */
   directToLogin(){
-    // To do
+    this.router.navigate(['']);
+    location.reload();
   }
 
   /**
@@ -199,14 +202,17 @@ export class ResetPasswordComponent {
  * Returns `true` if all conditions are met (matching passwords with minimum length), `false` otherwise.
  */
   passwordRepeat(repeat: string, pw: string) {
-    const repeatedPW = this.pwResetForm.get(repeat)?.value;
-    const password = this.pwResetForm.get(pw)?.value;
-    if (repeatedPW && password) {
-      return repeatedPW === password && repeatedPW.length > 1;
+    const repeatedPWControl = this.pwResetForm.get(repeat);
+    const passwordControl = this.pwResetForm.get(pw);
+
+    if (repeatedPWControl && passwordControl) {
+        const repeatedPW = repeatedPWControl.value;
+        const password = passwordControl.value;
+        return repeatedPW === password && repeatedPW.length > 1;
     } else {
-      return false;
+        return false;
     }
-  }
+}
 
    /**
    * Assumes `pwResetForm` is the form to be used and returns it.
