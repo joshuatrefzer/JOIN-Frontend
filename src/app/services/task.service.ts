@@ -30,39 +30,45 @@ export class TaskService {
   tasks: Task[] = [];
   myTasks$: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
   url = environment.baseUrl + '/tasks/';
-  status:string | undefined = undefined;
-
-
+  status: string | undefined = undefined;
   todo: any = [];
   inProgress: any = [];
   awaitingFeedback: any = [];
   done: any = [];
 
 
+  /**
+ * Retrieves tasks from the server and updates the local tasks array.
+ */
   getTasks() {
     this.loadTasks().subscribe((data) => {
       this.tasks = data;
-      this.myTasks$.next(data);
+      this.myTasks$.next(data); // Update the BehaviorSubject with the latest data
     });
   }
 
-
+  /**
+  * Loads tasks from the server.
+  * @returns An Observable that emits the tasks data.
+  */
   private loadTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.url).pipe(
       tap((data) => {
         this.tasks = data;
-        this.myTasks$.next(data);
-        this.sortTasks();
+        this.myTasks$.next(data); // Update the BehaviorSubject with the latest data
+        this.sortTasks(); // Sort the tasks after loading
       })
     );
   }
 
+  /**
+  * Sorts the tasks into different status categories.
+  */
   sortTasks() {
     this.todo = [];
     this.inProgress = [];
     this.awaitingFeedback = [];
     this.done = [];
-
 
     this.tasks.forEach(task => {
       if (task.status === 'todo') {
@@ -78,6 +84,11 @@ export class TaskService {
   }
 
 
+  /**
+ * Updates an existing task with the provided form data.
+ * @param form The FormGroup containing the updated task data.
+ * @param id The ID of the task to be updated.
+ */
   updateTask(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
     const data: Task = {
@@ -91,14 +102,18 @@ export class TaskService {
     };
 
     this.http.put(url, data).subscribe(() => {
-      this.getTasks();
+      this.getTasks(); // Refresh the tasks after updating
     }, (error) => {
-      console.error('Fehler bei der Aktualisierung des Tasks', error);
+      console.error('Error updating task', error);
     });
   }
 
-  
 
+  /**
+  * Updates the status of a task.
+  * @param t The task object containing the updated status.
+  * @param id The ID of the task to update.
+  */
   updateTaskStatus(t: any, id: number) {
     const url = `${this.url}${id}/`;
     const data: Partial<Task> = {
@@ -109,11 +124,15 @@ export class TaskService {
       this.myTasks$.next(this.tasks);
       this.sortTasks();
     }, (error) => {
-      console.error('Fehler bei der Aktualisierung des Tasks', error);
+      console.error('Error updating task status', error);
     });
   }
 
 
+  /**
+  * Adds a new task with the provided form data.
+  * @param form The FormGroup containing the new task data.
+  */
   addTask(form: FormGroup) {
     const status = this.checkForStatus();
     const data = {
@@ -124,7 +143,7 @@ export class TaskService {
       prio: form.value.prio,
       category: form.value.category,
       subtasks: form.value.subtask,
-      status:status
+      status: status
     };
 
     this.http.post(this.url, data).subscribe((response: any) => {
@@ -132,32 +151,37 @@ export class TaskService {
       this.myTasks$.next(this.tasks);
       this.sortTasks();
       this.status = undefined;
-
     }, (error) => {
-      console.error('Task was not added', error);
+      console.error('Error adding task', error);
     });
   }
 
 
-  checkForStatus(){
+  /**
+ * Checks if a status is defined and returns it; otherwise, returns 'todo'.
+ * @returns The status string.
+ */
+  checkForStatus() {
     if (this.status) {
       return this.status;
     } else {
-      return 'todo'
+      return 'todo';
     }
   }
 
-
+  
+  /**
+   * Deletes a task with the specified ID.
+   * @param id The ID of the task to delete.
+   */
   deleteTask(id: number) {
     const url = `${this.url}${id}/`;
     this.http.delete(url).subscribe(() => {
-      this.getTasks();
+      this.getTasks(); // Refresh the tasks after deleting
     }, (error) => {
-      console.error('Fehler beim Löschen des Tasks', error);
+      console.error('Error deleting task', error);
     });
   }
-
-
 
 
 }

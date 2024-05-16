@@ -15,10 +15,5 @@ export class UserService {
   
   public currentUser:any = {
     "username": 'GuestUser',
-  
   };
-
-  
-
-  constructor() { }
 }

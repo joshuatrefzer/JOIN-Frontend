@@ -37,22 +37,45 @@ export class SignUpComponent {
     this.signUp();
   }
 
-  signUp() {
-    this.authService.signUp(this.signUpForm.value).subscribe(
+  /**
+ * Handles the sign-up process.
+ */
+signUp() {
+  this.authService.signUp(this.signUpForm.value).subscribe(
       response => {
-        this.snackBar.open('Successful signed up! You can login now', 'close', {
-          duration: 3000
-        });
-        this.signUpForm.reset();
+          this.handleSignUpSuccess();
       },
       error => {
-        this.snackBar.open('Error by signing up, do you user valid data?', 'close', {
-          duration: 3000
-        });
-        this.signUpForm.reset();
+          this.handleSignUpError();
       }
-    );
-  }
+  );
+}
+
+/**
+* Handles successful sign-up response.
+*/
+private handleSignUpSuccess() {
+  // Show success message
+  this.snackBar.open('Successfully signed up! You can login now', 'close', {
+      duration: 3000
+  });
+
+  // Reset the sign-up form
+  this.signUpForm.reset();
+}
+
+/**
+* Handles sign-up error.
+*/
+private handleSignUpError() {
+  // Show error message
+  this.snackBar.open('Error signing up. Are you using valid data?', 'close', {
+      duration: 3000
+  });
+
+  // Reset the sign-up form
+  this.signUpForm.reset();
+}
 
   redirectToLogin() {
     this.router.navigate(['/login']);

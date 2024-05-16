@@ -19,44 +19,77 @@ export class ContactsComponent implements OnInit, OnDestroy {
     private el: ElementRef
   ) {
     this.sortedContacts = this.contactService.contacts.sort((a, b) => a.first_name.localeCompare(b.first_name));
-   }
+  }
 
-  mobile:boolean = true;
+  mobile: boolean = true;
   hideContactContainer: boolean = false;
   deleteContact: boolean = false;
   sortedContacts;
 
 
+  /**
+  * Initializes the component by fetching contacts and checking for mobile view.
+  * 
+  * Fetches contacts from the contact service, and checks if the view is in mobile mode.
+  * If in mobile mode, hides contact information initially.
+  */
   ngOnInit(): void {
+    // Fetch contacts from the contact service
     this.contactService.getContacts();
+
+    // Check for mobile view and hide contact information if in mobile mode
     this.checkForMobileView();
-    if (this.mobile) {
-      this.contactService.showInfo = false;
-    }
   }
 
+  /**
+  * Cleans up component resources before destruction.
+  * 
+  * Resets contact service properties and clears contact popup data.
+  */
+  ngOnDestroy(): void {
+    // Reset contact service properties
+    this.contactService.showInfo = false;
+    this.contactService.showContactContainer = false;
+
+    // Clear contact popup data
+    this.popupService.contactForView = null;
+  }
+
+  /**
+  * Listens for window resize events and triggers mobile view check.
+  * 
+  * @param {Event} event The resize event object.
+  */
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
+    // Check for mobile view on window resize
     this.checkForMobileView();
   }
 
-  checkForMobileView(){
+  /**
+  * Checks if the current view is in mobile mode based on window width.
+  * 
+  * If the window width is less than 1000 pixels, sets the mobile flag to true and hides contact information.
+  * Otherwise, sets the mobile flag to false and ensures contact information is visible.
+  */
+  checkForMobileView() {
     if (window.innerWidth < 1000) {
+      // If in mobile mode, hide contact information
       this.mobile = true;
     } else {
+      // If not in mobile mode, ensure contact information is visible
       this.mobile = false;
       this.contactService.showInfo = false;
     }
   }
 
 
-  ngOnDestroy(): void {
-    this.contactService.showInfo = false;
-    this.contactService.showContactContainer = false;
-    this.popupService.contactForView = null;
-  }
 
-
+  /**
+   * Groups contacts by the first letter of their first name.
+   * 
+   * @returns An object where keys are the first letters of contact first names, and values are arrays of contacts.
+   */
   groupContactsByLetter() {
     const groupedContacts: { [key: string]: Contact[] } = {};
 
@@ -71,7 +104,11 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return groupedContacts;
   }
 
-
+  /**
+  * Retrieves unique first letters of contact first names.
+  * 
+  * @returns An array containing unique first letters of contact first names.
+  */
   getUniqueLetters() {
     const letters: string[] = [];
     this.contactService.contacts.forEach(contact => {
@@ -83,6 +120,13 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return letters;
   }
 
+
+  /**
+  * Displays detailed information of a contact.
+  * 
+  * @param {number} id The ID of the contact to be displayed.
+  * @param {Contact} contact The contact object to be displayed.
+  */
   showContact(id: number, contact: Contact) {
     if (this.contactService.showContactContainer) {
       this.hideContactContainer = true;
@@ -92,17 +136,20 @@ export class ContactsComponent implements OnInit, OnDestroy {
         this.hideContactContainer = false;
       }, 300);
     }
+    // Set the contact for detailed view in the popup service
     this.popupService.contactForView = contact;
 
+    // Remove any previous selection and add selection to the clicked contact
     this.removeSelection();
     const element = this.el.nativeElement.querySelector(`#contact${id}`);
     this.renderer.addClass(element, 'selected-contact');
+
+    // Show the contact container
     this.showContainer(id);
-    if(this.mobile) this.contactService.showInfo = true;
+
+    // Show contact information if in mobile mode
+    if (this.mobile) this.contactService.showInfo = true;
   }
-
-
-
 
 
   delete() {

@@ -11,11 +11,20 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PwresetComponent {
 
+  public reset: FormGroup = new FormGroup({
+
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
+    ], [])
+
+  });
+
+
   constructor(public authService: AuthenticationService, private router: Router, private http:HttpClient) { }
 
 
   onSubmit() {
-
     this.resetPW();
   }
 
@@ -45,23 +54,11 @@ export class PwresetComponent {
   resetPasswordRequest(url: string, formData: FormData) {
     this.http.post(url, formData).subscribe(res => {
       console.log('SUCCESS');
-      
       this.reset.reset();
     }, (error: any) => {
       console.log(error);
-      
     });
   }
-
-
-  public reset: FormGroup = new FormGroup({
-
-    email: new FormControl('', [
-      Validators.required,
-      Validators.email
-    ], [])
-
-  });
 
 
   redirectToLogin() {

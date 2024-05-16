@@ -29,6 +29,11 @@ export class TaskComponent implements OnInit {
     public subtaskService: SubtaskService,
   ) { }
 
+
+  /**
+ * Angular lifecycle hook that is called after data-bound properties of a directive are initialized.
+ * Initializes tasks, subtasks, and contacts, and subscribes to their updates.
+ */
   ngOnInit(): void {
     this.getSubTasks();
     this.getContacts();
@@ -45,45 +50,60 @@ export class TaskComponent implements OnInit {
     this.checkDate();
   }
 
-  checkDate() {
-    const date = new Date();
-    let day = String(date.getDate()).padStart(2, '0'); 
-    let month = String(date.getMonth() + 1).padStart(2, '0'); 
-    let year = date.getFullYear();
-    let currentDate = `${year}-${month}-${day}`;
-  
+
+  /**
+  * Checks if the task date is overdue.
+  * Compares the current date with the task's date and sets the overdue property.
+  */
+  checkDate(): void {
+    const today = new Date();
+    const currentDate = today.toISOString().split('T')[0]; // Gets the date in 'YYYY-MM-DD' format
+
     this.overdue = currentDate > this.mytask.date;
   }
 
-  doneSubtasks() {
-    let count = 0;
-    this.subtasks.forEach(st => {
-      if (st.done) {
-        count++;
-      }
-    })
+  /**
+ * Counts the number of completed subtasks and updates the progress bar value.
+ * Also sets the count of completed subtasks.
+ */
+  doneSubtasks(): void {
+    let count = this.subtasks.filter(st => st.done).length;
     this.progressBarValue = this.getPercentage(count);
     this.count = count;
   }
 
-
-  getPercentage(count: number) {
-    let percentage = (count / this.subtasks.length) * 100;
-    return percentage;
+  /**
+  * Calculates the percentage of completed subtasks.
+  * @param {number} count - The number of completed subtasks.
+  * @returns {number} The percentage of completed subtasks.
+  */
+  getPercentage(count: number): number {
+    return (count / this.subtasks.length) * 100;
   }
 
-  getContacts() {
+
+  /**
+  * Retrieves the contacts assigned to the task.
+  * If a contact is not found locally, it fetches all contacts from the server.
+  */
+  getContacts(): void {
     this.contacts = [];
     this.task.assigned_to.forEach((contactId: number) => {
-      const index = this.contactService.contacts.findIndex(c => c.id == contactId);
-      if (index != -1) {
-        this.contacts.push(this.contactService.contacts[index])
+      const contact = this.contactService.contacts.find(c => c.id === contactId);
+      if (contact) {
+        this.contacts.push(contact);
       } else {
         this.contactService.fetchContacts();
       }
     });
   }
 
+
+  /**
+ * Retrieves the subtasks associated with the task.
+ * It populates the `subtasks` array with matching subtasks from the subtask service.
+ * After retrieving subtasks, it updates the progress of completed subtasks.
+ */
   getSubTasks() {
     this.subtasks = [];
     this.task.subtasks.forEach((stId: number) => {
@@ -95,18 +115,23 @@ export class TaskComponent implements OnInit {
     this.doneSubtasks();
   }
 
+
+  /**
+  * Opens the popup for moving the task to a different status.
+  */
   moveTaskPopup() {
     this.openMoveTaskPopup = true;
   }
 
+
+  /**
+  * Updates the task status and closes the move task popup.
+  * @param {string} status - The new status for the task.
+  */
   moveTask(status: string) {
     this.task.status = status;
     this.taskService.updateTaskStatus(this.task, this.task.id);
     this.openMoveTaskPopup = false;
   }
-
-
-
-
 
 }

@@ -4,11 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TemplateService {
-
   mobileview: boolean = false;
-
   logOutMenu:boolean = false; 
-
-
-  
 }

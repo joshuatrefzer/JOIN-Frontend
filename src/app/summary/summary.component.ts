@@ -19,54 +19,70 @@ export class SummaryComponent implements OnInit {
   greeting: string = this.getGreeting();
   lenghtUrgentTasks: number = 0;
 
-  countUrgentTasks() {
-    let count = 0;
-    this.taskService.tasks.forEach(task => {
-      if (task.prio == 'urgent') {
-        count++;
-      }
-    })
-    return count;
+
+  /**
+ * Counts the number of urgent tasks.
+ * @returns The count of tasks with priority 'urgent'.
+ */
+  countUrgentTasks(): number {
+    return this.taskService.tasks.filter(task => task.prio === 'urgent').length;
   }
 
+
+  /**
+  * Angular lifecycle hook that runs after component initialization.
+  * Fetches tasks and calculates the number of urgent tasks.
+  */
   ngOnInit(): void {
     this.taskService.getTasks();
-    this.taskService.myTasks$.subscribe(data => {
+    this.taskService.myTasks$.subscribe(() => {
       this.lenghtUrgentTasks = this.countUrgentTasks();
     });
-    
   }
 
 
-  getGreeting() {
-    let date = new Date();
-    let hour = date.getHours();
-    let greeting = "";
-
+  /**
+ * Returns a greeting based on the current time.
+ * @returns A greeting string.
+ */
+  getGreeting(): string {
+    const hour = new Date().getHours();
     if (hour >= 6 && hour < 12) {
-      greeting = "Good Morning,";
+      return "Good Morning,";
     } else if (hour >= 12 && hour < 18) {
-      greeting = "Good Afternoon,";
+      return "Good Afternoon,";
     } else {
-      greeting = "Good Evening,";
+      return "Good Evening,";
     }
-
-    return greeting;
   }
 
-  getNextDate() {
+
+  /**
+  * Gets the nearest upcoming task date.
+  * @returns A formatted string of the nearest upcoming date or a message indicating no upcoming deadlines.
+  */
+  getNextDate(): string {
     const currentDate = new Date();
-    const taskDates = this.taskService.tasks.map(t => new Date(t.date));
-    const futureDates = taskDates.filter(date => date > currentDate);
-    futureDates.sort((a, b) => b.getTime() - a.getTime());
-    const nearestDate = futureDates[0];
-    return nearestDate ? this.formatDate(nearestDate) : 'No upcoming deadline';
+    const futureDates = this.taskService.tasks
+      .map(task => new Date(task.date))
+      .filter(date => date > currentDate)
+      .sort((a, b) => a.getTime() - b.getTime());
+
+    return futureDates.length ? this.formatDate(futureDates[0]) : 'No upcoming deadline';
   }
 
+
+  /**
+  * Formats a date into a readable string.
+  * @param date - The date to format.
+  * @returns The formatted date string.
+  */
   formatDate(date: Date): string {
-    const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    };
     return date.toLocaleDateString('en-US', options);
-}
+  }
 
 
 

@@ -15,7 +15,6 @@ export class ResetPasswordComponent {
 
   token:string = '';
   newPassword: string = '';
-
   pwResetForm: FormGroup;
 
   constructor(auth:AuthenticationService, private route:ActivatedRoute, private http:HttpClient, private snackBar: MatSnackBar,){
@@ -28,6 +27,7 @@ export class ResetPasswordComponent {
       this.token = params['token'];
   }); 
 }
+
 
   /**
    * 
@@ -70,7 +70,7 @@ export class ResetPasswordComponent {
 
 
   directToLogin(){
-    
+    // To do
   }
 
   /**
