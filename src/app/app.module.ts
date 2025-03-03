@@ -27,7 +27,7 @@ import { AddContactComponent } from './add-contact/add-contact.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { TaskComponent } from './task/task.component';
@@ -39,54 +39,46 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    StartscreenComponent,
-    LoginComponent,
-    SignUpComponent,
-    PwresetComponent,
-    TemplateComponent,
-    SummaryComponent,
-    AddtaskComponent,
-    ContactsComponent,
-    LegalsComponent,
-    BoardComponent,
-    EditContactComponent,
-    AddContactComponent,
-    TaskComponent,
-    TaskForViewComponent,
-    LoaderComponent,
-    AboutComponent,
-    ResetPasswordComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    FormsModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatSnackBarModule,
-    MatNativeDateModule,
-    HttpClientModule,
-    DragDropModule,
-    MatProgressBarModule
-  
-  ],
-
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true
-     }
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        StartscreenComponent,
+        LoginComponent,
+        SignUpComponent,
+        PwresetComponent,
+        TemplateComponent,
+        SummaryComponent,
+        AddtaskComponent,
+        ContactsComponent,
+        LegalsComponent,
+        BoardComponent,
+        EditContactComponent,
+        AddContactComponent,
+        TaskComponent,
+        TaskForViewComponent,
+        LoaderComponent,
+        AboutComponent,
+        ResetPasswordComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatCheckboxModule,
+        FormsModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatSnackBarModule,
+        MatNativeDateModule,
+        DragDropModule,
+        MatProgressBarModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorService,
+            multi: true
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
