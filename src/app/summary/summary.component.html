@@ -16,11 +16,11 @@
                             <div class="text-light">Tasks in<br>Board</div>
                         </a>
                         <a routerLink="/board/" class="tasks task-little">
-                            <h1 id="inProgressTask">{{ taskService.inProgress.length }}</h1>
+                            <h1 id="inProgressTask">{{ taskService.inProgressTasks().length }}</h1>
                             <div class="text-light">Tasks in<br>Progress</div>
                         </a>
                         <a  routerLink="/board/" class="tasks task-little">
-                            <h1 id="awaitingFeedbackTask">{{ taskService.awaitingFeedback.length }}</h1>
+                            <h1 id="awaitingFeedbackTask">{{ taskService.awaitingFeedbackTasks().length }}</h1>
                             <div class="text-light">Awaiting<br>Feedback</div>
                         </a>
                     </div>
@@ -62,7 +62,7 @@
                             </div>
 
                             <div style="margin-left: 10px;">
-                                <h1 id="todoTask">{{ taskService.todo.length }}</h1>
+                                <h1 id="todoTask">{{ taskService.todoTasks().length }}</h1>
                                 <div class="text-light">To do</div>
                             </div>
                         </a>
@@ -73,7 +73,7 @@
 
                             </div>
                             <div style="margin-left: 10px;">
-                                <h1 id="doneTask">{{ taskService.done.length }}</h1>
+                                <h1 id="doneTask">{{ taskService.doneTasks().length }}</h1>
                                 <div class="text-light">Done</div>
                             </div>
                         </a>

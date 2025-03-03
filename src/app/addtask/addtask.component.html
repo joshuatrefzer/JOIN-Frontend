@@ -38,7 +38,7 @@
                 <mat-form-field style="margin-top: 35px;" appearance="outline">
                     <mat-label>choose contacts</mat-label>
                     <mat-select formControlName="assigned_to" multiple>
-                        <mat-option *ngFor="let contact of contactService.contacts" value="{{ contact.id }}">{{
+                        <mat-option *ngFor="let contact of contactService.contacts()" value="{{ contact.id }}">{{
                             contact.first_name }} {{ contact.last_name }}</mat-option>
                     </mat-select>
                 </mat-form-field>

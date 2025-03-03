@@ -36,14 +36,7 @@ export class SummaryComponent implements OnInit {
   */
   ngOnInit(): void {
     this.taskService.getTasks();
-
-
-    // this.taskService.myTasks$.subscribe(() => {
-    //   this.lenghtUrgentTasks = this.countUrgentTasks();
-    // });
-
-
-
+    this.lenghtUrgentTasks = this.countUrgentTasks();
   }
 
 

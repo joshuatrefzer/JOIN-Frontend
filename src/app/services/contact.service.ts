@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable, firstValueFrom, take, tap } from 'rxjs';
@@ -17,8 +17,9 @@ export interface Contact {
 })
 export class ContactService {
 
-  contacts: Contact[] = [];
-  myContacts$: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
+  contacts: WritableSignal<Contact[]> = signal([]);
+
+  // myContacts$: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
   showInfo: boolean = false;
   showContactContainer: boolean = false;
   url = environment.baseUrl + '/contacts/';
@@ -30,32 +31,18 @@ export class ContactService {
   }
 
 
-  /**
- * Retrieves contacts from the server and updates the 'contacts' property.
- * Emits the fetched contacts through the 'myContacts$' subject.
- */
   getContacts() {
-    // Load contacts from the server using 'loadContacts' method
     this.loadContacts().pipe(take(1)).subscribe((data) => {
-      // Update 'contacts' property with the fetched data
-      this.contacts = data;
-      // Emit the fetched contacts through 'myContacts$' subject
-      this.myContacts$.next(data);
+      this.contacts.set(data);
     });
   }
 
 
-  /**
-  * Fetches contacts from the server using an HTTP GET request.
-  * @returns {Observable<Contact[]>} - An observable that emits the fetched contacts.
-  */
   private loadContacts(): Observable<Contact[]> {
     return this.http.get<Contact[]>(this.url).pipe(
       take(1),
-      // Update 'contacts' property and emit the fetched contacts through 'myContacts$' subject
       tap((data) => {
-        this.contacts = data;
-        this.myContacts$.next(data);
+        this.contacts.set(data);
       })
     );
   }
@@ -68,7 +55,6 @@ export class ContactService {
     // Fetch contacts from the server using an HTTP GET request
     const contactResponse = await firstValueFrom(this.http.get<Contact[]>(this.url));
     // Update 'myContacts$' subject with the fetched contacts
-    this.myContacts$.next(contactResponse);
   }
 
 
@@ -87,14 +73,12 @@ export class ContactService {
     };
 
     this.http.put(url, data).subscribe(res => {
-      // Find the index of the updated contact in the 'contacts' array
-      const updatedIndex = this.contacts.findIndex(contact => contact.id === id);
+      const updatedIndex = this.contacts().findIndex(contact => contact.id === id);
       // If the contact is found, update it in the 'contacts' array
       if (updatedIndex !== -1) {
-        this.contacts[updatedIndex] = { id, ...data };
+        this.contacts()[updatedIndex] = { id, ...data };
       }
       // Emit the updated contacts through the 'myContacts$' subject
-      this.myContacts$.next(this.contacts);
     }, (error) => {
       console.error('Error updating contact', error);
     });
@@ -114,28 +98,22 @@ export class ContactService {
     };
 
     this.http.post(this.url, data).subscribe((response: any) => {
-      // Add the newly created contact to the 'contacts' array
-      this.contacts.push(response);
-      // Emit the updated contacts through the 'myContacts$' subject
-      this.myContacts$.next(this.contacts);
+      
+      this.contacts.update(items => [...this.contacts() , response]);
+      console.log('Wurde hier das richtige hinzugefügt?');
+      
     }, (error) => {
       console.error('Contact was not added', error);
     });
   }
 
-
-  /**
-  * Deletes a contact from the server with the provided ID.
-  * @param id - The ID of the contact to be deleted.
-  */
   deleteContact(id: number) {
     const url = `${this.url}${id}/`;
     this.http.delete(url).subscribe(() => {
-      // Remove the deleted contact from the 'contacts' array
-      this.contacts = this.contacts.filter(contact => contact.id !== id);
-      // Emit the updated contacts through the 'myContacts$' subject
-      this.myContacts$.next(this.contacts);
-      // Reset showInfo and showContactContainer flags
+      
+      const filteredContacts = this.contacts().filter(contact => contact.id !== id);
+      this.contacts.update(items => [...filteredContacts]);
+      // this.myContacts$.next(this.contacts);
       this.showInfo = false;
       this.showContactContainer = false;
     }, (error) => {

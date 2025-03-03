@@ -31,10 +31,6 @@ export class TaskComponent implements OnInit {
   ) { }
 
 
-  /**
- * Angular lifecycle hook that is called after data-bound properties of a directive are initialized.
- * Initializes tasks, subtasks, and contacts, and subscribes to their updates.
- */
   ngOnInit(): void {
     this.getSubTasks();
     this.getContacts();
@@ -42,10 +38,6 @@ export class TaskComponent implements OnInit {
 
     this.subtaskService.mySubTasks$.subscribe(() => {
       this.getSubTasks();
-    });
-
-    this.contactService.myContacts$.subscribe(() => {
-      this.getContacts();
     });
 
     this.checkDate();
@@ -90,7 +82,7 @@ export class TaskComponent implements OnInit {
   getContacts(): void {
     this.contacts = [];
     this.task.assigned_to.forEach((contactId: number) => {
-      const contact = this.contactService.contacts.find(c => c.id === contactId);
+      const contact = this.contactService.contacts().find(c => c.id === contactId);
       if (contact) {
         this.contacts.push(contact);
       } else {

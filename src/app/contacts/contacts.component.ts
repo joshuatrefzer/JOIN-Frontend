@@ -19,7 +19,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     public contactService: ContactService,
     private el: ElementRef
   ) {
-    this.sortedContacts = this.contactService.contacts.sort((a, b) => a.first_name.localeCompare(b.first_name));
+    this.sortedContacts = this.contactService.contacts().sort((a, b) => a.first_name.localeCompare(b.first_name));
   }
 
   mobile: boolean = true;
@@ -74,7 +74,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   groupContactsByLetter() {
     const groupedContacts: { [key: string]: Contact[] } = {};
 
-    this.contactService.contacts.forEach(contact => {
+    this.contactService.contacts().forEach(contact => {
       const firstLetter = contact.first_name.charAt(0).toUpperCase();
       if (!groupedContacts[firstLetter]) {
         groupedContacts[firstLetter] = [];
@@ -92,7 +92,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
   */
   getUniqueLetters() {
     const letters: string[] = [];
-    this.contactService.contacts.forEach(contact => {
+    this.contactService.contacts().forEach(contact => {
       const firstLetter = contact.first_name.charAt(0).toUpperCase();
       if (!letters.includes(firstLetter)) {
         letters.push(firstLetter);
@@ -146,7 +146,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
 
   removeSelection() {
-    for (const contact of this.contactService.contacts) {
+    for (const contact of this.contactService.contacts()) {
       const element = this.el.nativeElement.querySelector(`#contact${contact.id}`);
       this.renderer.removeClass(element, 'selected-contact');
     }
