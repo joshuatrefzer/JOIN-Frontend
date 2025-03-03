@@ -120,7 +120,8 @@ export class BoardComponent implements OnInit {
     } else {
       // If search query is not empty, filter the task list based on the search query
       const filteredTasksTodo = this.taskListForSearch.filter(task =>
-        task.title.toLowerCase().includes(this.search.toLowerCase())
+        task.title.toLowerCase().includes(this.search.toLowerCase()) ||
+        task.description?.toLowerCase().includes(this.search.toLowerCase())
       );
       // Update the task list with filtered tasks
       this.taskService.tasks = filteredTasksTodo;

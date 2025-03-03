@@ -55,7 +55,7 @@ router-outlet {
     animation: showFromRight 300ms ease-in-out;
     border-radius: 10px;
     display: flex;
-    height: 90vh;
+    height: 90dvh;
     width: 80vw;
     @media (max-width:800px) {
         width: 95vw;
@@ -64,10 +64,13 @@ router-outlet {
 
 .popup-view-task {
     @extend .popup-add-task;
-    height:fit-content;
+    height:fit-content !important;
     width: 900px;
+    min-height: 60dvh;
     @media (max-width:1000px) {
         width: 95%;
+        min-height: 90dvh;
+        overflow-y: scroll;
     }
 }
 

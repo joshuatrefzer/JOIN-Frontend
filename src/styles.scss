@@ -10,9 +10,17 @@ body {
     height: 100dvh;
     overflow: hidden !important;
 }
+
 @font-face {
-    font-family: 'roboto';
+    font-family: "Roboto";
     src: url('assets/fonts/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url('assets/fonts/Roboto-Bold.ttf') format('truetype');
+    font-weight: bold;
 }
 
 .blue-snackbar {
@@ -291,7 +299,7 @@ body {
 
 body {
     margin: 0;
-    font-family: 'roboto', sans-serif; 
+    font-family: "Roboto", sans-serif;
 }
 
 .valid {

@@ -13,15 +13,15 @@
             <div class="summary-content">
                 <div class="summary-elements">
                     <div class="summary-child-container">
-                        <a href="/board/boardIndex.html" class="tasks task-little">
+                        <a routerLink="/board/" class="tasks task-little">
                             <h1 id="tasks-in-board">{{ taskService.tasks.length }}</h1>
                             <div class="text-light">Tasks in<br>Board</div>
                         </a>
-                        <a href="/board/boardIndex.html" class="tasks task-little">
+                        <a routerLink="/board/" class="tasks task-little">
                             <h1 id="inProgressTask">{{ taskService.inProgress.length }}</h1>
                             <div class="text-light">Tasks in<br>Progress</div>
                         </a>
-                        <a href="/board/boardIndex.html" class="tasks task-little">
+                        <a  routerLink="/board/" class="tasks task-little">
                             <h1 id="awaitingFeedbackTask">{{ taskService.awaitingFeedback.length }}</h1>
                             <div class="text-light">Awaiting<br>Feedback</div>
                         </a>
@@ -30,7 +30,7 @@
                     <!--Zweite Reihe (ein Container)-->
 
                     <div class="summary-child-container">
-                        <a class="tasks width-100" style="justify-content: space-around; position: relative;">
+                        <a routerLink="/board/" class="tasks width-100" style="justify-content: space-around; position: relative;">
                             <div class="summary-priority">
                                 <img  style="height: 30px;" src="assets/img/urgent.svg" alt="">
                                 <div style="margin-left: 10px;">
@@ -69,7 +69,7 @@
                             </div>
                         </a>
 
-                        <a href="" class="tasks width-50 pencil">
+                        <a routerLink="/board/" class="tasks width-50 pencil">
                             <div class="position-relative center">
                                <mat-icon>done_outline</mat-icon>
 

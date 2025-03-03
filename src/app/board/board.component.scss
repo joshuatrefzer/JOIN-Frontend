@@ -20,6 +20,11 @@
     height: 85%;
     width: 100%;
     gap: 10px;
+    overflow-x: scroll;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
 }
 
 .add-task-button {
@@ -82,6 +87,7 @@ app-task {
 .drop-container {
     margin-top: 10px;
     width: 100%;
+    min-width: 300px;
     height: 90%;
     box-shadow: inset 1px 1px 20px rgba(219, 218, 218, 0.637);
     border-radius: 30px;

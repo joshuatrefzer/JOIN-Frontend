@@ -19,7 +19,7 @@ export class ContactService {
 
   contacts: Contact[] = [];
   myContacts$: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
-  showInfo: boolean = true;
+  showInfo: boolean = false;
   showContactContainer: boolean = false;
   url = environment.baseUrl + '/contacts/';
 
