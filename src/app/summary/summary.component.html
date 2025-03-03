@@ -7,14 +7,12 @@
     </div>
 
     <div class="content">
-
-
         <div class="left">
             <div class="summary-content">
                 <div class="summary-elements">
                     <div class="summary-child-container">
                         <a routerLink="/board/" class="tasks task-little">
-                            <h1 id="tasks-in-board">{{ taskService.tasks.length }}</h1>
+                            <h1 id="tasks-in-board">{{ taskService.tasks().length }}</h1>
                             <div class="text-light">Tasks in<br>Board</div>
                         </a>
                         <a routerLink="/board/" class="tasks task-little">
@@ -103,14 +101,4 @@
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-
-
 </div>

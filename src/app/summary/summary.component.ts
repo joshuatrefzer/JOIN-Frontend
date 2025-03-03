@@ -26,7 +26,7 @@ export class SummaryComponent implements OnInit {
  * @returns The count of tasks with priority 'urgent'.
  */
   countUrgentTasks(): number {
-    return this.taskService.tasks.filter(task => task.prio === 'urgent').length;
+    return this.taskService.tasks().filter(task => task.prio === 'urgent').length;
   }
 
 
@@ -36,9 +36,14 @@ export class SummaryComponent implements OnInit {
   */
   ngOnInit(): void {
     this.taskService.getTasks();
-    this.taskService.myTasks$.subscribe(() => {
-      this.lenghtUrgentTasks = this.countUrgentTasks();
-    });
+
+
+    // this.taskService.myTasks$.subscribe(() => {
+    //   this.lenghtUrgentTasks = this.countUrgentTasks();
+    // });
+
+
+
   }
 
 
@@ -64,7 +69,7 @@ export class SummaryComponent implements OnInit {
   */
   getNextDate(): string {
     const currentDate = new Date();
-    const futureDates = this.taskService.tasks
+    const futureDates = this.taskService.tasks()
       .map(task => new Date(task.date))
       .filter(date => date > currentDate)
       .sort((a, b) => a.getTime() - b.getTime());

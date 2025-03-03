@@ -26,13 +26,14 @@
             </div>
 
 
-            <div cdkDropList [cdkDropListData]="taskService.todo" (cdkDropListDropped)="drop($event , 'todo')"
+            <div cdkDropList [cdkDropListData]="taskService.todoTasks()" (cdkDropListDropped)="drop($event , 'todo')"
                 class="drop-container center-column">
-                <div class="example-box" *ngFor="let item of taskService.todo" cdkDrag>
-                    <app-task [task]="item"></app-task>
-                </div>
+                @for (task of taskService.todoTasks(); track $index) {
+                    <div class="example-box"  cdkDrag>
+                        <app-task [task]="task"></app-task>
+                    </div>
+                }
             </div>
-
         </div>
 
 
@@ -43,11 +44,13 @@
             </div>
 
 
-            <div cdkDropList [cdkDropListData]="taskService.inProgress"
+            <div cdkDropList [cdkDropListData]="taskService.inProgressTasks()"
                 (cdkDropListDropped)="drop($event , 'inProgress')" class="drop-container center-column">
-                <div class="example-box" *ngFor="let item of taskService.inProgress" cdkDrag>
-                    <app-task [task]="item"></app-task>
+                @for (task of taskService.inProgressTasks(); track $index) {
+                <div class="example-box" cdkDrag>
+                    <app-task [task]="task"></app-task>
                 </div>
+                }
             </div>
         </div>
 
@@ -58,11 +61,9 @@
                 <span>Awaiting Feedback</span>
             </div>
 
-
-
-            <div cdkDropList [cdkDropListData]="taskService.awaitingFeedback"
+            <div cdkDropList [cdkDropListData]="taskService.awaitingFeedbackTasks()"
                 (cdkDropListDropped)="drop($event , 'awaitingFeedback')" class="drop-container center-column">
-                <div class="example-box" *ngFor="let item of taskService.awaitingFeedback" cdkDrag>
+                <div class="example-box" *ngFor="let item of taskService.awaitingFeedbackTasks()" cdkDrag>
                     <app-task [task]="item"></app-task>
                 </div>
             </div>
@@ -74,12 +75,9 @@
                 <div class=" center add text-btn" (click)="addTaskPopup('done')"><mat-icon>add</mat-icon></div>
                 <span>Done</span>
             </div>
-
-
-
-            <div cdkDropList [cdkDropListData]="taskService.done" class="drop-container center-column"
+            <div cdkDropList [cdkDropListData]="taskService.doneTasks()" class="drop-container center-column"
                 (cdkDropListDropped)="drop($event , 'done')">
-                <div class="example-box" *ngFor="let item of taskService.done" cdkDrag>
+                <div class="example-box" *ngFor="let item of taskService.doneTasks()" cdkDrag>
                     <app-task [task]="item"></app-task>
                 </div>
             </div>

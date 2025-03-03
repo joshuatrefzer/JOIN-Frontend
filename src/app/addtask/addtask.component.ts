@@ -64,16 +64,10 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.subtaskService.getSubTasks();
   }
 
-
-  /**
-  * Returns the current date in "YYYY-MM-DD" format as the minimum value.
-  * 
-  * @returns {string} The current date in "YYYY-MM-DD" format.
-  */
   getMinDate() {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
     const minDate = `${year}-${month}-${day}`;
 
@@ -103,7 +97,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   * Fills the form fields with the details of the task to be edited.
   */
   fillForm() {
-    const task = this.popupService.taskToEdit;
+    const task = this.popupService.taskToEdit; 
 
     this.addTaskForm.get('title')?.setValue(`${task?.title}`);
     this.addTaskForm.get('description')?.setValue(`${task?.description}`);
@@ -192,12 +186,18 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   * Resets the subtasks array, form, and closes any popups after the tasks have been submitted.
   */
   resetSubtaskandForm() {
-    this.taskService.myTasks$.subscribe(() => {
-      this.subtasksForSubmit = [];
-      this.subtasksforView = [];
-      this.resetForm();
-      this.popupService.closePopups();
-    });
+    alert("Refactoren");
+    this.resetForm();
+    this.popupService.closePopups();
+    this.subtasksforView = [];
+    this.subtasksForSubmit = [];
+
+    // this.taskService.myTasks$.subscribe(() => {
+    //   this.subtasksForSubmit = [];
+    //   this.subtasksforView = [];
+    //   this.resetForm();
+    //   this.popupService.closePopups();
+    // });
   }
 
   /**

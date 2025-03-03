@@ -56,41 +56,21 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.popupService.contactForView = null;
   }
 
-  /**
-  * Listens for window resize events and triggers mobile view check.
-  * 
-  * @param {Event} event The resize event object.
-  */
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
-    // Check for mobile view on window resize
     this.checkForMobileView();
   }
 
-  /**
-  * Checks if the current view is in mobile mode based on window width.
-  * 
-  * If the window width is less than 1000 pixels, sets the mobile flag to true and hides contact information.
-  * Otherwise, sets the mobile flag to false and ensures contact information is visible.
-  */
   checkForMobileView() {
     if (window.innerWidth < 1000) {
-      // If in mobile mode, hide contact information
       this.mobile = true;
     } else {
-      // If not in mobile mode, ensure contact information is visible
       this.mobile = false;
       this.contactService.showInfo = false;
     }
   }
 
 
-
-  /**
-   * Groups contacts by the first letter of their first name.
-   * 
-   * @returns An object where keys are the first letters of contact first names, and values are arrays of contacts.
-   */
   groupContactsByLetter() {
     const groupedContacts: { [key: string]: Contact[] } = {};
 
