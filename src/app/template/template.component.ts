@@ -5,9 +5,10 @@ import { AuthenticationService } from '../services/authentication.service';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
-  selector: 'app-template',
-  templateUrl: './template.component.html',
-  styleUrls: ['./template.component.scss']
+    selector: 'app-template',
+    templateUrl: './template.component.html',
+    styleUrls: ['./template.component.scss'],
+    standalone: false
 })
 export class TemplateComponent {
 

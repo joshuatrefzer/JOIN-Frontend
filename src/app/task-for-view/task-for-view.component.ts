@@ -4,9 +4,10 @@ import { Task, TaskService } from '../services/task.service';
 import { SubTask, SubtaskService } from '../services/subtask.service';
 
 @Component({
-  selector: 'app-task-for-view',
-  templateUrl: './task-for-view.component.html',
-  styleUrls: ['./task-for-view.component.scss']
+    selector: 'app-task-for-view',
+    templateUrl: './task-for-view.component.html',
+    styleUrls: ['./task-for-view.component.scss'],
+    standalone: false
 })
 export class TaskForViewComponent implements OnInit, OnDestroy {
 

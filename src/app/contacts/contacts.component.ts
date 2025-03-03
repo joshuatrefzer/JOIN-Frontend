@@ -5,9 +5,10 @@ import { PoupService } from '../services/poup.service';
 import { Contact, ContactService } from '../services/contact.service';
 
 @Component({
-  selector: 'app-contacts',
-  templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.scss']
+    selector: 'app-contacts',
+    templateUrl: './contacts.component.html',
+    styleUrls: ['./contacts.component.scss'],
+    standalone: false
 })
 export class ContactsComponent implements OnInit, OnDestroy {
 

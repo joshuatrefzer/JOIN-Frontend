@@ -16,9 +16,10 @@ import { ContactService } from '../services/contact.service';
 import { SubtaskService } from '../services/subtask.service';
 
 @Component({
-  selector: 'app-board',
-  templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+    selector: 'app-board',
+    templateUrl: './board.component.html',
+    styleUrls: ['./board.component.scss'],
+    standalone: false
 })
 export class BoardComponent implements OnInit {
 

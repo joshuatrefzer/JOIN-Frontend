@@ -4,9 +4,10 @@ import { PoupService } from '../services/poup.service';
 import { ContactService } from '../services/contact.service';
 
 @Component({
-  selector: 'app-add-contact',
-  templateUrl: './add-contact.component.html',
-  styleUrls: ['./add-contact.component.scss']
+    selector: 'app-add-contact',
+    templateUrl: './add-contact.component.html',
+    styleUrls: ['./add-contact.component.scss'],
+    standalone: false
 })
 export class AddContactComponent {
 

@@ -5,9 +5,10 @@ import { ContactService } from '../services/contact.service';
 
 
 @Component({
-  selector: 'app-edit-contact',
-  templateUrl: './edit-contact.component.html',
-  styleUrls: ['./edit-contact.component.scss']
+    selector: 'app-edit-contact',
+    templateUrl: './edit-contact.component.html',
+    styleUrls: ['./edit-contact.component.scss'],
+    standalone: false
 })
 export class EditContactComponent {
   public contactForm: FormGroup = new FormGroup({

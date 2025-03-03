@@ -8,9 +8,10 @@ import { PoupService } from '../services/poup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-addtask',
-  templateUrl: './addtask.component.html',
-  styleUrls: ['./addtask.component.scss']
+    selector: 'app-addtask',
+    templateUrl: './addtask.component.html',
+    styleUrls: ['./addtask.component.scss'],
+    standalone: false
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
   @Input() headline: 'Add Task' | 'Edit Task' = 'Add Task';

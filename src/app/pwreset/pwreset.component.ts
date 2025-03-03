@@ -6,9 +6,10 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-pwreset',
-  templateUrl: './pwreset.component.html',
-  styleUrls: ['./pwreset.component.scss']
+    selector: 'app-pwreset',
+    templateUrl: './pwreset.component.html',
+    styleUrls: ['./pwreset.component.scss'],
+    standalone: false
 })
 export class PwresetComponent {
 

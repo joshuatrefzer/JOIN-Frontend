@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
-  selector: 'app-startscreen',
-  templateUrl: './startscreen.component.html',
-  styleUrls: ['./startscreen.component.scss']
+    selector: 'app-startscreen',
+    templateUrl: './startscreen.component.html',
+    styleUrls: ['./startscreen.component.scss'],
+    standalone: false
 })
 export class StartscreenComponent implements OnInit {
   hideImage: boolean = false;
