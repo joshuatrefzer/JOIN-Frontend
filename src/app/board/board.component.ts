@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { Task, TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
@@ -15,7 +15,7 @@ import { SubtaskService } from '../services/subtask.service';
     styleUrls: ['./board.component.scss'],
     standalone: false
 })
-export class BoardComponent implements OnInit, AfterViewInit {
+export class BoardComponent {
 
   search: string = '';
   taskListForSearch: WritableSignal<Task[]> = signal([]);
@@ -27,24 +27,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
     public contactService: ContactService,
     public popupService: PoupService,
   ) {}
-
-
-  ngOnInit(): void {
-    this.taskService.getTasks();
-    this.subTaskService.getSubTasks();
-    this.contactService.getContacts();    
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.taskListForSearch.set(this.taskService.tasks());
-    }, 500);
-    console.log(this.taskService.tasks());
-    
-    
-    
-    
-  }
 
   /**
  * Handles the dropping of an item within or between containers.
@@ -76,8 +58,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.taskService.status = status;
   }
 
-
-  
   searchTask() {
     if (this.search.trim() === '') {
       debugger

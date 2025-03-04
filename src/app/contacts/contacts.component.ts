@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { User } from '../services/user.service';
 import { PoupService } from '../services/poup.service';
@@ -25,34 +25,41 @@ export class ContactsComponent implements OnInit, OnDestroy {
   mobile: boolean = true;
   hideContactContainer: boolean = false;
   deleteContact: boolean = false;
+  
+  uniqueLetters = computed(() => {
+    const letters: string[] = [];
+    this.contactService.contacts().forEach(contact => {
+      const firstLetter = contact.first_name.charAt(0).toUpperCase();
+      if (!letters.includes(firstLetter)) {
+        letters.push(firstLetter);
+      }
+    });
+    return letters;
+  });
+
+  groupedContactsByLetter = computed(() => {
+    const groupedContacts: { [key: string]: Contact[] } = {};
+    this.contactService.contacts().forEach(contact => {
+      const firstLetter = contact.first_name.charAt(0).toUpperCase();
+      if (!groupedContacts[firstLetter]) {
+        groupedContacts[firstLetter] = [];
+      }
+      groupedContacts[firstLetter].push(contact);
+    });
+    return groupedContacts;
+    
+  });
+
   sortedContacts;
 
 
-  /**
-  * Initializes the component by fetching contacts and checking for mobile view.
-  * 
-  * Fetches contacts from the contact service, and checks if the view is in mobile mode.
-  * If in mobile mode, hides contact information initially.
-  */
   ngOnInit(): void {
-    // Fetch contacts from the contact service
-    this.contactService.getContacts();
-
-    // Check for mobile view and hide contact information if in mobile mode
     this.checkForMobileView();
   }
-
-  /**
-  * Cleans up component resources before destruction.
-  * 
-  * Resets contact service properties and clears contact popup data.
-  */
+  
   ngOnDestroy(): void {
-    // Reset contact service properties
     this.contactService.showInfo = false;
     this.contactService.showContactContainer = false;
-
-    // Clear contact popup data
     this.popupService.contactForView = null;
   }
 
@@ -70,7 +77,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
     }
   }
 
-
   groupContactsByLetter() {
     const groupedContacts: { [key: string]: Contact[] } = {};
 
@@ -81,7 +87,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
       }
       groupedContacts[firstLetter].push(contact);
     });
-
     return groupedContacts;
   }
 

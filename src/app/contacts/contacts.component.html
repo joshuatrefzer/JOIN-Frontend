@@ -19,11 +19,12 @@
 
         <!-- contact-list -->
         <div class="list center-column ">
-            <div class="contact-container" *ngFor="let letter of getUniqueLetters()">
+
+            <div class="contact-container" *ngFor="let letter of uniqueLetters()">
                 <div class="letter">{{ letter }}</div>
 
                 <div (click)="showContact(contact.id , contact)" id="contact{{ contact.id }}" class="contact br"
-                    *ngFor="let contact of groupContactsByLetter()[letter]">
+                    *ngFor="let contact of groupedContactsByLetter()[letter]">
                     <div class="contact-left-side">
                         <div class="user-icon center">{{ contact.first_name.charAt(0).toUpperCase()}}{{
                             contact.last_name.charAt(0).toUpperCase()}}</div>
