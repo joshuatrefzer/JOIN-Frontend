@@ -1,4 +1,4 @@
-import { Component, computed, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { Task, TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
@@ -60,12 +60,9 @@ export class BoardComponent {
 
   searchTask() {
     if (this.search.trim() === '') {
-      debugger
-      this.taskService.tasks.set(this.taskListForSearch());
-      console.log(this.taskListForSearch());
-      
+      this.taskService.tasks.set(this.taskService.tasksBackupForSearch());      
     } else {
-      const filteredTasksTodo = this.taskListForSearch().filter(task =>
+      const filteredTasksTodo = this.taskService.tasksBackupForSearch().filter(task =>
         task.title.toLowerCase().includes(this.search.toLowerCase()) ||
         task.description?.toLowerCase().includes(this.search.toLowerCase())
       );

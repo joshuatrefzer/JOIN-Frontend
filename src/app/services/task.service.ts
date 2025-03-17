@@ -25,6 +25,7 @@ export class TaskService {
   constructor(private http: HttpClient) {}
 
   tasks: WritableSignal<Task[]> = signal([]);
+  tasksBackupForSearch: WritableSignal<Task[]>  = signal([]);
 
   todoTasks = computed(() => {
     return this.tasks().filter( t => t.status === 'todo');
@@ -42,18 +43,6 @@ export class TaskService {
     return this.tasks().filter( t => t.status === 'done');
   });
 
-
-
-
-
-
-  
-
-
-
-
-
-  
   url = environment.baseUrl + '/tasks/';
   status: string | undefined = undefined;
   
@@ -73,6 +62,7 @@ export class TaskService {
     return this.http.get<Task[]>(this.url).pipe(
       tap((data) => {
         this.tasks.set(data);
+        this.tasksBackupForSearch.set(data);
       })
     );
   }
