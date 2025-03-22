@@ -19,14 +19,14 @@
 
 <div class="subtasks-progress">
     <mat-progress-bar mode="determinate" value="{{ progressBarValue }}"></mat-progress-bar>
-    <span>{{ count }}/{{ subtasks.length }}</span>
+    <span>{{ doneSubtasks() }}/{{ subtasks().length }}</span>
 </div>
 
 <div class="bottom-task-box">
     <div class="contact-box">
 
         <div class="contact-container">
-            <div class="center box-shadow contact-icon" *ngFor="let contact of contacts; let i = index"
+            <div class="center box-shadow contact-icon" *ngFor="let contact of contacts(); let i = index"
                 [style.left.px]=" i * 28">
                 <span>{{contact.first_name.charAt(0).toUpperCase()}}
                     {{contact.last_name.charAt(0).toUpperCase()}}</span>
@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="more text-btn" (click)="popupService.showTaskPopup(task, subtasks, contacts)">
+<div class="more text-btn" (click)="popupService.showTaskPopup(task, subtasks(), contacts())">
     <b>...</b>
 </div>
 

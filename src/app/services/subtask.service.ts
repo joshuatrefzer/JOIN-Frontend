@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface SubTask {
@@ -15,49 +15,21 @@ export interface SubTask {
 })
 export class SubtaskService {
 
-
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
-
-  subTasks: SubTask[] = [];
-  mySubTasks$: BehaviorSubject<SubTask[]> = new BehaviorSubject<SubTask[]>([]);
+  subtasks: WritableSignal<SubTask[]> = signal([]);
   url = environment.baseUrl + '/subtasks/';
 
+  constructor(private http: HttpClient) {}
 
-  /**
-  * Retrieves subtasks from the server and updates the local subtask list.
-  */
+
   getSubTasks() {
     this.loadSubTasks().subscribe((data: SubTask[]) => {
-      this.subTasks = data;
-      this.mySubTasks$.next(data);
+      this.subtasks.set(data);
     });
   }
 
-  /**
-  * Loads subtasks from the server.
-  * @returns An observable emitting an array of subtasks.
-  */
   private loadSubTasks(): Observable<SubTask[]> {
-    return this.http.get<SubTask[]>(this.url).pipe(
-      tap((data: SubTask[]) => {
-        this.subTasks = data;
-        this.mySubTasks$.next(data);
-      })
-    );
+    return this.http.get<SubTask[]>(this.url);
   }
-
-  /**
-  * Checks if a subtask with the given title exists in the local subtask list.
-  * @param title - The title of the subtask to check.
-  * @returns A boolean indicating whether a subtask with the given title exists.
-  */
-  subTaskExists(title: string): boolean {
-    return this.subTasks.some(subtask => subtask.title === title);
-  }
-
 
   /**
  * Updates a subtask on the server.
@@ -72,12 +44,10 @@ export class SubtaskService {
     };
 
     this.http.put(url, data).subscribe(() => {
-      // Here you can use the updated task information if needed
-      const updatedIndex = this.subTasks.findIndex(subtask => subtask.id === id);
+      const updatedIndex = this.subtasks().findIndex(subtask => subtask.id === id);
       if (updatedIndex !== -1) {
-        this.subTasks[updatedIndex] = { id, ...data };
+        this.subtasks()[updatedIndex] = { id, ...data };
       }
-      this.mySubTasks$.next(this.subTasks); // Update the BehaviorSubject with the latest data
     }, (error) => {
       console.error('Error updating the subtask', error);
     });
@@ -94,42 +64,33 @@ export class SubtaskService {
     const data: Partial<SubTask> = {
       done: st.done,
     };
-    this.http.patch(url, data).subscribe(() => {
-      this.mySubTasks$.next(this.subTasks);
-      console.log(this.subTasks);
+    this.http.patch(url, data).pipe(take(1)).subscribe(data => {
+      
     }, (error) => {
       console.error('Error updating the subtask', error);
     });
   }
 
-
-  /**
-  * Adds a new subtask to the server.
-  * @param title - The title of the new subtask.
-  */
   addSubTask(title: string) {
     const data: SubTask = {
       title: title,
       done: false
     };
     this.http.post(this.url, data).subscribe((response: any) => {
-      this.subTasks.push(response);
-      this.mySubTasks$.next(this.subTasks);
+      const update = this.subtasks();
+      update.push(response);
+      this.subtasks.set(update);
     }, (error) => {
       console.error('Subtask was not added', error);
     });
   }
 
-
-  /**
-  * Deletes a subtask from the server.
-  * @param id - The ID of the subtask to delete.
-  */
   deleteSubTask(id: number) {
     const url = `${this.url}${id}/`;
-    this.http.delete(url).subscribe(() => {
-      this.subTasks = this.subTasks.filter(subtask => subtask.id !== id);
-      this.mySubTasks$.next(this.subTasks);
+
+    this.http.delete(url).pipe(take(1)).subscribe(() => {
+      const update: SubTask[] = this.subtasks().filter(subtask => subtask.id !== id);
+      this.subtasks.set(update);
     }, (error) => {
       console.error('Error deleting the subtask', error);
     });

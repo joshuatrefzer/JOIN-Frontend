@@ -60,8 +60,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.resetForm();
     this.popupService.editTaskPopup ? this.fillForm() : null;
-    this.contactService.getContacts();
-    this.subtaskService.getSubTasks();
   }
 
   getMinDate() {
@@ -98,7 +96,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   */
   fillForm() {
     const task = this.popupService.taskToEdit; 
-
     this.addTaskForm.get('title')?.setValue(`${task?.title}`);
     this.addTaskForm.get('description')?.setValue(`${task?.description}`);
     this.fillContacts(task?.assigned_to);
@@ -106,7 +103,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     if (task) this.selectPrio(task.prio);
     this.addTaskForm.get('category')?.setValue(`${task?.category}`);
     this.subtasksforView = this.fillSubTasks(task?.subtasks);
-    console.log('taskform', this.addTaskForm, 'task:', task);
   }
 
 
@@ -130,23 +126,15 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   fillSubTasks(subtasks: any) {
     const st: SubTask[] = [];
     subtasks.forEach((id: number) => {
-      // Find the index of the subtask in the subtask service
-      let index = this.subtaskService.subTasks.findIndex((task: SubTask) => task.id === id);
-      // If the subtask exists in the subtask service, push it to the array
+      let index = this.subtaskService.subtasks().findIndex((task: SubTask) => task.id === id);
       if (index !== -1) {
-        st.push(this.subtaskService.subTasks[index]);
+        st.push(this.subtaskService.subtasks()[index]);
       }
     });
     return st;
   }
 
 
-  /**
- * Handles the form submission by performing necessary validations and actions.
- * 
- * If the form is not valid and the headline is "Add Task", displays a snackbar message.
- * Prepares subtasks for the request, updates or adds the task, and resets the subtasks and form.
- */
   onSubmit() {
     if (!this.addTaskForm.valid && this.headline == "Add Task") {
       this.snackBarMessage('Please fill the form!');
@@ -171,9 +159,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
- * Prepares the subtasks for submission by extracting their IDs from the view array and pushing them to the submit array.
- */
   prepareSubtaskForRequest() {
     if (this.subtasksforView.length >= 1) {
       for (const subtask of this.subtasksforView) {
@@ -182,29 +167,15 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-  * Resets the subtasks array, form, and closes any popups after the tasks have been submitted.
-  */
   resetSubtaskandForm() {
     alert("Refactoren");
     this.resetForm();
     this.popupService.closePopups();
     this.subtasksforView = [];
     this.subtasksForSubmit = [];
-
-    // this.taskService.myTasks$.subscribe(() => {
-    //   this.subtasksForSubmit = [];
-    //   this.subtasksforView = [];
-    //   this.resetForm();
-    //   this.popupService.closePopups();
-    // });
   }
 
-  /**
-  * Displays a snackbar message with the given message string.
-  * 
-  * @param {string} msg The message to be displayed in the snackbar.
-  */
+  
   snackBarMessage(msg: string) {
     this.snackBar.open(msg, 'close', {
       duration: 3000,
@@ -223,9 +194,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
- * Resets the form to its initial state, clearing all fields and arrays.
- */
   resetForm() {
     this.addTaskForm.reset({
       title: '',
@@ -242,9 +210,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.resetButtons();
   }
 
-  /**
-  * Resets the subtasks array for view by deleting all subtasks and clearing the array.
-  */
   resetSubTaskForView() {
     this.subtasksforView.forEach((st: { id: number; }) => {
       this.subtaskService.deleteSubTask(st.id);
@@ -252,12 +217,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.subtasksforView = [];
   }
 
-  /**
-  * Removes a subtask from the subtasks array at the specified index.
-  * 
-  * @param {number} i The index of the subtask to be removed.
-  * @param {any} task The subtask object to be removed.
-  */
   removeSubTask(i: number, task: any) {
     this.subtasksforView.splice(i, 1);
   }
@@ -295,24 +254,22 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-  * Adds a new subtask to the form and the subtask service.
-  */
   addNewSubtask() {
     const SubTaskValue = this.addTaskForm.value.subtask;
     this.addTaskForm.get('subtask')?.setValue('');
     this.subtaskService.addSubTask(SubTaskValue);
 
-    this.subtaskService.mySubTasks$.subscribe(() => {
-      const existingSubtask = this.subtaskService.subTasks.find(subtask => subtask.title === SubTaskValue);
 
-      if (existingSubtask && existingSubtask.id !== undefined) {
-        const isAlreadyAdded = this.subtasksforView.some((subtask: { id: number }) => subtask.id === existingSubtask.id);
-        if (!isAlreadyAdded) {
-          this.subtasksforView.push(existingSubtask);
-        }
-      }
-    });
+    // this.subtaskService.subtasks().subscribe(() => {
+    //   const existingSubtask = this.subtaskService.subTasks.find(subtask => subtask.title === SubTaskValue);
+
+    //   if (existingSubtask && existingSubtask.id !== undefined) {
+    //     const isAlreadyAdded = this.subtasksforView.some((subtask: { id: number }) => subtask.id === existingSubtask.id);
+    //     if (!isAlreadyAdded) {
+    //       this.subtasksforView.push(existingSubtask);
+    //     }
+    //   }
+    // });
   }
 
   /**
