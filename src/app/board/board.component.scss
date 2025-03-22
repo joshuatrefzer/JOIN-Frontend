@@ -70,6 +70,7 @@ app-task {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    animation: appear 500ms ease-in-out;
 }
 
 .more {
