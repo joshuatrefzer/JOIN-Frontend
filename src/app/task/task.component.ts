@@ -12,8 +12,9 @@ import { PoupService } from '../services/poup.service';
 })
 export class TaskComponent implements OnInit {
   @Input() task:any;
-
   mytask: any;
+
+
   contacts = computed(() => {
     return this.contactService.contacts().filter(c => this.mytask.assigned_to.includes(c.id));
   });
@@ -55,7 +56,7 @@ export class TaskComponent implements OnInit {
     this.openMoveTaskPopup = true;
   }
 
-
+  
   /**
   * Updates the task status and closes the move task popup.
   * @param {string} status - The new status for the task.

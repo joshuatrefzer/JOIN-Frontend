@@ -1,5 +1,5 @@
-@import "../categories.scss";
-@import "../../styles.scss";
+@use "../categories.scss";
+@use "../../styles.scss";
 
 .container {
     position: relative;

@@ -183,7 +183,7 @@
         <div *ngIf="popupService.taskToEdit" class="bottom-right">
             <button type="button" (click)="deleteTask(popupService.taskToEdit.id)"
                 class="button button-1">Delete</button>
-            <button (click)="changeTask(popupService.taskToEdit)" type="submit" class="button-2">Save</button>
+            <button (click)="changeTaskStatus(popupService.taskToEdit)" type="submit" class="button-2">Save</button>
         </div>
     </div>
 

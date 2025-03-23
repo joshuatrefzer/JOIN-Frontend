@@ -16,11 +16,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AddtaskComponent implements OnInit, OnDestroy {
   @Input() headline: 'Add Task' | 'Edit Task' = 'Add Task';
 
-
   buttons = ['urgent', 'medium', 'low'];
   taskId: number | undefined;
-  subtasksforView: any = [];
-  subtasksForSubmit: any = []
+  subtasksforView: SubTask[] = [];
+  subtasksForSubmit: String[] = [];
 
   assigned_contacts: any = [];
   selected: string = '';
@@ -28,18 +27,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
 
   public addTaskForm: FormGroup = new FormGroup({
-
-    title: new FormControl('', [
-      Validators.required,
-    ], []),
-
-    category: new FormControl('', [
-      Validators.required,
-    ], []),
-
-    date: new FormControl('', [
-      Validators.required], []),
-
+    title: new FormControl('', Validators.required, []),
+    category: new FormControl('', Validators.required, []),
+    date: new FormControl('', Validators.required, []),
     description: new FormControl(''),
     assigned_to: new FormControl(''),
     subtask: new FormControl(''),
@@ -55,14 +45,14 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     public taskService: TaskService,
     private renderer: Renderer2, private el: ElementRef,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.resetForm();
     this.popupService.editTaskPopup ? this.fillForm() : null;
   }
 
-  getMinDate() {
+  private getMinDate() {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -76,19 +66,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.popupService.taskToEdit = null;
   }
-
-
-  /**
-  * Filter function to determine whether a given date is greater than or equal to today's date.
-  * 
-  * @param {Date | null} d The date to be checked. If null, today's date is used.
-  * @returns {boolean} True if the given date is greater than or equal to today's date, false otherwise.
-  */
-  myFilter = (d: Date | null): boolean => {
-    const today = new Date();
-    d = d || today;
-    return d >= today;
-  };
 
 
   /**
@@ -183,17 +160,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-  * Checks for the 'Enter' key press event and adds a new subtask if detected.
-  * 
-  * @param {KeyboardEvent} event The keyboard event object.
-  */
-  checkForKey(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.addNewSubtask();
-    }
-  }
-
   resetForm() {
     this.addTaskForm.reset({
       title: '',
@@ -205,29 +171,14 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       prio: ''
     });
 
-    this.resetSubTaskForView();
     this.assigned_contacts = [];
     this.resetButtons();
-  }
-
-  resetSubTaskForView() {
-    this.subtasksforView.forEach((st: { id: number; }) => {
-      this.subtaskService.deleteSubTask(st.id);
-    });
-    this.subtasksforView = [];
   }
 
   removeSubTask(i: number, task: any) {
     this.subtasksforView.splice(i, 1);
   }
 
-
-
-  /**
- * Selects the priority for the task and updates the form accordingly.
- * 
- * @param {string} prio The priority value to be selected.
- */
   selectPrio(prio: string) {
     const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
     if (this.buttons.includes(prio)) {
@@ -244,9 +195,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-  * Resets the priority buttons by removing their selected state.
-  */
   resetButtons() {
     this.buttons.forEach(button => {
       const element = this.el.nativeElement.querySelector(`#${button}`);
@@ -255,41 +203,49 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
   addNewSubtask() {
-    const SubTaskValue = this.addTaskForm.value.subtask;
-    this.addTaskForm.get('subtask')?.setValue('');
-    this.subtaskService.addSubTask(SubTaskValue);
+    const subTaskValue = this.addTaskForm.value.subtask;
+    if (this.subtaskIsAlreadyDisplayed(subTaskValue)) return;
 
+    const existingSubtask = this.subtaskService.subtasks().find(st => st.title === subTaskValue);
 
-    // this.subtaskService.subtasks().subscribe(() => {
-    //   const existingSubtask = this.subtaskService.subTasks.find(subtask => subtask.title === SubTaskValue);
+    if (existingSubtask) {
+      this.subtasksforView.push(existingSubtask);
+    } else {
+      this.subtaskService.addSubTask(subTaskValue);
+    }
 
-    //   if (existingSubtask && existingSubtask.id !== undefined) {
-    //     const isAlreadyAdded = this.subtasksforView.some((subtask: { id: number }) => subtask.id === existingSubtask.id);
-    //     if (!isAlreadyAdded) {
-    //       this.subtasksforView.push(existingSubtask);
-    //     }
-    //   }
-    // });
+    this.emptySuptaskField();
+  }
+  
+  private subtaskIsAlreadyDisplayed(value: string): boolean {
+    return this.subtasksforView.some(st => st.title === value);
   }
 
-  /**
-  * Deletes a task with the specified ID.
-  * 
-  * @param {any} id The ID of the task to be deleted.
-  */
+  private emptySuptaskField() {
+    this.addTaskForm.get('subtask')?.setValue('');
+  }
+
+
   deleteTask(id: any) {
     this.taskService.deleteTask(id);
     this.popupService.closePopups();
   }
 
-  /**
-  * Changes the task with the specified task object.
-  * 
-  * @param {any} task The task object to be changed.
-  */
-  changeTask(task: any) {
+  
+  changeTaskStatus(task: any) {
     this.taskId = task.id;
     this.onSubmit();
     this.popupService.closePopups();
+  }
+
+  /**
+  * Checks for the 'Enter' key press event and adds a new subtask if detected.
+  * 
+  * @param {KeyboardEvent} event The keyboard event object.
+  */
+  checkForKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.addNewSubtask();
+    }
   }
 }

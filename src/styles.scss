@@ -314,6 +314,7 @@ body {
     margin: 20px 40px;
     width: calc(100% - 80px);
     height: 95%;
+    animation: appear 500ms ease-in-out;
 }
 
 .top {

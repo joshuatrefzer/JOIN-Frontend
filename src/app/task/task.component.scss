@@ -1,5 +1,5 @@
-@import '../board/board.component.scss';
-@import '../categories.scss';
+@use '../board/board.component.scss';
+@use "../categories.scss";
 
 .contact-container {
     position: relative;
