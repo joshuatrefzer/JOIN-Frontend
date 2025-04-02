@@ -1,17 +1,17 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, computed, effect, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Contact, ContactService } from '../services/contact.service';
 import { SubTask, SubtaskService } from '../services/subtask.service';
-import { TaskService } from '../services/task.service';
+import { Task, TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-addtask',
-    templateUrl: './addtask.component.html',
-    styleUrls: ['./addtask.component.scss'],
-    standalone: false
+  selector: 'app-addtask',
+  templateUrl: './addtask.component.html',
+  styleUrls: ['./addtask.component.scss'],
+  standalone: false
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
   @Input() headline: 'Add Task' | 'Edit Task' = 'Add Task';
@@ -21,7 +21,8 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   subtasksforView: SubTask[] = [];
   subtasksForSubmit: String[] = [];
 
-  assigned_contacts: any = [];
+
+  assigned_contacts: Contact[] = [];
   selected: string = '';
   minDate: string = this.getMinDate();
 
@@ -58,23 +59,24 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
 
   private fillForm() {
-    const task = this.popupService.taskToEdit; 
+    const task = this.popupService.taskToEdit;
     this.addTaskForm.get('title')?.setValue(`${task?.title}`);
     this.addTaskForm.get('description')?.setValue(`${task?.description}`);
-    this.fillContacts(task?.assigned_to);
+    this.fillContacts(task?.assigned_to || []);
     this.addTaskForm.get('date')?.setValue(`${task?.date}`);
     if (task) this.selectPrio(task.prio);
     this.addTaskForm.get('category')?.setValue(`${task?.category}`);
-    this.subtasksforView = this.fillSubTasks(task?.subtasks);
+    this.subtasksforView = this.fillSubTasks(task?.subtasks || []);
   }
 
-  private fillContacts(assigned_contacts: any) {
+  private fillContacts(assigned_contacts: number[]) {
     assigned_contacts.forEach((id: number) => {
       this.addTaskForm.value.assigned_to.push(`${id}`);
     });
   }
 
-  private fillSubTasks(subtasks: any) {
+  private fillSubTasks(subtasks: number[]) {
+    if (!subtasks) { return [] }
     const st: SubTask[] = [];
     subtasks.forEach((id: number) => {
       let index = this.subtaskService.subtasks().findIndex((task: SubTask) => task.id === id);
@@ -153,7 +155,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     return minDate;
   }
 
-  protected removeSubTask(i: number, task: any) {
+  protected removeSubTask(i: number) {
     this.subtasksforView.splice(i, 1);
   }
 
@@ -168,7 +170,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
         selectedElement.classList.add(prio);
         this.addTaskForm.get('prio')?.setValue(`${prio}`);
       }
-    } 
+    }
   }
 
   private resetButtons() {
@@ -179,7 +181,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
   addNewSubtask() {
-    const subTaskValue = this.addTaskForm.value.subtask;
+    const subTaskValue: string = this.addTaskForm.value.subtask;
     if (this.subtaskIsAlreadyDisplayed(subTaskValue)) return;
 
     const existingSubtask = this.subtaskService.subtasks().find(st => st.title === subTaskValue);
@@ -187,12 +189,15 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     if (existingSubtask) {
       this.subtasksforView.push(existingSubtask);
     } else {
+      this.subtasksforView.push(
+        { title: subTaskValue , id:-1, done: false}
+      );
       this.subtaskService.addSubTask(subTaskValue);
     }
 
     this.emptySuptaskField();
   }
-  
+
   private subtaskIsAlreadyDisplayed(value: string): boolean {
     return this.subtasksforView.some(st => st.title === value);
   }
@@ -202,13 +207,13 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
 
-  deleteTask(id: any) {
+  deleteTask(id: number) {
     this.taskService.deleteTask(id);
     this.popupService.closePopups();
   }
 
-  
-  changeTaskStatus(task: any) {
+
+  changeTaskStatus(task: Task) {
     this.taskId = task.id;
     this.onSubmit();
     this.popupService.closePopups();

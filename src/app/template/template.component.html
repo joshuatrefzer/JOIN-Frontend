@@ -75,7 +75,7 @@
 <!-- header -->
 <header class="grey-underline">
     <img class="mobile-logo" src="assets/img/join-dark.svg" *ngIf="templateService.mobileview" alt="">
-    <div (click)="togglePopup()"  *ngIf="userService.currentUser" class="user-icon center"><span class="initials center ">{{ getFirstLetter(userService.currentUser.username) }}</span></div>
+    <div (click)="togglePopup()"  *ngIf="userService.currentUser" class="user-icon center"><span class="initials center ">{{ getFirstLetter(userService.currentUser.username || "") }}</span></div>
     <div (click)="togglePopup()" *ngIf="!userService.currentUser" class="user-icon center"><span class="initials center ">U</span></div>
 </header>
 

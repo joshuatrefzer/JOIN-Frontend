@@ -28,7 +28,7 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
     this.formatDate();
   }
 
-  updateCheckbox(id: any, subtask: SubTask) {
+  updateCheckbox(id: number, subtask: SubTask) {
     this.subTaskService.updateSubtaskCheckbox(id, subtask);
   }
 
@@ -70,7 +70,10 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
   * Opens the edit task popup for the specified task.
   * @param {any} task - The task to be edited.
   */
-  openEditTaskPopup(task: any) {
+  openEditTaskPopup(task?: Task) {
+    if (!task) return;
+      
+    
     this.popupService.closePopups();
     this.popupService.editTask(task);
   }
@@ -80,7 +83,8 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
   * Deletes the specified task and closes any open popups.
   * @param {any} id - The ID of the task to be deleted.
   */
-  deleteTask(id: any) {
+  deleteTask(id?: number) {
+    if(!id) return;
     this.taskService.deleteTask(id);
     this.popupService.closePopups();
   }

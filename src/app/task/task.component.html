@@ -1,20 +1,20 @@
 <div class="category-container">
     <div class="category">
-        <span class="{{task.category}}">{{ task.category }}</span>
+        <span class="{{task?.category}}">{{ task?.category }}</span>
     </div>
 
     <div *ngIf="overdue" class="overdue-container">
         <span class="overdue"><strong>overdue</strong></span>
-        <span class="date">{{ task.date }}</span>
+        <span class="date">{{ task?.date }}</span>
     </div>
 </div>
 
 <div class="title">
-    <span>{{ task.title }}</span>
+    <span>{{ task?.title }}</span>
 </div>
 
 <div class="description">
-    <span>{{ task.description }}</span>
+    <span>{{ task?.description }}</span>
 </div>
 
 <div class="subtasks-progress">
@@ -35,11 +35,11 @@
     </div>
 
     <div class="prio-box center">
-        <img src="assets/img/{{ task.prio }}.svg" alt="">
+        <img src="assets/img/{{ task?.prio }}.svg" alt="">
     </div>
 </div>
 
-<div class="more text-btn" (click)="popupService.showTaskPopup(task, subtasks(), contacts())">
+<div *ngIf="task" class="more text-btn" (click)="popupService.showTaskPopup(task, subtasks(), contacts())">
     <b>...</b>
 </div>
 

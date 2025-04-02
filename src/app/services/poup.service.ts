@@ -23,12 +23,6 @@ export class PoupService {
 
   loader: boolean = false;
 
-  constructor() { }
-
-
-  /**
- * Closes all popups and resets related flags and properties.
- */
   closePopups() {
     this.behindPopupContainer = false;
     this.addContact = false;
@@ -38,13 +32,6 @@ export class PoupService {
     this.editTaskPopup = false;
   }
 
-
-  /**
-  * Displays a popup containing details of a specific task, including subtasks and assigned contacts.
-  * @param task - The task object to be displayed in the popup.
-  * @param subtasks - An array of subtasks associated with the task.
-  * @param contacts - An array of contacts assigned to the task.
-  */
   showTaskPopup(task: Task, subtasks: SubTask[], contacts: Contact[]) {
     this.behindPopupContainer = true;
     this.taskPopupForView = task;
@@ -52,12 +39,7 @@ export class PoupService {
     this.taskPopupSubtasks = subtasks;
   }
 
-
-  /**
-  * Opens the edit task popup for modifying the details of a specific task.
-  * @param task - The task object to be edited.
-  */
-  editTask(task: any) {
+  editTask(task: Task) {
     this.behindPopupContainer = true;
     this.editTaskPopup = true;
     this.taskToEdit = task;

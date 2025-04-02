@@ -1,7 +1,7 @@
 import { Component, computed, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TaskService, Task } from '../services/task.service';
 import { Contact, ContactService } from '../services/contact.service';
-import { SubtaskService, SubTask } from '../services/subtask.service';
+import { SubtaskService } from '../services/subtask.service';
 import { PoupService } from '../services/poup.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { PoupService } from '../services/poup.service';
     standalone: false
 })
 export class TaskComponent implements OnInit {
-  @Input() task:any;
+  @Input() task:Task | undefined;
   mytask: any;
 
 
@@ -62,6 +62,7 @@ export class TaskComponent implements OnInit {
   * @param {string} status - The new status for the task.
   */
   moveTask(status: string) {
+    if (!this.task) return;
     this.task.status = status;
     this.taskService.updateTaskStatus(this.task, this.task.id);
     this.openMoveTaskPopup = false;

@@ -157,7 +157,7 @@
                     <div [ngClass]="{'subtask-grey' : popupService.addTaskPopup || popupService.editTaskPopup }"
                         class="subtask center" *ngFor="let task of subtasksforView; let i = index">
                         <div class="color-primary">{{ task.title }}</div>
-                        <div class="trash-button" (click)="removeSubTask(i, task)">
+                        <div class="trash-button" (click)="removeSubTask(i)">
                             <img src="assets/img/delete.png" alt="Löschen">
                         </div>
                     </div>
@@ -165,9 +165,6 @@
 
             </div>
         </div>
-
-
-
     </form>
 
 
@@ -181,7 +178,7 @@
         </div>
 
         <div *ngIf="popupService.taskToEdit" class="bottom-right">
-            <button type="button" (click)="deleteTask(popupService.taskToEdit.id)"
+            <button *ngIf="popupService.taskToEdit" type="button" (click)="deleteTask(popupService.taskToEdit.id)"
                 class="button button-1">Delete</button>
             <button (click)="changeTaskStatus(popupService.taskToEdit)" type="submit" class="button-2">Save</button>
         </div>

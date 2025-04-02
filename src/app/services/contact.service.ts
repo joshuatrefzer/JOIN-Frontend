@@ -1,7 +1,7 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Observable, firstValueFrom, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, firstValueFrom, lastValueFrom, take, tap } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 
 export interface Contact {
@@ -19,7 +19,6 @@ export class ContactService {
 
   contacts: WritableSignal<Contact[]> = signal([]);
 
-  // myContacts$: BehaviorSubject<Contact[]> = new BehaviorSubject<Contact[]>([]);
   showInfo: boolean = false;
   showContactContainer: boolean = false;
   url = environment.baseUrl + '/contacts/';
@@ -27,43 +26,32 @@ export class ContactService {
 
   constructor(
     private http: HttpClient,
-  ) {
-  }
+  ) {}
 
 
-  getContacts() {
-    this.loadContacts().pipe(take(1)).subscribe((data) => {
+  async getContacts() {
+    try {
+      const data = await lastValueFrom(
+        this.loadContacts().pipe(
+          catchError(error => {
+            console.error('Error loading contacts', error);
+            throw error;
+          })
+        )
+      );
+  
       this.contacts.set(data);
-    });
+  
+    } catch (error) {
+      console.error('Failed to get contacts:', error);
+    }
   }
-
-
+  
   private loadContacts(): Observable<Contact[]> {
-    return this.http.get<Contact[]>(this.url).pipe(
-      take(1),
-      tap((data) => {
-        this.contacts.set(data);
-      })
-    );
+    return this.http.get<Contact[]>(this.url);
   }
 
-
-  /**
-  * Asynchronously fetches contacts from the server and updates the 'myContacts$' subject.
-  */
-  async fetchContacts() {
-    // Fetch contacts from the server using an HTTP GET request
-    const contactResponse = await firstValueFrom(this.http.get<Contact[]>(this.url));
-    // Update 'myContacts$' subject with the fetched contacts
-  }
-
-
-  /**
- * Updates a contact on the server with the provided form data.
- * @param form - The FormGroup containing the updated contact information.
- * @param id - The ID of the contact to be updated.
- */
-  updateContact(form: FormGroup, id: number) {
+  async updateContact(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
     const data = {
       first_name: form.value.first_name,
@@ -71,54 +59,75 @@ export class ContactService {
       mail: form.value.email,
       phone: form.value.phone
     };
-
-    this.http.put(url, data).subscribe(res => {
+  
+    try {
+      await lastValueFrom(
+        this.http.put(url, data).pipe(
+          catchError(error => {
+            console.error('Error updating contact', error);
+            throw error;
+          })
+        )
+      );
+  
       const updatedIndex = this.contacts().findIndex(contact => contact.id === id);
-      // If the contact is found, update it in the 'contacts' array
       if (updatedIndex !== -1) {
-        this.contacts()[updatedIndex] = { id, ...data };
+        const updatedContacts = [...this.contacts()];
+        updatedContacts[updatedIndex] = { id, ...data };
+        this.contacts.update(() => updatedContacts);
       }
-      // Emit the updated contacts through the 'myContacts$' subject
-    }, (error) => {
-      console.error('Error updating contact', error);
-    });
+  
+    } catch (error) {
+      console.error('Failed to update contact:', error);
+    }
   }
 
-
-  /**
-  * Adds a new contact to the server with the provided form data.
-  * @param form - The FormGroup containing the new contact information.
-  */
-  addContact(form: FormGroup) {
+  async addContact(form: FormGroup) {
     const data = {
       first_name: form.value.first_name,
       last_name: form.value.last_name,
       mail: form.value.email,
       phone: form.value.phone
     };
-
-    this.http.post(this.url, data).subscribe((response: any) => {
-      
-      this.contacts.update(items => [...this.contacts() , response]);
-      console.log('Wurde hier das richtige hinzugefügt?');
-      
-    }, (error) => {
-      console.error('Contact was not added', error);
-    });
+  
+    try {
+      const response = await lastValueFrom(
+        this.http.post<Contact>(this.url, data).pipe(
+          catchError(error => {
+            console.error('Contact was not added', error);
+            throw error;
+          })
+        )
+      );
+  
+      this.contacts.update(items => [...items, response]);
+  
+    } catch (error) {
+      console.error('Failed to add contact:', error);
+    }
   }
 
-  deleteContact(id: number) {
+  async deleteContact(id: number) {
     const url = `${this.url}${id}/`;
-    this.http.delete(url).subscribe(() => {
-      
+  
+    try {
+      await lastValueFrom(
+        this.http.delete(url).pipe(
+          catchError(error => {
+            console.error('Error deleting contact', error);
+            throw error; 
+          })
+        )
+      );
+  
       const filteredContacts = this.contacts().filter(contact => contact.id !== id);
       this.contacts.update(items => [...filteredContacts]);
-      // this.myContacts$.next(this.contacts);
       this.showInfo = false;
       this.showContactContainer = false;
-    }, (error) => {
-      console.error('Error deleting contact', error);
-    });
+  
+    } catch (error) {
+      console.error('Failed to delete contact:', error);
+    }
   }
 
 

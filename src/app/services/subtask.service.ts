@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, take } from 'rxjs';
+import { catchError, lastValueFrom, Observable, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface SubTask {
-  id?: number;
+  id: number;
   title: string;
   done: boolean;
 }
@@ -20,68 +20,119 @@ export class SubtaskService {
 
   constructor(private http: HttpClient) {}
 
-  getSubTasks() {
-    this.loadSubTasks().subscribe((data: SubTask[]) => {
+  async getSubTasks() {
+    try {
+      const data = await lastValueFrom(
+        this.loadSubTasks().pipe(
+          catchError(error => {
+            console.error('Error loading subtasks', error);
+            throw error;
+          })
+        )
+      );
+  
       this.subtasks.set(data);
-    });
+  
+    } catch (error) {
+      console.error('Failed to get subtasks:', error);
+    }
   }
-
+  
   private loadSubTasks(): Observable<SubTask[]> {
     return this.http.get<SubTask[]>(this.url);
   }
 
-  updateSubTask(form: FormGroup, id: number) {
+  async updateSubTask(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
     const data: SubTask = {
+      id: id,
       title: form.value.title,
       done: form.value.done,
     };
-
-    this.http.put(url, data).subscribe(() => {
+  
+    try {
+      await lastValueFrom(
+        this.http.put(url, data).pipe(
+          catchError(error => {
+            console.error('Error updating the subtask', error);
+            throw error;
+          })
+        )
+      );
+  
       const updatedIndex = this.subtasks().findIndex(subtask => subtask.id === id);
       if (updatedIndex !== -1) {
-        this.subtasks()[updatedIndex] = { id, ...data };
+        const updatedSubtasks = [...this.subtasks()];
+        updatedSubtasks[updatedIndex] = { ...data };
+        this.subtasks.set(updatedSubtasks);
       }
-    }, (error) => {
-      console.error('Error updating the subtask', error);
-    });
+  
+    } catch (error) {
+      console.error('Failed to update subtask:', error);
+    }
   }
 
-  updateSubtaskCheckbox(id: number, st: SubTask) {
+  async updateSubtaskCheckbox(id: number, st: SubTask) {
     const url = `${this.url}${id}/`;
-    const data: Partial<SubTask> = {
-      done: st.done,
-    };
-    this.http.patch(url, data).pipe(take(1)).subscribe(data => {
-      
-    }, (error) => {
-      console.error('Error updating the subtask', error);
-    });
+    const data: Partial<SubTask> = { done: st.done };
+  
+    try {
+      await lastValueFrom(
+        this.http.patch(url, data).pipe(
+          catchError(error => {
+            console.error('Error updating the subtask', error);
+            throw error;
+          })
+        )
+      );
+  
+    } catch (error) {
+      console.error('Failed to update subtask:', error);
+    }
   }
 
-  addSubTask(title: string) {
-    const data: SubTask = {
+  async addSubTask(title: string) {
+    const data: Partial<SubTask> = {
       title: title,
       done: false
     };
-    this.http.post(this.url, data).subscribe((response: any) => {
-      const update = this.subtasks();
-      update.push(response);
-      this.subtasks.set(update);
-    }, (error) => {
-      console.error('Subtask was not added', error);
-    });
+  
+    try {
+      const response = await lastValueFrom(
+        this.http.post<SubTask>(this.url, data).pipe(
+          catchError(error => {
+            console.error('Subtask was not added', error);
+            throw error;
+          })
+        )
+      );
+  
+      this.subtasks.set([...this.subtasks(), response]);
+  
+    } catch (error) {
+      console.error('Failed to add subtask:', error);
+    }
   }
 
-  deleteSubTask(id: number) {
+  async deleteSubTask(id: number) {
     const url = `${this.url}${id}/`;
-
-    this.http.delete(url).pipe(take(1)).subscribe(() => {
-      const update: SubTask[] = this.subtasks().filter(subtask => subtask.id !== id);
-      this.subtasks.set(update);
-    }, (error) => {
-      console.error('Error deleting the subtask', error);
-    });
+  
+    try {
+      await lastValueFrom(
+        this.http.delete(url).pipe(
+          catchError(error => {
+            console.error('Error deleting the subtask', error);
+            throw error;
+          })
+        )
+      );
+  
+      const updatedSubtasks: SubTask[] = this.subtasks().filter(subtask => subtask.id !== id);
+      this.subtasks.set(updatedSubtasks);
+  
+    } catch (error) {
+      console.error('Failed to delete subtask:', error);
+    }
   }
 
 }

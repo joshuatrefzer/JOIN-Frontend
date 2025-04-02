@@ -106,34 +106,25 @@ export class ContactsComponent implements OnInit, OnDestroy {
     return letters;
   }
 
-
-  /**
-  * Displays detailed information of a contact.
-  * 
-  * @param {number} id The ID of the contact to be displayed.
-  * @param {Contact} contact The contact object to be displayed.
-  */
   showContact(id: number, contact: Contact) {
+    alert("umschreiben")
     if (this.contactService.showContactContainer) {
       this.hideContactContainer = true;
       this.contactService.showContactContainer = false;
       setTimeout(() => {
         this.contactService.showContactContainer = true;
         this.hideContactContainer = false;
-      }, 300);
+      }, 400);
     }
-    // Set the contact for detailed view in the popup service
+
     this.popupService.contactForView = contact;
 
-    // Remove any previous selection and add selection to the clicked contact
     this.removeSelection();
     const element = this.el.nativeElement.querySelector(`#contact${id}`);
     this.renderer.addClass(element, 'selected-contact');
 
-    // Show the contact container
     this.showContainer(id);
 
-    // Show contact information if in mobile mode
     if (this.mobile) this.contactService.showInfo = true;
   }
 

@@ -13,7 +13,8 @@ export interface User {
 
 export class UserService {
   
-  public currentUser:any = {
+  public currentUser: Partial<User> = {
     "username": 'GuestUser',
   };
+  
 }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { User } from './user.service';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 
 export class AuthenticationService {
-  private baseurl = 'https://joshuatrefzer.pythonanywhere.com';
+  private baseurl = environment.baseUrl;
 
   showLogin: boolean = false;
   showSignUp: boolean = false;
@@ -18,12 +19,12 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
-  signUp(userData: any): Observable<any> {
+  signUp(userData: Partial<User>): Observable<any> {
     let url = this.baseurl + '/signup/';
     return this.http.post<any>(url, userData);
   }
 
-  login(userData: any): Observable<any> {
+  login(userData: Partial<User>): Observable<any> {
     let url = this.baseurl + '/login/';
     return this.http.post<any>(url, userData);
   }

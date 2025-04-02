@@ -5,6 +5,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 import { PoupService } from '../services/poup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, lastValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent {
 
   isChecked: boolean = false;
-  user: User = {} as User;
+  user: User | undefined;
 
   guestUser = {
     'username': 'GuestAccount',
@@ -33,7 +34,6 @@ export class LoginComponent {
     password: new FormControl('', [
       Validators.required
     ], [])
-
   });
 
 
@@ -62,7 +62,7 @@ export class LoginComponent {
     this.redirectToApp();
   }
 
-  login(type: string) {
+  async login(type: string) {
     let json;
     if (this.loginForm.valid && type === 'login') {
       json = this.loginForm.value;
@@ -72,19 +72,27 @@ export class LoginComponent {
       this.loginError();
       return;
     }
-
+  
     this.popupService.loader = true;
-    this.authService.login(json).subscribe(
-      (response: any) => {
-        this.handleSuccessfulLogin(response);
-      },
-      error => {
-        this.handleLoginError();
-      }
-    );
+  
+    try {
+      const response = await lastValueFrom(
+        this.authService.login(json).pipe(
+          catchError(error => {
+            this.handleLoginError();
+            throw error;
+          })
+        )
+      );
+      
+      this.handleSuccessfulLogin(response);
+      
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   }
 
-  private handleSuccessfulLogin(response: any) {
+  private handleSuccessfulLogin(response:any) {
     this.snackBar.open('Login Successful', 'close', {
       duration: 3000,
       panelClass: ['blue-snackbar']
