@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, OnInit } from '@angular/core';
 import { AuthenticationService } from './services/authentication.service';
 import { PoupService } from './services/poup.service';
 import { ContactService } from './services/contact.service';
@@ -7,37 +7,36 @@ import { ActivatedRoute } from '@angular/router';
 import { TaskService } from './services/task.service';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 
 export class AppComponent implements OnInit {
   title = 'JOIN';
   token: boolean = false;
 
-
   constructor(
     public authService: AuthenticationService,
     public popupService: PoupService,
     public contactService: ContactService,
     public subTaskService: SubtaskService,
-    private taskService:TaskService,
+    private taskService: TaskService,
     private route: ActivatedRoute,
-  ) {}
+  ) { 
+    effect(() => {
+      if (this.authService.userIsLoggedIn()) { 
+        this.fetchData();
+      }
+    });
+  }
 
-  /**
- * Initializes the component.
- * Checks if the user is logged in based on the presence of a token in local storage.
- * Checks for a token in query parameters and sets 'token' to true if the token is present and valid.
- */
   ngOnInit(): void {
-    this.fetchData();
     if (localStorage.getItem('Token')) {
-      this.authService.userIsLoggedIn = true;
+      this.authService.userIsLoggedIn.set(true);
     } else {
-      this.authService.userIsLoggedIn = false;
+      this.authService.userIsLoggedIn.set(false);
     }
 
     this.route.queryParams.subscribe(params => {
@@ -48,15 +47,16 @@ export class AppComponent implements OnInit {
     });
   }
 
-  fetchData(){
-    this.popupService.loader = true;
-    this.contactService.getContacts();
-    this.taskService.getTasks();
-    this.subTaskService.getSubTasks();
-    setTimeout(() => {
-      this.popupService.loader = false;
-    }, 600);
+  private fetchData(){
+    if (this.authService.userIsLoggedIn()) {
+      this.popupService.loader = true;
+      this.contactService.getContacts();
+      this.taskService.getTasks();
+      this.subTaskService.getSubTasks();
+      setTimeout(() => {
+        this.popupService.loader = false;
+      }, 800);
+    }
   }
-
-
+  
 }

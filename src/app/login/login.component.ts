@@ -14,7 +14,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginComponent {
 
-
   isChecked: boolean = false;
   user: User = {} as User;
 
@@ -59,79 +58,51 @@ export class LoginComponent {
   }
 
   loginAsGuest() {
-    this.authService.userIsLoggedIn = true;
+    this.authService.userIsLoggedIn.set(true);
     this.redirectToApp();
   }
 
-
-  /**
- * Performs login action based on the provided type.
- * 
- * @param {string} type The type of login action ('login' or 'guest').
- */
   login(type: string) {
     let json;
-    // Check if the login form is valid and the type is 'login'
     if (this.loginForm.valid && type === 'login') {
       json = this.loginForm.value;
     } else if (type === 'guest') {
-      // If the type is 'guest', use the guest user data
       json = this.guestUser;
     } else {
-      // If the type is neither 'login' nor 'guest', show login error
       this.loginError();
       return;
     }
 
-    // Show loader while processing login
     this.popupService.loader = true;
-
-    // Perform login authentication
     this.authService.login(json).subscribe(
       (response: any) => {
-        // On successful login
         this.handleSuccessfulLogin(response);
       },
       error => {
-        // On login error
         this.handleLoginError();
       }
     );
   }
 
-  /**
-  * Handles successful login response.
-  * 
-  * @param {any} response The response object from the login request.
-  */
   private handleSuccessfulLogin(response: any) {
-    // Show success message
     this.snackBar.open('Login Successful', 'close', {
       duration: 3000,
       panelClass: ['blue-snackbar']
     });
 
-    // Extract token from response and store in local storage
     const token = response.token;
     localStorage.setItem('Token', token);
 
-    // Set current user in user service
     this.userService.currentUser = response.user;
 
-    // Set user as logged in
-    this.authService.userIsLoggedIn = true;
+    this.authService.userIsLoggedIn.set(true);
 
-    // Hide loader and redirect to app
     this.popupService.loader = false;
     this.redirectToApp();
   }
 
-  /**
-  * Handles login error.
-  */
   private handleLoginError() {
-    // Show error message
-    this.snackBar.open('Successful signed up! You can login now', 'close', {
+    this.snackBar.open('Something went wrong, try again!', 'close', {
       duration: 3000
     });
   }
@@ -146,7 +117,5 @@ export class LoginComponent {
       this.error = false;
     }, 2000);
   }
-
-
 
 }

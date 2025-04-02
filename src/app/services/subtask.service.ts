@@ -20,7 +20,6 @@ export class SubtaskService {
 
   constructor(private http: HttpClient) {}
 
-
   getSubTasks() {
     this.loadSubTasks().subscribe((data: SubTask[]) => {
       this.subtasks.set(data);
@@ -31,11 +30,6 @@ export class SubtaskService {
     return this.http.get<SubTask[]>(this.url);
   }
 
-  /**
- * Updates a subtask on the server.
- * @param form - The form containing the updated subtask information.
- * @param id - The ID of the subtask to update.
- */
   updateSubTask(form: FormGroup, id: number) {
     const url = `${this.url}${id}/`;
     const data: SubTask = {
@@ -53,12 +47,6 @@ export class SubtaskService {
     });
   }
 
-
-  /**
- * Updates the checkbox status of a subtask on the server.
- * @param id - The ID of the subtask to update.
- * @param st - The subtask object containing the updated checkbox status.
- */
   updateSubtaskCheckbox(id: number, st: SubTask) {
     const url = `${this.url}${id}/`;
     const data: Partial<SubTask> = {

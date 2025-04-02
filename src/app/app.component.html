@@ -1,8 +1,8 @@
-<app-startscreen *ngIf="!authService.userIsLoggedIn && !token"></app-startscreen>
+<app-startscreen *ngIf="!authService.userIsLoggedIn() && !token"></app-startscreen>
 <app-reset-password *ngIf="token"></app-reset-password>
 
 <app-template [ngClass]="{'filter': popupService.behindPopupContainer}"
-    *ngIf="authService.userIsLoggedIn"></app-template>
+    *ngIf="authService.userIsLoggedIn()"></app-template>
 
 <div (click)="popupService.closePopups()" *ngIf="popupService.behindPopupContainer" class="behind-popup-container"></div>
 
@@ -70,7 +70,6 @@
 
 
 <!-- TaskForView -Popup -->
-
 <div *ngIf="popupService.taskPopupForView" class="popup popup-view-task center-absolute br popup-shadow">
     <app-task-for-view></app-task-for-view>
     <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">

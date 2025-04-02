@@ -3,7 +3,7 @@ import { TemplateService } from '../services/template.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Contact, ContactService } from '../services/contact.service';
 import { SubTask, SubtaskService } from '../services/subtask.service';
-import { Task, TaskService } from '../services/task.service';
+import { TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -52,26 +52,12 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.popupService.editTaskPopup ? this.fillForm() : null;
   }
 
-  private getMinDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-    const minDate = `${year}-${month}-${day}`;
-
-    return minDate;
-  }
-
-
   ngOnDestroy(): void {
     this.popupService.taskToEdit = null;
   }
 
 
-  /**
-  * Fills the form fields with the details of the task to be edited.
-  */
-  fillForm() {
+  private fillForm() {
     const task = this.popupService.taskToEdit; 
     this.addTaskForm.get('title')?.setValue(`${task?.title}`);
     this.addTaskForm.get('description')?.setValue(`${task?.description}`);
@@ -82,25 +68,13 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.subtasksforView = this.fillSubTasks(task?.subtasks);
   }
 
-
-  /**
- * Fills the assigned_to field in the form with the given array of assigned contacts.
- * 
- * @param {any[]} assigned_contacts An array containing the IDs of assigned contacts.
- */
-  fillContacts(assigned_contacts: any) {
+  private fillContacts(assigned_contacts: any) {
     assigned_contacts.forEach((id: number) => {
       this.addTaskForm.value.assigned_to.push(`${id}`);
     });
   }
 
-  /**
-  * Fills an array with subtasks based on the given array of subtask IDs.
-  * 
-  * @param {any[]} subtasks An array containing the IDs of subtasks.
-  * @returns {SubTask[]} An array of SubTask objects corresponding to the given subtask IDs.
-  */
-  fillSubTasks(subtasks: any) {
+  private fillSubTasks(subtasks: any) {
     const st: SubTask[] = [];
     subtasks.forEach((id: number) => {
       let index = this.subtaskService.subtasks().findIndex((task: SubTask) => task.id === id);
@@ -112,7 +86,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit() {
+  protected onSubmit() {
     if (!this.addTaskForm.valid && this.headline == "Add Task") {
       this.snackBarMessage('Please fill the form!');
       return;
@@ -122,12 +96,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.resetSubtaskandForm();
   }
 
-  /**
-  * Determines whether to update or add the task and invokes the corresponding service method.
-  * 
-  * Updates the subtask value in the form, then calls either the task update or task add service method based on the headline and task ID.
-  */
-  updateOrAddTask() {
+  private updateOrAddTask() {
     this.addTaskForm.value.subtask = this.subtasksForSubmit;
     if (this.headline !== "Add Task" && this.taskId) {
       this.taskService.updateTask(this.addTaskForm, this.taskId);
@@ -136,7 +105,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  prepareSubtaskForRequest() {
+  private prepareSubtaskForRequest() {
     if (this.subtasksforView.length >= 1) {
       for (const subtask of this.subtasksforView) {
         this.subtasksForSubmit.push(`${subtask.id}`);
@@ -144,7 +113,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetSubtaskandForm() {
+  private resetSubtaskandForm() {
     alert("Refactoren");
     this.resetForm();
     this.popupService.closePopups();
@@ -152,15 +121,14 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.subtasksForSubmit = [];
   }
 
-  
-  snackBarMessage(msg: string) {
+  private snackBarMessage(msg: string) {
     this.snackBar.open(msg, 'close', {
       duration: 3000,
       panelClass: ['blue-snackbar']
     });
   }
 
-  resetForm() {
+  protected resetForm() {
     this.addTaskForm.reset({
       title: '',
       category: '',
@@ -175,11 +143,21 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.resetButtons();
   }
 
-  removeSubTask(i: number, task: any) {
+  private getMinDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    const minDate = `${year}-${month}-${day}`;
+
+    return minDate;
+  }
+
+  protected removeSubTask(i: number, task: any) {
     this.subtasksforView.splice(i, 1);
   }
 
-  selectPrio(prio: string) {
+  protected selectPrio(prio: string) {
     const selectedElement = this.el.nativeElement.querySelector(`#${prio}`);
     if (this.buttons.includes(prio)) {
       if (selectedElement.classList.contains(prio)) {
@@ -190,12 +168,10 @@ export class AddtaskComponent implements OnInit, OnDestroy {
         selectedElement.classList.add(prio);
         this.addTaskForm.get('prio')?.setValue(`${prio}`);
       }
-    } else {
-      this.snackBarMessage('Invalid priority selected');
-    }
+    } 
   }
 
-  resetButtons() {
+  private resetButtons() {
     this.buttons.forEach(button => {
       const element = this.el.nativeElement.querySelector(`#${button}`);
       element.classList.remove(button);
