@@ -77,14 +77,21 @@ export class SubtaskService {
     const data: Partial<SubTask> = { done: st.done };
   
     try {
-      await lastValueFrom(
-        this.http.patch(url, data).pipe(
+      const updatedSubtask = await lastValueFrom(
+        this.http.patch<SubTask>(url, data).pipe(
           catchError(error => {
             console.error('Error updating the subtask', error);
             throw error;
           })
         )
       );
+  
+      if (updatedSubtask) {
+        const updatedSubtasks = this.subtasks().map(subtask =>
+          subtask.id === updatedSubtask.id ? updatedSubtask : subtask
+        );
+        this.subtasks.set(updatedSubtasks);
+      }
   
     } catch (error) {
       console.error('Failed to update subtask:', error);

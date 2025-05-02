@@ -32,12 +32,7 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
     this.subTaskService.updateSubtaskCheckbox(id, subtask);
   }
 
-  
-  /**
- * Formats the task's date into a human-readable string.
- * If the task has a date, it will format it as "Weekday, Day Month Year".
- * Otherwise, it logs that no date is available for the task.
- */
+
   formatDate() {
     if (this.task?.date) {
       const date = new Date(this.task.date);
@@ -50,11 +45,6 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  /**
-  * Lifecycle hook that is called when the component is destroyed.
-  * Resets task-related popup service properties unless the edit task popup is open.
-  */
   ngOnDestroy(): void {
     if (!this.popupService.editTaskPopup) {
       this.task = undefined;
@@ -65,14 +55,8 @@ export class TaskForViewComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  /**
-  * Opens the edit task popup for the specified task.
-  * @param {any} task - The task to be edited.
-  */
   openEditTaskPopup(task?: Task) {
     if (!task) return;
-      
     
     this.popupService.closePopups();
     this.popupService.editTask(task);

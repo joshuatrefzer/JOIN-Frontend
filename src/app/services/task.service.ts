@@ -14,7 +14,7 @@ export interface Task {
   date: Date;
   prio: string;
   category: string;
-  subtasks?: [];
+  subtasks?: number[];
 }
 
 @Injectable({
@@ -101,7 +101,9 @@ export class TaskService {
       );
 
       if (updatedTask) {
-        const updatedTasks = [...this.tasks(), updatedTask];
+        const updatedTasks = this.tasks().map(task =>
+          task.id === updatedTask.id ? updatedTask : task
+        );
         this.tasks.set(updatedTasks);
       }
 
@@ -153,7 +155,7 @@ export class TaskService {
 
     try {
       const response = await lastValueFrom(
-        this.http.post<Task[]>(this.url, data).pipe(
+        this.http.post<Task>(this.url, data).pipe(
           catchError(error => {
             console.error('Error adding task', error);
             throw error;
@@ -161,8 +163,8 @@ export class TaskService {
         )
       );
 
-      this.tasks.set(response);
-      this.status = undefined;
+      const tasksUpdate = [...this.tasks(), response];
+      this.tasks.set(tasksUpdate);
 
     } catch (error) {
       console.error('Failed to add task:', error);
@@ -189,8 +191,8 @@ export class TaskService {
           })
         )
       );
-      this.getTasks(); 
-  
+      this.getTasks();
+
     } catch (error) {
       console.error('Failed to delete task:', error);
     }

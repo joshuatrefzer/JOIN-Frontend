@@ -14,7 +14,6 @@ export class TaskComponent implements OnInit {
   @Input() task:Task | undefined;
   mytask: any;
 
-
   contacts = computed(() => {
     return this.contactService.contacts().filter(c => this.mytask.assigned_to.includes(c.id));
   });
@@ -27,7 +26,10 @@ export class TaskComponent implements OnInit {
     return this.subtasks().filter(st => st.done).length;
   });
 
-  progressBarValue: number = 0;
+  progressBarValue = computed(() => {
+    return (this.doneSubtasks() / this.subtasks().length) * 100;
+  });
+
   count: number = 0;
   openMoveTaskPopup: boolean = false;
 
@@ -38,7 +40,7 @@ export class TaskComponent implements OnInit {
     public contactService: ContactService,
     public popupService: PoupService,
     public subtaskService: SubtaskService,
-  ) { }
+  ) {}
 
 
   ngOnInit(): void {

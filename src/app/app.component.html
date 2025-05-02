@@ -58,7 +58,7 @@
 
 <!-- ADDTASK POPUP -->
 <div *ngIf="popupService.addTaskPopup" class="popup popup-add-task center-absolute br popup-shadow">
-    <app-addtask [headline]="'Add Task'"></app-addtask>
+    <app-addtask></app-addtask>
     <img (click)="popupService.closePopups()" src="assets/img/close.png" alt="" class="close">
 </div>
 

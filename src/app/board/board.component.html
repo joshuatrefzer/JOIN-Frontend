@@ -1,87 +1,94 @@
-<div class="main-container center-column">
-    <div class="top">
-        <div class="h1-component">
-            <h1>Board</h1>
-            <div class="search">
-                <mat-form-field appearance="outline" class="searchbar">
-                    <mat-label>Search Task..</mat-label>
-                    <input matInput type="text" (keyup)="searchTask()" [(ngModel)]="search">
-        
-                    <div class="text-btn" style="margin-right: 10px;" *ngIf="search.length > 0" matSuffix mat-icon-button (click)="search =''; searchTask()">
-                        <mat-icon>close</mat-icon>
-                    </div>
-        
-                </mat-form-field>
-                <div (click)="addTaskPopup('todo')" class="button-1 add-task-button"><mat-icon>add</mat-icon> <span *ngIf="!templateService.mobileview" >Add Task</span></div>
+@if (!taskService.tasks()) {
+    <app-loader></app-loader>
+} @else {
+    <div class="main-container center-column">
+        <div class="top">
+            <div class="h1-component">
+                <h1>Board</h1>
+                <div class="search">
+                    <mat-form-field appearance="outline" class="searchbar">
+                        <mat-label>Search Task..</mat-label>
+                        <input matInput type="text" (keyup)="searchTask()" [(ngModel)]="search">
+            
+                        <div class="text-btn" style="margin-right: 10px;" *ngIf="search.length > 0" matSuffix mat-icon-button (click)="search =''; searchTask()">
+                            <mat-icon>close</mat-icon>
+                        </div>
+            
+                    </mat-form-field>
+                    <div (click)="addTaskPopup('todo')" class="button-1 add-task-button"><mat-icon>add</mat-icon> <span *ngIf="!templateService.mobileview" >Add Task</span></div>
+                </div>
+            
             </div>
-        
         </div>
-    </div>
-    <div cdkDropListGroup class="content display-flex">
-
-        <div class="status-container column-center">
-            <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('todo')"><mat-icon>add</mat-icon></div>
-                <span>ToDo</span>
+        <div cdkDropListGroup class="content display-flex">
+    
+            <div class="status-container column-center">
+                <div class="color-primary status-h1">
+                    <div class="center add text-btn" (click)="addTaskPopup('todo')"><mat-icon>add</mat-icon></div>
+                    <span>ToDo</span>
+                </div>
+    
+    
+                <div cdkDropList [cdkDropListData]="taskService.todoTasks()" (cdkDropListDropped)="drop($event , 'todo')"
+                    class="drop-container center-column">
+                    @for (task of taskService.todoTasks(); track $index) {
+                        <div class="example-box"  cdkDrag>
+                            <app-task [task]="task"></app-task>
+                        </div>
+                    }
+                </div>
             </div>
-
-
-            <div cdkDropList [cdkDropListData]="taskService.todoTasks()" (cdkDropListDropped)="drop($event , 'todo')"
-                class="drop-container center-column">
-                @for (task of taskService.todoTasks(); track $index) {
-                    <div class="example-box"  cdkDrag>
+    
+    
+            <div class="status-container column-center">
+                <div class="color-primary status-h1">
+                    <div class="center add text-btn" (click)="addTaskPopup('inProgress')"><mat-icon>add</mat-icon></div>
+                    <span>In progress</span>
+                </div>
+    
+    
+                <div cdkDropList [cdkDropListData]="taskService.inProgressTasks()"
+                    (cdkDropListDropped)="drop($event , 'inProgress')" class="drop-container center-column">
+                    @for (task of taskService.inProgressTasks(); track $index) {
+                    <div class="example-box" cdkDrag>
                         <app-task [task]="task"></app-task>
                     </div>
-                }
-            </div>
-        </div>
-
-
-        <div class="status-container column-center">
-            <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('inProgress')"><mat-icon>add</mat-icon></div>
-                <span>In progress</span>
-            </div>
-
-
-            <div cdkDropList [cdkDropListData]="taskService.inProgressTasks()"
-                (cdkDropListDropped)="drop($event , 'inProgress')" class="drop-container center-column">
-                @for (task of taskService.inProgressTasks(); track $index) {
-                <div class="example-box" cdkDrag>
-                    <app-task [task]="task"></app-task>
+                    }
                 </div>
-                }
             </div>
-        </div>
-
-        <div class="status-container column-center">
-            <div class="color-primary status-h1">
-                <div class="center add text-btn" (click)="addTaskPopup('awaitingFeedback')"><mat-icon>add</mat-icon>
+    
+            <div class="status-container column-center">
+                <div class="color-primary status-h1">
+                    <div class="center add text-btn" (click)="addTaskPopup('awaitingFeedback')"><mat-icon>add</mat-icon>
+                    </div>
+                    <span>Awaiting Feedback</span>
                 </div>
-                <span>Awaiting Feedback</span>
+    
+                <div cdkDropList [cdkDropListData]="taskService.awaitingFeedbackTasks()"
+                    (cdkDropListDropped)="drop($event , 'awaitingFeedback')" class="drop-container center-column">
+                    <div class="example-box" *ngFor="let item of taskService.awaitingFeedbackTasks()" cdkDrag>
+                        <app-task [task]="item"></app-task>
+                    </div>
+                </div>
             </div>
-
-            <div cdkDropList [cdkDropListData]="taskService.awaitingFeedbackTasks()"
-                (cdkDropListDropped)="drop($event , 'awaitingFeedback')" class="drop-container center-column">
-                <div class="example-box" *ngFor="let item of taskService.awaitingFeedbackTasks()" cdkDrag>
-                    <app-task [task]="item"></app-task>
+    
+    
+            <div class="status-container column-center">
+                <div class="color-primary status-h1">
+                    <div class=" center add text-btn" (click)="addTaskPopup('done')"><mat-icon>add</mat-icon></div>
+                    <span>Done</span>
+                </div>
+                <div cdkDropList [cdkDropListData]="taskService.doneTasks()" class="drop-container center-column"
+                    (cdkDropListDropped)="drop($event , 'done')">
+                    <div class="example-box" *ngFor="let item of taskService.doneTasks()" cdkDrag>
+                        <app-task [task]="item"></app-task>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-        <div class="status-container column-center">
-            <div class="color-primary status-h1">
-                <div class=" center add text-btn" (click)="addTaskPopup('done')"><mat-icon>add</mat-icon></div>
-                <span>Done</span>
-            </div>
-            <div cdkDropList [cdkDropListData]="taskService.doneTasks()" class="drop-container center-column"
-                (cdkDropListDropped)="drop($event , 'done')">
-                <div class="example-box" *ngFor="let item of taskService.doneTasks()" cdkDrag>
-                    <app-task [task]="item"></app-task>
-                </div>
-            </div>
-        </div>
+    
     </div>
+}
 
-</div>
+
+

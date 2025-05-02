@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, computed, effect, ElementRef, input, Input, OnDestroy, OnInit, Renderer2, signal } from '@angular/core';
 import { TemplateService } from '../services/template.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Contact, ContactService } from '../services/contact.service';
@@ -7,6 +7,9 @@ import { Task, TaskService } from '../services/task.service';
 import { PoupService } from '../services/poup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+type Headline = 'Add Task' | 'Edit Task';
+
+
 @Component({
   selector: 'app-addtask',
   templateUrl: './addtask.component.html',
@@ -14,13 +17,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   standalone: false
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
-  @Input() headline: 'Add Task' | 'Edit Task' = 'Add Task';
+  headline = input<Headline>('Add Task');
 
-  buttons = ['urgent', 'medium', 'low'];
+  readonly isInEditMode = computed(() => {
+    return this.headline() === 'Edit Task';
+  });
+
+  private buttons = ['urgent', 'medium', 'low'];
+
   taskId: number | undefined;
-  subtasksforView: SubTask[] = [];
-  subtasksForSubmit: String[] = [];
+  subtasksForView = signal<string[]>([]);
 
+  subtasksForSubmit = computed(() => {
+    const filters = this.subtasksForView(); 
+    return this.subtaskService.subtasks()
+      .filter(st => filters.some(filter => st.title === filter))
+      .map(st => st.id); 
+  });
+  
 
   assigned_contacts: Contact[] = [];
   selected: string = '';
@@ -46,7 +60,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     public taskService: TaskService,
     private renderer: Renderer2, private el: ElementRef,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.resetForm();
@@ -66,7 +80,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.addTaskForm.get('date')?.setValue(`${task?.date}`);
     if (task) this.selectPrio(task.prio);
     this.addTaskForm.get('category')?.setValue(`${task?.category}`);
-    this.subtasksforView = this.fillSubTasks(task?.subtasks || []);
+    this.subtasksForView.set(this.fillSubTasks(task?.subtasks || []));
   }
 
   private fillContacts(assigned_contacts: number[]) {
@@ -76,12 +90,15 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
   private fillSubTasks(subtasks: number[]) {
-    if (!subtasks) { return [] }
-    const st: SubTask[] = [];
+    if (!subtasks) return [];
+    const st: string[] = [];
+
+
+
     subtasks.forEach((id: number) => {
       let index = this.subtaskService.subtasks().findIndex((task: SubTask) => task.id === id);
       if (index !== -1) {
-        st.push(this.subtaskService.subtasks()[index]);
+        st.push(this.subtaskService.subtasks()[index].title);
       }
     });
     return st;
@@ -89,38 +106,28 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
 
   protected onSubmit() {
-    if (!this.addTaskForm.valid && this.headline == "Add Task") {
+    if (!this.addTaskForm.valid && !this.isInEditMode()) {
       this.snackBarMessage('Please fill the form!');
       return;
     }
-    this.prepareSubtaskForRequest();
     this.updateOrAddTask();
     this.resetSubtaskandForm();
   }
 
   private updateOrAddTask() {
-    this.addTaskForm.value.subtask = this.subtasksForSubmit;
-    if (this.headline !== "Add Task" && this.taskId) {
+    this.addTaskForm.value.subtask = this.subtasksForSubmit();
+    if (this.isInEditMode() && this.taskId) {
       this.taskService.updateTask(this.addTaskForm, this.taskId);
     } else {
       this.taskService.addTask(this.addTaskForm);
     }
-  }
 
-  private prepareSubtaskForRequest() {
-    if (this.subtasksforView.length >= 1) {
-      for (const subtask of this.subtasksforView) {
-        this.subtasksForSubmit.push(`${subtask.id}`);
-      }
-    }
   }
 
   private resetSubtaskandForm() {
-    alert("Refactoren");
     this.resetForm();
     this.popupService.closePopups();
-    this.subtasksforView = [];
-    this.subtasksForSubmit = [];
+    this.subtasksForView.set([]);
   }
 
   private snackBarMessage(msg: string) {
@@ -156,7 +163,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   }
 
   protected removeSubTask(i: number) {
-    this.subtasksforView.splice(i, 1);
+    const arrayToUpdate = this.subtasksForView();
+    arrayToUpdate.splice(i, 1);
+    this.subtasksForView.set(arrayToUpdate);
   }
 
   protected selectPrio(prio: string) {
@@ -184,25 +193,29 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     const subTaskValue: string = this.addTaskForm.value.subtask;
     if (this.subtaskIsAlreadyDisplayed(subTaskValue)) return;
 
-    const existingSubtask = this.subtaskService.subtasks().find(st => st.title === subTaskValue);
+    const existingSubtask = this.subtaskService.subtasks().find(st => st.title.toLowerCase() === subTaskValue.toLowerCase());
 
     if (existingSubtask) {
-      this.subtasksforView.push(existingSubtask);
+      this.pushToSubtaskForView(existingSubtask.title);
     } else {
-      this.subtasksforView.push(
-        { title: subTaskValue , id:-1, done: false}
-      );
+      this.pushToSubtaskForView(subTaskValue);
       this.subtaskService.addSubTask(subTaskValue);
     }
 
-    this.emptySuptaskField();
+    this.emptySuptaskInputField();
+  }
+
+  private pushToSubtaskForView(subtask:string){
+    const arrayToUpdate = this.subtasksForView();
+    arrayToUpdate.push(subtask);
+    this.subtasksForView.set(arrayToUpdate);
   }
 
   private subtaskIsAlreadyDisplayed(value: string): boolean {
-    return this.subtasksforView.some(st => st.title === value);
+    return this.subtasksForView().some(st => st === value);
   }
 
-  private emptySuptaskField() {
+  private emptySuptaskInputField() {
     this.addTaskForm.get('subtask')?.setValue('');
   }
 

@@ -2,7 +2,7 @@
 
     <div class="top">
         <div *ngIf="!popupService.addTaskPopup" class="h1-component popup-headline">
-            <h1>{{ headline }}</h1>
+            <h1>{{ headline() }}</h1>
         </div>
 
         <div *ngIf="popupService.addTaskPopup">
@@ -17,10 +17,7 @@
     <form (submit)="onSubmit()" [formGroup]="addTaskForm" class="center">
         <div class="left-container center-column">
 
-            <!-- Title -->
             <div class="row-left">
-                <!-- <span class="field-name color-primary">Title<span class="required">*</span></span> -->
-
                 <mat-form-field appearance="outline">
                     <mat-label>Title</mat-label>
                     <input type="text" matInput formControlName="title">
@@ -28,7 +25,7 @@
             </div>
 
             <div class="row-left">
-                <mat-form-field appearance="outline">
+                <mat-form-field   appearance="outline">
                     <mat-label>Description</mat-label>
                     <textarea maxlength="99" class="input-field" type="text" matInput formControlName="description"></textarea>
                 </mat-form-field>
@@ -153,10 +150,10 @@
 
                 </mat-form-field>
 
-                <div *ngIf="subtasksforView.length >= 1" class="subtask-container">
+                <div *ngIf="subtasksForView().length >= 1" class="subtask-container">
                     <div [ngClass]="{'subtask-grey' : popupService.addTaskPopup || popupService.editTaskPopup }"
-                        class="subtask center" *ngFor="let task of subtasksforView; let i = index">
-                        <div class="color-primary">{{ task.title }}</div>
+                        class="subtask center" *ngFor="let task of subtasksForView(); let i = index">
+                        <div class="color-primary">{{ task }}</div>
                         <div class="trash-button" (click)="removeSubTask(i)">
                             <img src="assets/img/delete.png" alt="Löschen">
                         </div>
