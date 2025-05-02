@@ -17,10 +17,13 @@
     <span>{{ task?.description }}</span>
 </div>
 
-<div class="subtasks-progress">
-    <mat-progress-bar mode="determinate" value="{{ progressBarValue() }}"></mat-progress-bar>
-    <span>{{ doneSubtasks() }}/{{ subtasks().length }}</span>
-</div>
+@if (subtasks().length > 0 ) {
+    <div class="subtasks-progress">
+        <mat-progress-bar mode="determinate" value="{{ progressBarValue() }}"></mat-progress-bar>
+        <span>{{ doneSubtasks() }}/{{ subtasks().length }}</span>
+    </div>
+}
+
 
 <div class="bottom-task-box">
     <div class="contact-box">
