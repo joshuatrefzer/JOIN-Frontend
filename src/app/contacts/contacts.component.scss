@@ -93,34 +93,11 @@ h1 {
 }
 
 .show-contact {
-    animation: show 200ms ease-in-out;
+    animation: appear 200ms ease-in-out;
     left: 0;
 }
 
-.hide-contact {
-    animation: hide 200ms ease-in-out;
-    left: 100%;
-}
 
-@keyframes show {
-    0% {
-        left: 100%;
-    }
-
-    100% {
-        left: 0%;
-    }
-}
-
-@keyframes hide {
-    0% {
-        left: 0%;
-    }
-
-    100% {
-        left: 100%;
-    }
-}
 
 .undertitle {
     padding-left: 10px;

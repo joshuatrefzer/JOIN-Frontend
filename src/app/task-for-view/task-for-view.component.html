@@ -3,17 +3,13 @@
         <div class="head">
 
             <div class="left">
-                <div class="font-30"><b>{{ task?.title }}</b></div>
-                <div style="color: grey; margin-top:10px;"> {{
+                <div class="font-30"><b class="ellipsis">{{ task?.title }}</b></div>
+                <div class="due-date"> {{
                     formattedDate }}
                 </div>
             </div>
 
-            <div class="right">
-                <div class="category {{ task?.category }}">
-                    <span>{{ task?.category }}</span>
-                </div>
-            </div>
+            
         </div>
 
         <div class="row" style="margin-bottom: 20px;">
@@ -45,15 +41,18 @@
         </div>
     </div>
 
-    <div class="right-container">
-        <div class="row">
-            <h3>Subtasks:</h3>
-            <div class="subtask column-center" *ngFor="let subtask of popupService.taskPopupSubtasks">
-                <mat-checkbox color="primary" (change)="updateCheckbox(subtask.id , subtask)" class="example-margin"
-                    [(ngModel)]="subtask.done">{{ subtask.title }}</mat-checkbox>
+    @if (popupService.taskPopupSubtasks.length > 0) {
+        <div class="right-container">
+            <div class="row">
+                <h3>Subtasks:</h3>
+                <div class="subtask column-center" *ngFor="let subtask of popupService.taskPopupSubtasks">
+                    <mat-checkbox color="primary" (change)="updateCheckbox(subtask.id , subtask)" class="example-margin"
+                        [(ngModel)]="subtask.done">{{ subtask.title }}</mat-checkbox>
+                </div>
             </div>
         </div>
-    </div>
+    }
+   
 
 
 

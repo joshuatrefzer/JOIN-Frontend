@@ -55,10 +55,9 @@ router-outlet {
 }
 
 .popup-view-task {
-    @extend .popup-add-task;
+    width: fit-content;
     height:fit-content !important;
-    width: 900px;
-    min-height: 60dvh;
+    @extend .popup-add-task;
     @media (max-width:1000px) {
         width: 95%;
         min-height: 90dvh;

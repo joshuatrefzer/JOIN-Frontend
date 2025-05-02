@@ -1,4 +1,5 @@
 form {
+
     margin-top: 20px;
     box-sizing: border-box;
     width: 100%;
@@ -346,4 +347,9 @@ input[type="date"] {
     }
 
 
+}
+
+.cdk-overlay-connected-position-bounding-box {
+transition: none !important;
+animation: none !important;
 }

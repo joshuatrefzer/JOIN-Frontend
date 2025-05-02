@@ -28,7 +28,7 @@
 
 .head {
     display: flex;
-    height: 50px;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 
@@ -47,11 +47,10 @@
 
 .right {
     height: 100%;
-    margin-left: 50px;
     display: flex;
+    margin-right: 20px;
     
     @media (max-width:1200px) {
-        margin-left: 10px;
     }
 }
 
@@ -79,6 +78,8 @@
 }
 .font-30 {
     font-size: 30px !important;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .button-container {
@@ -100,7 +101,6 @@
     padding-top: 0;
     margin-bottom: 20px;
     overflow-y: scroll;
-    box-shadow: inset 1px 1px 5px rgba(133, 133, 133, 0.467);
     width: fit-content;
     border-radius: 5px;
 }
@@ -116,14 +116,19 @@
     align-items: center;
     padding: 5px;
     margin-top: 10px;
-    box-shadow: 1px 1px 7px rgba(211, 211, 211, 0.432);
+    box-shadow: 1px 1px 7px rgba(74, 74, 74, 0.432);
     border-radius: 10px;
-    max-width: 200px;
+    width: 200px;
     text-overflow: ellipsis;
     @media (max-width:1200px) {
         width: 90%;
         max-width: unset;
     }
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    width: 100px;
 }
 
 .contact-icon {
@@ -153,23 +158,27 @@
     box-shadow: 1px 1px 10px rgba(211, 211, 211, 0.482);
 }
 
-.subtask {
-    margin-top: 10px;
-    padding: 5px;
-    min-width: 200px ;
-    display: flex;
-    align-items: center;
-}
-
 .left-container {
     width: 50%;
+    min-width: 300px;
     box-sizing: border-box;
     padding-left: 20px;
+    margin-bottom: 20px;
 }
 
 .right-container {
+    box-sizing: border-box;
     width: 50%;
-    height:fit-content;
+    height:100%;
+    padding: 20px;
+    min-height: 200px;
+}
+
+.due-date {
+    color: grey; 
+    margin-top:10px;
+    white-space: nowrap;
+    
 }
 
 
@@ -197,7 +206,8 @@
     }
 
     .font-30 {
-        white-space: nowrap; 
+        width: 100%;
+        white-space: nowrap !important; 
         text-overflow: ellipsis; 
     }
 

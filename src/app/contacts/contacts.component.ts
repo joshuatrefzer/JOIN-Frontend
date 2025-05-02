@@ -107,16 +107,15 @@ export class ContactsComponent implements OnInit, OnDestroy {
   }
 
   showContact(id: number, contact: Contact) {
-    alert("umschreiben")
     if (this.contactService.showContactContainer) {
       this.hideContactContainer = true;
       this.contactService.showContactContainer = false;
       setTimeout(() => {
         this.contactService.showContactContainer = true;
         this.hideContactContainer = false;
-      }, 400);
+      }, 200);
     }
-
+    
     this.popupService.contactForView = contact;
 
     this.removeSelection();
