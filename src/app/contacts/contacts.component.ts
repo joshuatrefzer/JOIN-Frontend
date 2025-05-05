@@ -76,12 +76,9 @@ export class ContactsComponent implements OnInit, OnDestroy {
     if (this.contactService.showContactContainer) {
       this.hideContactContainer = true;
       this.contactService.showContactContainer = false;
-      setTimeout(() => {
         this.contactService.showContactContainer = true;
         this.hideContactContainer = false;
-      }, 200);
     }
-    
     this.popupService.contactForView = contact;
 
     this.removeSelection();
@@ -89,7 +86,6 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this.renderer.addClass(element, 'selected-contact');
 
     this.showContainer(id);
-
     if (this.mobile) this.contactService.showInfo = true;
   }
 
