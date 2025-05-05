@@ -14,8 +14,7 @@ export class AddContactComponent {
   constructor(
     public popupService: PoupService,
     public contactService: ContactService
-
-  ) { }
+  ) {}
 
   onSubmit() {
     if (this.contactForm.valid) {
