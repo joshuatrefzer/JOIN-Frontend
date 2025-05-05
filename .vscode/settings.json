@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "task",
-        "contact"
+        "contact",
+        "password"
     ]
 }

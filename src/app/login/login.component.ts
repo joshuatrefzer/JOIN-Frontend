@@ -36,7 +36,6 @@ export class LoginComponent {
     ], [])
   });
 
-
   constructor(
     private snackBar: MatSnackBar,
     private userService: UserService,
@@ -45,7 +44,6 @@ export class LoginComponent {
     public popupService: PoupService,
   ) {
   }
-
 
   onSubmit(type: string) {
     this.login(type);
@@ -102,7 +100,6 @@ export class LoginComponent {
     localStorage.setItem('Token', token);
 
     this.userService.currentUser = response.user;
-
     this.authService.userIsLoggedIn.set(true);
 
     this.popupService.loader = false;

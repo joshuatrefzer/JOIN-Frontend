@@ -82,7 +82,7 @@ export class ResetPasswordComponent {
     return myForm?.valid;
   }
 
-  passwordValidator(control: FormControl): { [key: string]: boolean } | null {
+  private passwordValidator(control: FormControl): { [key: string]: boolean } | null {
     const value: string = control.value || '';
     const hasUppercase = /[A-Z]/.test(value);
     const hasLowercase = /[a-z]/.test(value);
@@ -175,7 +175,6 @@ export class ResetPasswordComponent {
 
   whichFormToUse() {
     let myform = this.pwResetForm;
-
     return myform;
   }
 
