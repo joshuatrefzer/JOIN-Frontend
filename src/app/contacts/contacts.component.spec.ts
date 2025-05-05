@@ -5,7 +5,7 @@ import { TemplateService } from '../services/template.service';
 import { PoupService } from '../services/poup.service';
 import { Renderer2, ElementRef } from '@angular/core';
 
-fdescribe('ContactsComponent', () => {
+describe('ContactsComponent', () => {
   let component: ContactsComponent;
   let fixture: ComponentFixture<ContactsComponent>;
   let mockContactService: jasmine.SpyObj<ContactService>;
@@ -76,10 +76,5 @@ fdescribe('ContactsComponent', () => {
       });
     });
   });
-
-
-
-
-
 
 });
