@@ -93,8 +93,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     if (!subtasks) return [];
     const st: string[] = [];
 
-
-
     subtasks.forEach((id: number) => {
       let index = this.subtaskService.subtasks().findIndex((task: SubTask) => task.id === id);
       if (index !== -1) {
@@ -121,7 +119,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     } else {
       this.taskService.addTask(this.addTaskForm);
     }
-
   }
 
   private resetSubtaskandForm() {

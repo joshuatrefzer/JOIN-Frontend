@@ -54,7 +54,6 @@ export class TemplateComponent {
     return letter;
   }
 
-
   logOut() {
     localStorage.removeItem('Token');
     window.location.reload();
