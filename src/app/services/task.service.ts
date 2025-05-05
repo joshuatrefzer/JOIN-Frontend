@@ -3,7 +3,6 @@ import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { catchError, lastValueFrom, Observable, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 export interface Task {
   id: number;
@@ -197,6 +196,4 @@ export class TaskService {
       console.error('Failed to delete task:', error);
     }
   }
-
-
 }

@@ -69,5 +69,4 @@ export class TaskComponent implements OnInit {
     this.taskService.updateTaskStatus(this.task, this.task.id);
     this.openMoveTaskPopup = false;
   }
-
 }
