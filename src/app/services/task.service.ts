@@ -98,12 +98,12 @@ export class TaskService {
           })
         )
       );
-
+      
       if (updatedTask) {
-        const updatedTasks = this.tasks().map(task =>
+        const updatedTasks:Task[] = this.tasks().map(task =>
           task.id === updatedTask.id ? updatedTask : task
         );
-        this.tasks.set(updatedTasks);
+        this.tasks.set([ ... updatedTasks]);
       }
 
     } catch (error) {
